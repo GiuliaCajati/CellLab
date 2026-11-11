@@ -1,0 +1,83 @@
+{
+  "contentVersion": "0.2.0",
+  "entries": [
+    {
+      "id": "process.human-nuclear-transcription",
+      "title": "Transcription",
+      "kind": "process",
+      "context": "Human nuclear protein-coding gene",
+      "summary": "Make an RNA copy of a stretch of DNA. The DNA stays in place while the cell builds a new RNA strand.",
+      "explanation": "For a human protein-coding gene, RNA polymerase II reads one DNA strand—the template—and joins RNA building blocks in a matching order. Other proteins help the machinery get started and keep it working.",
+      "playfulAside": "A working copy, not a DNA moving day.",
+      "deeperDetail": "The template is read 3′ → 5′, while RNA grows 5′ → 3′. New building blocks attach to the RNA’s 3′ end. Some RNA processing can begin while transcription is still happening.",
+      "simplification": "This overview leaves out many regulatory proteins and molecular steps. It does not describe every type of transcription.",
+      "reviewStatus": "draft",
+      "sourceIDs": ["biology-overview", "celllab-lesson-brief", "reactome-pol-ii", "reactome-pol-ii-elongation", "reactome-nucleotide-addition"],
+      "evidence": [
+        {"claimID":"pol-ii-rna-synthesis","statement":"Polymerase II catalyzes DNA-directed RNA synthesis.","sourceIDs":["reactome-pol-ii"],"status":"sourceChecked"},
+        {"claimID":"transcription-stages","statement":"Transcription includes initiation, elongation, and termination.","sourceIDs":["reactome-pol-ii"],"status":"sourceChecked"},
+        {"claimID":"elongation-factors-processing","statement":"Elongation involves additional factors and can be coupled to RNA processing.","sourceIDs":["reactome-pol-ii-elongation"],"status":"sourceChecked"},
+        {"claimID":"template-direction","statement":"The template strand is read 3′ → 5′ while RNA grows 5′ → 3′.","sourceIDs":[],"status":"pending"},
+        {"claimID":"rna-three-prime-active-site","statement":"The growing RNA 3′ end engages the polymerase active site.","sourceIDs":["reactome-pol-ii"],"status":"sourceChecked"},
+        {"claimID":"rna-three-prime-addition","statement":"New RNA building blocks attach to the growing RNA’s 3′ end.","sourceIDs":[],"status":"pending"},
+        {"claimID":"template-remains-in-place","statement":"The template DNA stays in place while a matching RNA strand is built.","sourceIDs":[],"status":"pending"},
+        {"claimID":"matching-base-order","statement":"RNA building blocks match the template strand in complementary order.","sourceIDs":[],"status":"pending"},
+        {"claimID":"supporting-proteins","statement":"Other proteins help the transcription machinery get started and continue working.","sourceIDs":[],"status":"pending"},
+        {"claimID":"human-pol-ii-gene-scope","statement":"RNA polymerase II transcribes human protein-coding genes in the nucleus.","sourceIDs":[],"status":"pending"}
+      ],
+      "links": [
+        {"label":"Occurs in", "targetID":"structure.nucleus"},
+        {"label":"Uses", "targetID":"complex.rna-polymerase-ii"}
+      ]
+    },
+    {
+      "id": "structure.nucleus",
+      "title": "Nucleus",
+      "kind": "structure",
+      "context": "Human nucleated cell",
+      "summary": "A membrane-enclosed compartment that holds most of a human cell’s DNA.",
+      "explanation": "In a human cell that has a nucleus, nuclear genes are transcribed here. RNA transcripts are also processed here, and nuclear pores help control what moves in and out.",
+      "playfulAside": "Important documents inside. Controlled traffic at the doors.",
+      "deeperDetail": "The nuclear envelope surrounds the nucleus. The fluid interior is called the nucleoplasm. Not every human cell has a nucleus—for example, mature red blood cells do not.",
+      "simplification": "The document-storage comparison is a memory aid, not a literal description of how DNA works.",
+      "reviewStatus": "draft",
+      "sourceIDs": ["biology-overview", "celllab-lesson-brief"],
+      "evidence": [
+        {"claimID":"nucleus-dna","statement":"The nucleus holds most of a human cell’s DNA inside a surrounding membrane.","sourceIDs":[],"status":"pending"},
+        {"claimID":"nuclear-transcription-processing","statement":"Nuclear genes are transcribed and their RNA transcripts processed in the nucleus.","sourceIDs":[],"status":"pending"},
+        {"claimID":"nuclear-pores","statement":"Nuclear pores help control movement into and out of the nucleus.","sourceIDs":[],"status":"pending"},
+        {"claimID":"nucleated-cells-exception","statement":"Mature human red blood cells do not have a nucleus.","sourceIDs":[],"status":"pending"}
+      ],
+      "links": [{"label":"Explore a process", "targetID":"process.human-nuclear-transcription"}]
+    },
+    {
+      "id": "complex.rna-polymerase-ii",
+      "title": "RNA polymerase II",
+      "kind": "complex",
+      "context": "Human nuclear transcription",
+      "summary": "A molecular machine that builds RNA using DNA as a template.",
+      "explanation": "Polymerase II links RNA building blocks into a growing strand. It works with other proteins, so it is not a one-molecule construction crew.",
+      "playfulAside": "RNA assembly crew: now hiring matching building blocks.",
+      "deeperDetail": "Its active site is the region where RNA building blocks are joined. During elongation, the growing RNA’s 3′ end sits at this site. The incoming building blocks are ribonucleoside triphosphates: ATP, UTP, CTP, and GTP.",
+      "simplification": "A cartoon character represents a protein complex. Its face and personality are decorative.",
+      "reviewStatus": "draft",
+      "sourceIDs": ["biology-overview", "celllab-lesson-brief", "reactome-pol-ii", "reactome-pol-ii-elongation"],
+      "evidence": [
+        {"claimID":"polymerase-catalysis","statement":"Polymerase II catalyzes DNA-directed RNA synthesis.","sourceIDs":["reactome-pol-ii"],"status":"sourceChecked"},
+        {"claimID":"growing-end-active-site","statement":"The growing RNA 3′ end engages the polymerase active site.","sourceIDs":["reactome-pol-ii"],"status":"sourceChecked"},
+        {"claimID":"elongation-coupling","statement":"Elongation involves additional factors and can be coupled to RNA processing.","sourceIDs":["reactome-pol-ii-elongation"],"status":"sourceChecked"},
+        {"claimID":"polymerase-complex","statement":"Polymerase II works with other proteins as a molecular complex.","sourceIDs":[],"status":"pending"},
+        {"claimID":"active-site-definition","statement":"The active site is the region where RNA building blocks are joined.","sourceIDs":["reactome-pol-ii"],"status":"pending"},
+        {"claimID":"rntp-substrates","statement":"ATP, UTP, CTP, and GTP are RNA building block precursors used in transcription.","sourceIDs":["reactome-nucleotide-addition"],"status":"pending"}
+      ],
+      "links": [{"label":"Participates in", "targetID":"process.human-nuclear-transcription"}]
+    }
+  ],
+  "sources": [
+    {"id":"biology-overview","title":"CellLab biology overview","note":"User-provided draft overview retained as background; not independent scientific evidence.","provider":"CellLab","credits":"Draft background only. Not independent scientific evidence."},
+    {"id":"celllab-lesson-brief","title":"CellLab transcription lesson brief","note":"Product scope and teaching requirements; not independent scientific evidence.","provider":"CellLab","credits":"Product scope only. Not independent scientific evidence."},
+    {"id":"reactome-pol-ii","title":"RNA Polymerase II Transcription","provider":"Reactome","url":"https://reactome.org/content/detail/R-HSA-73857","accession":"R-HSA-73857","licenseIdentifier":"CC0-1.0","licenseURL":"https://reactome.org/license","accessedOn":"2026-11-11","verificationNote":"Accessed by the planning assistant. This is not an independent review by the implementing assistant.","credits":"Reactome database data are CC0. Reactome illustrations use a separate CC BY 4.0 license; no artwork is included."},
+    {"id":"reactome-pol-ii-elongation","title":"RNA Polymerase II Transcription Elongation","provider":"Reactome","url":"https://reactome.org/content/detail/R-HSA-75955","accession":"R-HSA-75955","licenseIdentifier":"CC0-1.0","licenseURL":"https://reactome.org/license","accessedOn":"2026-11-11","verificationNote":"Accessed by the planning assistant. This is not an independent review by the implementing assistant.","credits":"Reactome database data are CC0. Reactome illustrations use a separate CC BY 4.0 license; no artwork is included."},
+    {"id":"reactome-nucleotide-addition","title":"Addition of nucleotides leads to transcript elongation","provider":"Reactome","url":"https://reactome.org/content/detail/R-HSA-112385","accession":"R-HSA-112385","licenseIdentifier":"CC0-1.0","licenseURL":"https://reactome.org/license","accessedOn":"2026-11-11","verificationNote":"Accessed by the planning assistant. This is not an independent review by the implementing assistant.","credits":"Reactome database data are CC0. Reactome illustrations use a separate CC BY 4.0 license; no artwork is included."}
+  ]
+}

@@ -10,16 +10,24 @@ import SwiftData
 
 @main
 struct CellLabApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+    private let progressContainer: ModelContainer = {
+        let schema = Schema(versionedSchema: PlayerDataV1.self)
+
+        let configuration = ModelConfiguration(
+            "CellLabProgress",
+            schema: schema,
+            isStoredInMemoryOnly: false,
+            groupContainer: .none,
+            cloudKitDatabase: .none
+        )
 
         do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            return try ModelContainer(
+                for: schema,
+                configurations: [configuration]
+            )
         } catch {
-            fatalError("Could not create ModelContainer: \(error)")
+            fatalError("Could not open CellLab progress: \(error)")
         }
     }()
 
@@ -27,6 +35,6 @@ struct CellLabApp: App {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(sharedModelContainer)
+        .modelContainer(progressContainer)
     }
 }

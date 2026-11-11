@@ -6,56 +6,99 @@
 //
 
 import SwiftUI
-import SwiftData
+
+private enum LearningArea: String, CaseIterable, Identifiable {
+    case geneExpression
+    case cellDivision
+    case cellularRespiration
+    case photosynthesis
+    case partsOfTheCell
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .geneExpression: "Gene Expression"
+        case .cellDivision: "Cell Division"
+        case .cellularRespiration: "Cellular Respiration"
+        case .photosynthesis: "Photosynthesis"
+        case .partsOfTheCell: "Parts of the Cell"
+        }
+    }
+
+    var symbol: String {
+        switch self {
+        case .geneExpression: "text.book.closed"
+        case .cellDivision: "square.split.2x2"
+        case .cellularRespiration: "bolt"
+        case .photosynthesis: "leaf"
+        case .partsOfTheCell: "magnifyingglass"
+        }
+    }
+}
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-
     var body: some View {
-        NavigationSplitView {
+        NavigationStack {
             List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+                Section {
+                    Text("Little cells. Big discoveries.")
+                        .font(.title3)
+                        .fontWeight(.medium)
+                        .listRowBackground(Color.clear)
+                }
+
+                Section("Explore") {
+                    ForEach(LearningArea.allCases) { area in
+                        if area == .geneExpression {
+                            NavigationLink {
+                                GeneExpressionView()
+                            } label: {
+                                Label(area.title, systemImage: area.symbol)
+                                    .padding(.vertical, 8)
+                            }
+                        } else {
+                            HStack {
+                                Label(area.title, systemImage: area.symbol)
+
+                                Spacer()
+
+                                Text("Coming soon")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                            .padding(.vertical, 8)
+                            .accessibilityElement(children: .combine)
+                        }
                     }
                 }
-                .onDelete(perform: deleteItems)
             }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
-            }
-        } detail: {
-            Text("Select an item")
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
-            }
+            .navigationTitle("CellLab")
+            .tint(.teal)
         }
     }
 }
 
-#Preview {
-    ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+private struct GeneExpressionView: View {
+    var body: some View {
+        List {
+            Section("First activity") {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Transcription")
+                        .font(.headline)
+
+                    Text("Human nuclear transcription")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+
+                    Text("In development")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.vertical, 8)
+            }
+        }
+        .navigationTitle("Gene Expression")
+    }
 }
+

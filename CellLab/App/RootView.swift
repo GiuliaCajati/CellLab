@@ -6,16 +6,16 @@
 //
 
 import SwiftUI
-
+ 
 struct RootView: View {
     @State private var catalog: BiologyCatalog?
     @State private var loadingError: String?
-
+ 
     var body: some View {
         NavigationStack {
             Group {
                 if let catalog {
-                    home(catalog: catalog)
+                    CellLabHomeView(catalog: catalog)
                 } else if let loadingError {
                     ContentUnavailableView {
                         Label(
@@ -34,10 +34,10 @@ struct RootView: View {
         }
         .task {
             guard catalog == nil, loadingError == nil else { return }
-
+ 
             do {
                 let loaded = try BiologyCatalog.load()
-
+ 
                 guard loaded.entry(
                     id: "process.human-nuclear-transcription"
                 ) != nil else {
@@ -45,70 +45,11 @@ struct RootView: View {
                         "Missing transcription entry"
                     )
                 }
-
+ 
                 catalog = loaded
             } catch {
                 loadingError = error.localizedDescription
             }
         }
-    }
-
-    private func home(catalog: BiologyCatalog) -> some View {
-        List {
-            Section {
-                Text("Little cells. Big discoveries.")
-                    .font(.title3)
-                    .fontWeight(.medium)
-                    .listRowBackground(Color.clear)
-            }
-
-            Section("Explore") {
-                NavigationLink {
-                    MitosisView(catalog: catalog)
-                } label: {
-                    Label(
-                        "Mitosis",
-                        systemImage: "circle.grid.2x2"
-                    )
-                    .padding(.vertical, 8)
-                    Text("aka Cell Division")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-
-                NavigationLink {
-                    MeiosisView(catalog: catalog)
-                } label: {
-                    Label(
-                        "Meiosis",
-                        systemImage: "circle.grid.2x2"
-                    )
-                    .padding(.vertical, 8)
-                    Text("aka Cell Division")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-                comingSoon("Cell Life Cycle", symbol: "bolt")
-                comingSoon("Cell Structure & Functions ", symbol: "magnifyingglass")
-                comingSoon("Cellular Respiration", symbol: "bolt")
-                // Making ATP: Respiration & Fermentation
-                comingSoon("DNA Technology", symbol: "bolt")
-            }
-        }
-    }
-
-    private func comingSoon(
-        _ title: String,
-        symbol: String
-    ) -> some View {
-        HStack {
-            Label(title, systemImage: symbol)
-            Spacer()
-            Text("Coming soon")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .padding(.vertical, 8)
-        .accessibilityElement(children: .combine)
     }
 }

@@ -4,7 +4,6 @@
 //
 //  Created by Giulia Cajati on 11/12/26.
 //
-
 import SwiftUI
 
 /// Add this file to CellLab. Open with MeiosisView() or MeiosisView(catalog: catalog).
@@ -31,26 +30,7 @@ struct MeiosisView: View {
                     }
                     .buttonStyle(.borderedProminent).tint(MeiPalette.purple)
                 }
-                Button { detail = .preparation } label: {
-                    HStack(spacing: 0) {
-                        summary("1", "DNA copy round")
-                        Image(systemName: "arrow.right").foregroundStyle(.secondary)
-                        summary("2", "divisions")
-                        Image(systemName: "arrow.right").foregroundStyle(.secondary)
-                        summary("4", "haploid products")
-                    }
-                    .padding(14).background(MeiPalette.purple.opacity(0.09), in: RoundedRectangle(cornerRadius: 22))
-                }
-                .buttonStyle(.plain).accessibilityHint("Learn what happens before meiosis")
-                MeiPhaseCarousel(second: false) { detail = .phase($0) }
-                Button { detail = .interkinesis } label: {
-                    Label("No DNA copying between I and II", systemImage: "pause.circle.fill")
-                        .font(.system(.caption, design: .rounded, weight: .semibold))
-                        .frame(maxWidth: .infinity, minHeight: 44)
-                        .background(MeiPalette.gold.opacity(0.16), in: Capsule())
-                }
-                .buttonStyle(.plain)
-                MeiPhaseCarousel(second: true) { detail = .phase($0) }
+                MeiPhaseCarousel { detail = .phase($0) }
                 MeiCountJourney { detail = .counts }
                 diversity
                 Button { detail = .terms } label: {
@@ -71,14 +51,6 @@ struct MeiosisView: View {
         .background((scheme == .dark ? Color(red: 0.07, green: 0.12, blue: 0.16) : Color(red: 0.96, green: 0.97, blue: 1)).ignoresSafeArea())
         .navigationTitle("").navigationBarTitleDisplayMode(.inline)
         .sheet(item: $detail) { MeiDetailSheet(detail: $0) }
-    }
-
-    private func summary(_ number: String, _ caption: String) -> some View {
-        VStack(spacing: 3) {
-            Text(number).font(.system(.title, design: .rounded, weight: .heavy)).foregroundStyle(MeiPalette.purple)
-            Text(caption).font(.system(.caption2, design: .rounded, weight: .semibold))
-                .multilineTextAlignment(.center).fixedSize(horizontal: false, vertical: true)
-        }.frame(maxWidth: .infinity)
     }
 
     private var diversity: some View {
@@ -130,38 +102,34 @@ private enum MeiPhase: Int, CaseIterable, Identifiable {
     var tint: Color {
         [MeiPalette.rose, MeiPalette.teal, Color.orange, MeiPalette.purple, MeiPalette.purple, MeiPalette.teal, Color.orange, MeiPalette.rose][rawValue]
     }
-    var steps: [String] {
+    var explanation: String {
         switch self {
-        case .prophaseI: return ["Chromosomes condense; homologs align gene by gene (synapsis).", "Non-sister chromatids exchange corresponding DNA segments. Chiasmata mark crossover connections.", "The nuclear envelope breaks down; centrosomes move apart and the spindle forms."]
-        case .metaphaseI: return ["Homologous pairs line up together at the equator.", "Each homolog faces an opposite pole; spindle fibers attach at kinetochores.", "Each pair orients independently of the other pairs."]
-        case .anaphaseI: return ["Spindle fibers pull homologous chromosomes to opposite poles.", "Sister chromatids remain joined at their centromeres.", "Each pole receives one homolog from every pair."]
-        case .telophaseI: return ["Chromosomes reach opposite poles; nuclear envelopes may re-form.", "Cytokinesis divides the cytoplasm into two haploid cells.", "Each human cell has 23 replicated chromosomes: 46 chromatids."]
-        case .prophaseII: return ["A spindle forms in each of the two haploid cells.", "Chromosomes condense if they had relaxed; any nuclear envelope breaks down.", "DNA was not copied again between the two divisions."]
-        case .metaphaseII: return ["Chromosomes line up single-file at each cell’s equator.", "Sister kinetochores attach to spindle fibers from opposite poles.", "Each cell still has 23 chromosomes, each with two chromatids."]
-        case .anaphaseII: return ["Sister chromatids separate at their centromeres.", "Each separated chromatid is now an individual chromosome.", "Spindle fibers move one set of chromosomes toward each pole."]
-        case .telophaseII: return ["Nuclear envelopes form and chromosomes decondense.", "Cytokinesis completes the two divisions, producing four haploid products.", "Each human product has 23 single-chromatid chromosomes."]
-        }
-    }
-    var takeaway: String {
-        switch self {
-        case .prophaseI: return "Homologs share gene locations—not necessarily alleles. Sisters begin as copies; crossing over can make them different."
-        case .metaphaseI: return "Pairs line up in I. Individual chromosomes line up in II."
-        case .anaphaseI: return "I = homologs separate. The chromosome number per resulting cell is halved."
-        case .telophaseI: return "Haploid means one chromosome set—not one chromatid per chromosome."
-        case .prophaseII: return "One DNA replication, two divisions. No second S phase."
-        case .metaphaseII: return "A replicated chromosome is still one chromosome, even with two chromatids."
-        case .anaphaseII: return "II = sisters separate. After crossing over, sisters may carry different alleles."
-        case .telophaseII: return "Four haploid products does not mean four functional eggs: egg formation divides the cytoplasm unequally."
+        case .prophaseI:
+            return "Chromosomes condense. Homologs pair (synapsis); non-sister chromatids exchange matching DNA segments at crossover sites marked by chiasmata. This creates new allele combinations. The nuclear envelope breaks down, centrosomes move apart, and the spindle forms."
+        case .metaphaseI:
+            return "Homologous pairs align at the equator. Spindle fibers attach at kinetochores, connecting homologs to opposite poles. Each pair orients independently—independent assortment."
+        case .anaphaseI:
+            return "Spindle fibers pull homologs to opposite poles, one from each pair. Sisters stay joined at their centromeres. This division halves the chromosome sets."
+        case .telophaseI:
+            return "Chromosomes reach the poles; nuclear envelopes may re-form. Cytokinesis produces two haploid cells: each has 23 replicated chromosomes and 46 chromatids. Haploid means one chromosome set."
+        case .prophaseII:
+            return "Spindles form in both haploid cells. Chromosomes re-condense if needed, and any nuclear envelopes break down. No DNA replication occurs between meiosis I and II."
+        case .metaphaseII:
+            return "Chromosomes align single-file. Sister kinetochores attach to opposite spindle poles. Each cell has 23 chromosomes, each with two chromatids."
+        case .anaphaseII:
+            return "Sisters separate at their centromeres and move to opposite poles. Each is now an individual chromosome. Crossing over may have made sisters genetically different."
+        case .telophaseII:
+            return "Nuclei re-form; chromosomes uncoil. Cytokinesis produces four haploid products, each with 23 single-chromatid chromosomes. In egg formation, unequal divisions produce one large egg and small polar bodies."
         }
     }
 }
 
 private struct MeiPhaseCarousel: View {
-    let second: Bool
     let select: (MeiPhase) -> Void
     @State private var page = 0
     @ScaledMetric(relativeTo: .title2) private var cardHeight: CGFloat = 300
-    private var phases: [MeiPhase] { MeiPhase.allCases.filter { $0.second == second } }
+    private let phases = MeiPhase.allCases
+    private var second: Bool { phases[page].second }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 7) {
@@ -181,7 +149,7 @@ private struct MeiPhaseCarousel: View {
                                 Text(phase.title).font(.system(.title, design: .rounded, weight: .heavy))
                                     .lineLimit(1).minimumScaleFactor(0.75)
                                 Spacer(minLength: 4)
-                                Text("\(index + 1)/4").font(.caption.weight(.bold)).foregroundStyle(.secondary)
+                                Text("\(index + 1)/8").font(.caption.weight(.bold)).foregroundStyle(.secondary)
                             }
                             MeiPhaseArt(phase: phase).frame(height: 170).accessibilityHidden(true)
                             HStack {
@@ -205,17 +173,23 @@ private struct MeiPhaseCarousel: View {
             }
             .tabViewStyle(.page(indexDisplayMode: .never)).frame(height: cardHeight)
             HStack(spacing: 0) {
-                Spacer()
-                ForEach(0..<4, id: \.self) { index in
+                ForEach(phases.indices, id: \.self) { index in
                     Button { page = index } label: {
                         Capsule().fill(page == index ? phases[index].tint : Color.secondary.opacity(0.25))
                             .frame(width: page == index ? 24 : 7, height: 7)
-                            .frame(width: 44, height: 44).contentShape(Rectangle())
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 44).contentShape(Rectangle())
                     }
                     .buttonStyle(.plain).accessibilityLabel(phases[index].title)
                     .accessibilityAddTraits(page == index ? .isSelected : [])
+                    if index == 3 {
+                        Rectangle()
+                            .fill(Color.secondary.opacity(0.25))
+                            .frame(width: 1, height: 14)
+                            .padding(.horizontal, 7)
+                            .accessibilityHidden(true)
+                    }
                 }
-                Spacer()
             }
         }
     }
@@ -539,17 +513,22 @@ private struct MeiDetailSheet: View {
         case .phase(let phase):
             MeiPhaseArt(phase: phase).frame(height: 220)
                 .background(phase.tint.opacity(0.08), in: RoundedRectangle(cornerRadius: 24))
-                .accessibilityLabel(phase.cue)
-            Text(phase.cue).font(.system(.title3, design: .rounded, weight: .bold))
-            Text("Simplified model: two homologous pairs. Human cells start with 23 pairs.").font(.caption).foregroundStyle(.secondary)
-            ForEach(Array(phase.steps.enumerated()), id: \.offset) { index, step in
-                HStack(alignment: .top, spacing: 12) {
-                    Text("\(index + 1)").font(.caption.bold()).frame(width: 26, height: 26)
-                        .background(phase.tint.opacity(0.15), in: Circle())
-                    Text(step).fixedSize(horizontal: false, vertical: true)
-                }
+                .accessibilityLabel("\(phase.cue) Simplified model showing two homologous pairs; human cells start with 23 pairs.")
+            Text(phase.cue)
+                .font(.system(.title3, design: .rounded, weight: .semibold))
+                .frame(maxWidth: .infinity)
+                .multilineTextAlignment(.center)
+            DisclosureGroup("A little more biology") {
+                Text(phase.explanation)
+                    .font(.body)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.top, 10)
             }
-            note(phase.takeaway)
+            .tint(.primary)
+            .padding(18)
+            .background(phase.tint.opacity(0.09), in: RoundedRectangle(cornerRadius: 20))
+            .id(phase.id)
             HStack {
                 Button { phaseOverride = MeiPhase(rawValue: phase.rawValue - 1) } label: { Label("Back", systemImage: "arrow.left") }
                     .disabled(phase == .prophaseI)
@@ -717,3 +696,4 @@ private struct MeiTerm: Identifiable {
 #Preview("Meiosis · Dark") {
     NavigationStack { MeiosisView() }.preferredColorScheme(.dark)
 }
+

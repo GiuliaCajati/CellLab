@@ -78,38 +78,49 @@ private struct MitosisOverview: View {
         VStack(spacing: 8) {
             TabView(selection: $currentPhase) {
                 ForEach(phases) { phase in
-                    Button { selectedPhase = phase } label: {
-                        VStack(alignment: .leading, spacing: 4) {
-                            HStack {
-                                Text(phase.rawValue)
-                                    .font(.system(.title2, design: .rounded, weight: .heavy))
-                                    .lineLimit(1)
-                                    .minimumScaleFactor(0.8)
-                                Spacer()
-                                Text("\((phases.firstIndex(of: phase) ?? 0) + 1) / 5")
-                                    .font(.caption.weight(.bold))
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack {
+                            Text(phase.rawValue)
+                                .font(.system(.title2, design: .rounded, weight: .heavy))
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.8)
+                            Spacer()
+                            Text("\((phases.firstIndex(of: phase) ?? 0) + 1) / 5")
+                                .font(.caption.weight(.bold))
+                                .foregroundStyle(.secondary)
+                        }
+                        PhaseCellArt(phase: phase)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 174)
+                            .accessibilityHidden(true)
+                        DisclosureGroup {
+                            Text(phase.explanation)
+                                .font(.body)
+                                .foregroundStyle(.secondary)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .padding(12)
+                                .background(phase.color.opacity(0.06), in: RoundedRectangle(cornerRadius: 12))
+                                .padding(.top, 4)
+                        } label: {
+                            HStack(spacing: 8) {
+                                Image(systemName: "info.circle")
                                     .foregroundStyle(.secondary)
-                            }
-                            PhaseCellArt(phase: phase)
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 174)
-                                .accessibilityHidden(true)
-                            HStack {
                                 Text(phase.mission)
                                     .font(.system(.subheadline, design: .rounded, weight: .medium))
-                                Spacer()
-                                Image(systemName: "info.circle")
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.85)
+                                Spacer(minLength: 0)
                             }
-                            .foregroundStyle(.secondary)
                         }
-                        .foregroundStyle(.primary)
-                        .padding(16)
-                        .background(phase.color.opacity(0.11), in: RoundedRectangle(cornerRadius: 26))
-                        .overlay(RoundedRectangle(cornerRadius: 26).stroke(phase.color.opacity(0.22), lineWidth: 1.5))
-                        .padding(.horizontal, 2)
+                        .tint(.primary)
+                        .contentShape(Rectangle())
                     }
-                    .buttonStyle(.plain)
-                    .accessibilityHint("Opens the phase explanation. Swipe to explore other phases.")
+                    .foregroundStyle(.primary)
+                    .padding(16)
+                    .background(phase.color.opacity(0.11), in: RoundedRectangle(cornerRadius: 26))
+                    .overlay(RoundedRectangle(cornerRadius: 26).stroke(phase.color.opacity(0.22), lineWidth: 1.5))
+                    .padding(.horizontal, 2)
                     .tag(phase)
                 }
             }
@@ -143,19 +154,15 @@ private struct ChromosomeJourneyCard: View {
 
     var body: some View {
         VStack(spacing: 14) {
-            HStack(alignment: .center) {
-                VStack(alignment: .leading, spacing: 3) {
-                    Text("IN EACH NUCLEUS")
-                        .font(.system(.caption2, design: .rounded, weight: .heavy))
-                    Text("46 chromosomes · 23 pairs")
-                        .font(.system(.headline, design: .rounded, weight: .bold))
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                Spacer(minLength: 4)
+            ZStack {
+
+            }
+            .overlay(alignment: .topTrailing) {
                 Button(action: showDetails) {
                     Image(systemName: "info.circle")
                         .font(.title3)
                         .frame(width: 44, height: 44)
+                        .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel("Explain chromosome and chromatid counts")
@@ -183,7 +190,7 @@ private struct ChromosomeJourneyRow: View {
     var body: some View {
         VStack(spacing: 5) {
             HStack {
-                Text(replicated ? "START" : "FINISH")
+                Text(replicated ? "START - 1 Nucleus" : "FINISH - 2 Matching Nuclei")
                     .font(.system(.caption, design: .rounded, weight: .heavy))
                     .padding(.horizontal, 10)
                     .padding(.vertical, 5)
@@ -241,8 +248,7 @@ private struct ChromosomeJourneyRow: View {
             .accessibilityHidden(true)
             HStack(alignment: .top, spacing: 8) {
                 VStack(spacing: 3) {
-                    Text(replicated ? "1 nucleus" : "2 matching nuclei")
-                        .fontWeight(.bold)
+                    Text(replicated ? "46 chromosomes" : "46 chromosomes")
                     Text(replicated ? "92 chromatids" : "46 chromatids each")
                 }
                 .frame(maxWidth: .infinity)
@@ -908,3 +914,4 @@ private struct MitosisKeyPlayer: Identifiable {
         .init(name: "Chromatin & histones", definition: "Chromatin is DNA together with its associated proteins. DNA wraps around histone proteins to form nucleosomes—beads on a string. Chromatin condenses into compact chromosomes for division and loosens again during telophase.")
     ]
 }
+

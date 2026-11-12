@@ -33,7 +33,7 @@ struct CellLabApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
         }
         .modelContainer(progressContainer)
     }

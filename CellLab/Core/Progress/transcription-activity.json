@@ -1,0 +1,40 @@
+{
+  "sequences": [
+    {
+      "id": "sequence.synthetic.transcription-01",
+      "moleculeType": "DNA",
+      "strandRole": "template",
+      "storedOrientation": "3′ → 5′",
+      "bases": "TTATATTTGCATGACTTGACCACAGTGCTATTATTTAGCGCAAAAATATCGCATTTATTTGACC",
+      "provenance": "synthetic",
+      "description": "Synthetic teaching example; invented flanking DNA frames a playable excerpt and is not a real human gene.",
+      "coordinateConvention": "zero-based, half-open, indexing the stored sequence"
+    }
+  ],
+  "activities": [
+    {
+      "id": "activity.transcription.elongation-01",
+      "contentVersion": "0.1.0",
+      "sequenceID": "sequence.synthetic.transcription-01",
+      "alreadyTranscribedRange": {"lowerBound": 8, "upperBound": 8},
+      "playableRange": {"lowerBound": 8, "upperBound": 64},
+      "transcriptionStart": 8,
+      "tataRange": {"lowerBound": 2, "upperBound": 6},
+      "manualRanges": [
+        {"lowerBound": 8, "upperBound": 16},
+        {"lowerBound": 36, "upperBound": 40}
+      ],
+      "capAfterPosition": 32,
+      "introns": [
+        {
+          "id": "intron-1",
+          "range": {"lowerBound": 40, "upperBound": 50},
+          "branchPoint": 46
+        }
+      ],
+      "alternativeExonRange": {"lowerBound": 30, "upperBound": 36},
+      "polyadenylationSignalRange": {"lowerBound": 54, "upperBound": 60},
+      "cleavagePosition": 61
+    }
+  ]
+}

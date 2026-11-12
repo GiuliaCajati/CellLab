@@ -61,7 +61,7 @@ private struct MitosisPlayerCard: View {
                     RoundedRectangle(cornerRadius: 14)
                         .fill(player.color.opacity(0.10))
 
-                    MitosisIllustration(name: player.name, color: player.color)
+                    MitosisIllustration(name: player.name)
                         .padding(12)
                 }
                 .frame(height: 115)
@@ -159,150 +159,38 @@ private struct MitosisKeyPlayer: Identifiable {
 
 
 
+
 private struct MitosisIllustration: View {
     let name: String
-    let color: Color
+
+    private var assetName: String {
+        switch name {
+        case "Chromosomes & Sister Chromatids":
+            "ChromosomesSisterChromatids"
+        case "Centromere & Kinetochore":
+            "CentromereKinetochore"
+        case "Centrosomes & Centrioles":
+            "CentrosomesCentrioles"
+        case "Spindle Fibers":
+            "SpindleFibers"
+        case "Nuclear Envelope & Nucleolus":
+            "NuclearEnvelopeNucleolus"
+        case "Chromatin & Histones":
+            "ChromatinHistones"
+        default:
+            "ChromosomesSisterChromatids"
+        }
+    }
 
     var body: some View {
-        GeometryReader { geometry in
-            let w = geometry.size.width
-            let h = geometry.size.height
-
-            ZStack {
-                switch name {
-
-                case "Chromosomes & Sister Chromatids":
-                    ZStack {
-                        Capsule()
-                            .fill(color.gradient)
-                            .frame(width: 19, height: 83)
-                            .rotationEffect(.degrees(40))
-
-                        Capsule()
-                            .fill(color.gradient)
-                            .frame(width: 19, height: 83)
-                            .rotationEffect(.degrees(-40))
-
-                        Circle()
-                            .fill(.yellow)
-                            .frame(width: 15, height: 15)
-                    }
-
-                case "Centromere & Kinetochore":
-                    ZStack {
-                        Capsule()
-                            .fill(color.gradient)
-                            .frame(width: 17, height: 78)
-                            .rotationEffect(.degrees(40))
-
-                        Capsule()
-                            .fill(color.gradient)
-                            .frame(width: 17, height: 78)
-                            .rotationEffect(.degrees(-40))
-
-                        Circle()
-                            .fill(.yellow)
-                            .frame(width: 18, height: 18)
-
-                        Circle()
-                            .stroke(.orange, lineWidth: 2)
-                            .frame(width: 30, height: 30)
-                    }
-
-                case "Centrosomes & Centrioles":
-                    HStack(spacing: 28) {
-                        centriolePair
-                            .rotationEffect(.degrees(-35))
-
-                        centriolePair
-                            .rotationEffect(.degrees(35))
-                    }
-
-                case "Spindle Fibers":
-                    ZStack {
-                        ForEach(0..<7) { index in
-                            Path { path in
-                                path.move(to: CGPoint(x: 5, y: h / 2))
-                                path.addQuadCurve(
-                                    to: CGPoint(x: w - 5, y: h / 2),
-                                    control: CGPoint(
-                                        x: w / 2,
-                                        y: CGFloat(index) * 12 + 8
-                                    )
-                                )
-                            }
-                            .stroke(
-                                color.opacity(0.85),
-                                style: StrokeStyle(lineWidth: 2.5, lineCap: .round)
-                            )
-                        }
-
-                        Image(systemName: "xmark")
-                            .font(.system(size: 30, weight: .bold))
-                            .foregroundStyle(.blue)
-                    }
-
-                case "Nuclear Envelope & Nucleolus":
-                    ZStack {
-                        Circle()
-                            .fill(color.opacity(0.16))
-                            .frame(width: 85, height: 85)
-
-                        Circle()
-                            .stroke(
-                                color,
-                                style: StrokeStyle(
-                                    lineWidth: 3,
-                                    dash: [5, 4]
-                                )
-                            )
-                            .frame(width: 85, height: 85)
-
-                        Circle()
-                            .fill(color.gradient)
-                            .frame(width: 28, height: 28)
-                    }
-
-                case "Chromatin & Histones":
-                    VStack(spacing: 0) {
-                        HStack(spacing: 3) {
-                            ForEach(0..<5) { _ in
-                                Circle()
-                                    .fill(color.opacity(0.75))
-                                    .frame(width: 17, height: 17)
-                            }
-                        }
-
-                        Path { path in
-                            path.move(to: CGPoint(x: 0, y: 12))
-                            path.addCurve(
-                                to: CGPoint(x: w, y: 12),
-                                control1: CGPoint(x: w * 0.3, y: -10),
-                                control2: CGPoint(x: w * 0.7, y: 34)
-                            )
-                        }
-                        .stroke(.blue, lineWidth: 3)
-                        .frame(height: 25)
-                    }
-
-                default:
-                    Image(systemName: "circle")
-                        .font(.largeTitle)
-                        .foregroundStyle(color)
-                }
-            }
-            .frame(width: w, height: h)
-        }
-    }
-
-    private var centriolePair: some View {
-        HStack(spacing: 3) {
-            ForEach(0..<3) { _ in
-                Capsule()
-                    .fill(color.gradient)
-                    .frame(width: 9, height: 43)
-            }
-        }
+        Image(assetName)
+            .resizable()
+            .scaledToFit()
+            .frame(maxWidth: .infinity)
+            .accessibilityLabel(name)
     }
 }
+
+
+
 

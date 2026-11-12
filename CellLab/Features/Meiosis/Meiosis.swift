@@ -340,11 +340,6 @@ private struct MeiCountJourney: View {
     var body: some View {
         VStack(spacing: 12) {
             HStack {
-                VStack(alignment: .leading, spacing: 3) {
-                    Text("THE CHROMOSOME COUNT").font(.caption2.weight(.heavy))
-                    Text("46 → 23 → 23").font(.system(.title, design: .rounded, weight: .heavy))
-                    Text("Human cells · counts per cell").font(.caption)
-                }
                 Spacer()
                 Button(action: showDetails) {
                     Image(systemName: "info.circle").font(.title3).frame(width: 44, height: 44)
@@ -375,8 +370,11 @@ private struct MeiCountRow: View {
         VStack(spacing: 7) {
             HStack {
                 Text(["START · 1 DIPLOID CELL", "AFTER I · 2 HAPLOID CELLS", "FINISH · 4 HAPLOID PRODUCTS"][stage])
-                    .font(.system(.caption2, design: .rounded, weight: .heavy))
-                Spacer(minLength: 0)
+                    .font(.system(.caption, design: .rounded, weight: .heavy))
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(.white.opacity(0.55), in: Capsule())
+                Spacer()
             }
             MeiCountArt(stage: stage).frame(height: 152).accessibilityHidden(true)
             HStack(alignment: .top) {

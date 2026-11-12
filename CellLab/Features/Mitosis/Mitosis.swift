@@ -12,10 +12,9 @@ struct MitosisView: View {
 }
 
 private struct MitosisOverview: View {
-    @ScaledMetric(relativeTo: .title2) private var carouselHeight: CGFloat = 278
+    @ScaledMetric(relativeTo: .title2) private var carouselHeight: CGFloat = 400
     @State private var currentPhase = MitosisPreviewPhase.prophase
     @State private var selectedPhase: MitosisPreviewPhase?
-    @State private var showingCounts = false
     @State private var referenceSheet: MitosisReferenceSheet?
     @Environment(\.colorScheme) private var colorScheme
     private let phases = MitosisPreviewPhase.allCases.filter { $0 != .cytokinesis }
@@ -25,7 +24,7 @@ private struct MitosisOverview: View {
             VStack(spacing: 18) {
                 header
                 phaseCarousel
-                ChromosomeJourneyCard { showingCounts = true }
+                ChromosomeJourneyCard()
                 Button { referenceSheet = .players } label: {
                     HStack {
                         Label("Meet the key players", systemImage: "text.book.closed.fill")
@@ -49,7 +48,7 @@ private struct MitosisOverview: View {
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
         .sheet(item: $selectedPhase) { PhaseDetail(phase: $0) }
-        .sheet(isPresented: $showingCounts) { ChromosomeCountDetail() }
+//        .sheet(isPresented: $showingCounts) { ChromosomeCountDetail() }
         .sheet(item: $referenceSheet) { MitosisReferenceView(section: $0) }
     }
 
@@ -104,8 +103,6 @@ private struct MitosisOverview: View {
                                 .padding(.top, 4)
                         } label: {
                             HStack(spacing: 8) {
-                                Image(systemName: "info.circle")
-                                    .foregroundStyle(.secondary)
                                 Text(phase.mission)
                                     .font(.system(.subheadline, design: .rounded, weight: .medium))
                                     .lineLimit(1)
@@ -149,24 +146,24 @@ private struct MitosisOverview: View {
 
 /// Both lenses point to one symbol in a complete 46-chromosome nucleus.
 private struct ChromosomeJourneyCard: View {
-    let showDetails: () -> Void
+//    let showDetails: () -> Void
     private let ink = Color(red: 0.13, green: 0.16, blue: 0.29)
 
     var body: some View {
         VStack(spacing: 14) {
-            ZStack {
-
-            }
-            .overlay(alignment: .topTrailing) {
-                Button(action: showDetails) {
-                    Image(systemName: "info.circle")
-                        .font(.title3)
-                        .frame(width: 44, height: 44)
-                        .contentShape(Rectangle())
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel("Explain chromosome and chromatid counts")
-            }
+//            ZStack {
+//
+//            }
+//            .overlay(alignment: .topTrailing) {
+//                Button(action: showDetails) {
+//                    Image(systemName: "info.circle")
+//                        .font(.title3)
+//                        .frame(width: 44, height: 44)
+//                        .contentShape(Rectangle())
+//                }
+//                .buttonStyle(.plain)
+//                .accessibilityLabel("Explain chromosome and chromatid counts")
+//            }
             ChromosomeJourneyRow(replicated: true)
             HStack(spacing: 12) {
                 Rectangle().frame(height: 1).opacity(0.15)
@@ -249,7 +246,7 @@ private struct ChromosomeJourneyRow: View {
             HStack(alignment: .top, spacing: 8) {
                 VStack(spacing: 3) {
                     Text(replicated ? "46 chromosomes" : "46 chromosomes")
-                    Text(replicated ? "92 chromatids" : "46 chromatids each")
+                    Text(replicated ? "92 sister chromatids" : "46 chromatids each")
                 }
                 .frame(maxWidth: .infinity)
                 VStack(spacing: 3) {
@@ -343,65 +340,6 @@ private struct FullChromosomeNucleus: View {
     }
 }
 
-private struct ChromosomeCountDetail: View {
-    @Environment(\.dismiss) private var dismiss
-    var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: 20) {
-                    Text("Same chromosome number.\nTwo matching nuclei.")
-                        .font(.system(.title2, design: .rounded, weight: .heavy))
-                        .multilineTextAlignment(.center)
-                    Text("Human somatic cell · 46 chromosomes = 23 pairs")
-                        .font(.subheadline.weight(.semibold))
-                        .multilineTextAlignment(.center)
-                    VStack(spacing: 8) {
-                        Text("START OF MITOSIS").font(.caption.weight(.bold))
-                        FullChromosomeNucleus(replicated: true).frame(width: 190, height: 190)
-                        Text("1 nucleus").font(.headline)
-                        Text("46 replicated chromosomes\n92 sister chromatids")
-                            .multilineTextAlignment(.center)
-                    }
-                    Image(systemName: "arrow.down").font(.title2.bold()).accessibilityHidden(true)
-                    VStack(spacing: 8) {
-                        Text("END OF MITOSIS").font(.caption.weight(.bold))
-                        HStack(spacing: 14) {
-                            FullChromosomeNucleus(replicated: false).aspectRatio(1, contentMode: .fit)
-                            FullChromosomeNucleus(replicated: false).aspectRatio(1, contentMode: .fit)
-                        }
-                        .frame(maxWidth: 380)
-                        Text("2 nuclei — each with:").font(.headline)
-                        Text("46 single-chromatid chromosomes\n46 chromatids · still 23 pairs")
-                            .multilineTextAlignment(.center)
-                        Text("Chromosomes loosen into chromatin in telophase. These symbols make the counts visible.")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                            .multilineTextAlignment(.center)
-                    }
-                    DisclosureGroup("Why 23 pairs, but 46 chromosomes?") {
-                        Text("A pair contains two chromosomes. In a human somatic cell, 23 pairs means 46 chromosomes. Copying DNA makes two sister chromatids per chromosome; it does not change 46 chromosomes into 23. When the sisters separate in anaphase, each becomes a chromosome: 92 in the cell, with 46 moving toward each future nucleus.")
-                            .font(.body)
-                            .padding(.top, 10)
-                    }
-                    .padding(16)
-                    .background(.purple.opacity(0.07), in: RoundedRectangle(cornerRadius: 18))
-                    Text("Mitosis divides the nucleus. Cytokinesis divides the cytoplasm separately.")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                }
-                .padding(24)
-                .frame(maxWidth: 620)
-                .frame(maxWidth: .infinity)
-            }
-            .navigationTitle("Count the chromosomes")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) { Button("Done") { dismiss() } }
-            }
-        }
-    }
-}
-
 private enum MitosisPreviewPhase: String, CaseIterable, Identifiable {
 
     case prophase = "Prophase"
@@ -458,36 +396,52 @@ private enum MitosisPreviewPhase: String, CaseIterable, Identifiable {
 
     }
 
-    var explanation: String {
-
+    var explanationPoints: [String] {
         switch self {
-
         case .prophase:
-
-            "Chromatin condenses into visible chromosomes. Centrosomes move apart and the mitotic spindle begins to form."
+            [
+                "Chromatin condenses into visible chromosomes.",
+                "Centrosomes move apart.",
+                "The mitotic spindle begins to form."
+            ]
 
         case .prometaphase:
-
-            "The nuclear envelope fragments. Spindle microtubules attach to kinetochores, protein complexes at chromosome centromeres."
+            [
+                "The nuclear envelope fragments.",
+                "Spindle microtubules attach to kinetochores, protein complexes at chromosome centromeres."
+            ]
 
         case .metaphase:
-
-            "Replicated chromosomes align at the cell’s equator. The checkpoint prevents separation before chromosomes are properly attached to the spindle."
+            [
+                "Replicated chromosomes align at the cell’s equator.",
+                "The checkpoint prevents separation before chromosomes are properly attached to the spindle."
+            ]
 
         case .anaphase:
-
-            "Sister chromatids separate and move toward opposite poles. Each separated chromatid is now an individual chromosome."
+            [
+                "Sister chromatids separate and move toward opposite poles.",
+                "Each separated chromatid is now an individual chromosome."
+            ]
 
         case .telophase:
-
-            "Nuclear envelopes re-form around the two chromosome sets. Chromosomes decondense and the spindle disassembles."
+            [
+                "Nuclear envelopes re-form around the two chromosome sets.",
+                "Chromosomes decondense.",
+                "The spindle disassembles."
+            ]
 
         case .cytokinesis:
-
-            "In animal cells, an actin-and-myosin contractile ring creates a cleavage furrow that divides the cytoplasm. Plant cells form a cell plate instead."
-
+            [
+                "In animal cells, an actin-and-myosin contractile ring creates a cleavage furrow that divides the cytoplasm.",
+                "Plant cells form a cell plate instead."
+            ]
         }
+    }
 
+    var explanation: String {
+        explanationPoints
+            .map { "• \($0)" }
+            .joined(separator: "\n")
     }
 
 }

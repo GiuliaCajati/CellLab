@@ -67,15 +67,32 @@ struct RootView: View {
                     MitosisView(catalog: catalog)
                 } label: {
                     Label(
-                        "Mitosis.. aka Cell Division",
+                        "Mitosis",
                         systemImage: "circle.grid.2x2"
                     )
                     .padding(.vertical, 8)
+                    Text("aka Cell Division")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
 
+                NavigationLink {
+                    MeiosisView(catalog: catalog)
+                } label: {
+                    Label(
+                        "Meiosis",
+                        systemImage: "circle.grid.2x2"
+                    )
+                    .padding(.vertical, 8)
+                    Text("aka Cell Division")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                comingSoon("Cell Life Cycle", symbol: "bolt")
+                comingSoon("Cell Structure & Functions ", symbol: "magnifyingglass")
                 comingSoon("Cellular Respiration", symbol: "bolt")
-                comingSoon("Photosynthesis", symbol: "leaf")
-                comingSoon("Parts of the Cell", symbol: "magnifyingglass")
+                // Making ATP: Respiration & Fermentation
+                comingSoon("DNA Technology", symbol: "bolt")
             }
         }
     }

@@ -36,9 +36,6 @@ private struct MitosisOverview: View {
                     .background(Color.teal.opacity(0.12), in: RoundedRectangle(cornerRadius: 22))
                 }
                 .buttonStyle(.plain)
-                Button("Notes & video") { referenceSheet = .sources }
-                    .font(.caption)
-                    .padding(.bottom, 8)
             }
             .padding(18)
             .frame(maxWidth: 680)
@@ -772,7 +769,7 @@ private struct PhaseCellArt: View {
 private enum MitosisReferenceSheet: String, Identifiable {
     case players, sources
     var id: String { rawValue }
-    var title: String { self == .players ? "Meet the key players" : "Notes & video" }
+    var title: String { "Meet the key players" }
 }
 
 private struct MitosisReferenceView: View {
@@ -789,19 +786,7 @@ private struct MitosisReferenceView: View {
                     if section == .players {
                         Text("Tap a name. Meet the division crew.")
                             .font(.subheadline).foregroundStyle(.secondary)
-                        ForEach(MitosisKeyPlayer.all) { player in
-                            DisclosureGroup {
-                                Text(player.definition)
-                                    .fixedSize(horizontal: false, vertical: true)
-                                    .padding(.top, 8)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                            } label: {
-                                Text(player.name)
-                                    .font(.system(.headline, design: .rounded))
-                            }
-                            .padding(16)
-                            .background(Color.purple.opacity(0.07), in: RoundedRectangle(cornerRadius: 18))
-                        }
+                        MitosisKeyPlayersView()
                         Text("CYTOKINESIS · DIVIDING THE CYTOPLASM")
                             .font(.caption2.weight(.heavy)).foregroundStyle(.secondary)
                         DisclosureGroup {
@@ -814,29 +799,6 @@ private struct MitosisReferenceView: View {
                         }
                         .padding(16)
                         .background(Color.teal.opacity(0.09), in: RoundedRectangle(cornerRadius: 18))
-                    } else {
-                        Text("Study notes")
-                            .font(.system(.title3, design: .rounded, weight: .bold))
-                        Text("Based on the McGraw-Hill study notes supplied for CellLab. Explanations are shortened for learning; the supplied numbered markers were not complete textbook citations.")
-                        Link(destination: URL(string: "https://youtu.be/ShEzlXZPpPM")!) {
-                            Label("Watch the mitosis video", systemImage: "play.rectangle.fill")
-                                .font(.system(.headline, design: .rounded))
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(16)
-                                .background(Color.purple.opacity(0.09), in: RoundedRectangle(cornerRadius: 18))
-                        }
-                        Text("The video is the companion reference you supplied; its contents were not independently retrieved for this page.")
-                            .font(.caption).foregroundStyle(.secondary)
-                        Text("Reading the drawings")
-                            .font(.system(.title3, design: .rounded, weight: .bold))
-                        Text("This page focuses on human animal cells. Phase drawings show fewer chromosomes to make the movements clear. The count comparison shows all 46 chromosomes in each nucleus.")
-                        Text("At the start: 46 replicated chromosomes, 92 chromatids. At the finish: two nuclei, each with 46 single-chromatid chromosomes—still 23 pairs.")
-                            .font(.system(.subheadline, design: .rounded, weight: .semibold))
-                            .padding(16)
-                            .background(Color.teal.opacity(0.09), in: RoundedRectangle(cornerRadius: 18))
-                        Text("Chromosomes uncoil during telophase. Condensed symbols in the final comparison clarify the count; they do not depict the final texture of chromatin.")
-                        Text("Mitosis divides the nucleus. Cytokinesis divides the cytoplasm.")
-                            .font(.headline)
                     }
                 }
                 .padding(22)
@@ -854,18 +816,5 @@ private struct MitosisReferenceView: View {
     }
 }
 
-private struct MitosisKeyPlayer: Identifiable {
-    let name: String
-    let definition: String
-    var id: String { name }
 
-    static let all: [MitosisKeyPlayer] = [
-        .init(name: "Chromosomes & sister chromatids", definition: "After DNA replication, one chromosome has two identical sister chromatids joined at the centromere. In anaphase, they separate; each is now an individual chromosome. Two chromatids do not mean two chromosomes while they remain joined."),
-        .init(name: "Centromere & kinetochore", definition: "The centromere is the chromosome region where sister chromatids are joined. Kinetochores are protein complexes assembled at this region; spindle microtubules attach there to move the chromosomes."),
-        .init(name: "Centrosomes & centrioles", definition: "Centrosomes organize the spindle in animal cells. Each contains a pair of barrel-shaped centrioles. The two centrosomes move toward opposite poles as the spindle forms."),
-        .init(name: "Spindle fibers", definition: "These microtubules form the mitotic spindle. Kinetochore microtubules move chromosomes and shorten during anaphase. Other spindle microtubules help push the cell’s poles apart."),
-        .init(name: "Nuclear envelope & nucleolus", definition: "The nuclear envelope surrounds the nucleus. It breaks down during prometaphase so spindle fibers can reach chromosomes, then re-forms around each chromosome set in telophase. The nucleolus disappears during prophase and reappears as the new nuclei form."),
-        .init(name: "Chromatin & histones", definition: "Chromatin is DNA together with its associated proteins. DNA wraps around histone proteins to form nucleosomes—beads on a string. Chromatin condenses into compact chromosomes for division and loosens again during telophase.")
-    ]
-}
 

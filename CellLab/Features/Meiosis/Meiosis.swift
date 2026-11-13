@@ -369,7 +369,7 @@ private struct MeiCountRow: View {
     var body: some View {
         VStack(spacing: 7) {
             HStack {
-                Text(["START · 1 DIPLOID CELL", "AFTER I · 2 HAPLOID CELLS", "FINISH · 4 HAPLOID PRODUCTS"][stage])
+                Text(["START · 1 DIPLOID CELL (2n)", "AFTER I · 2 HAPLOID CELLS (n)", "FINISH · 4 HAPLOID PRODUCTS (n)"][stage])
                     .font(.system(.caption, design: .rounded, weight: .heavy))
                     .padding(.horizontal, 10)
                     .padding(.vertical, 5)

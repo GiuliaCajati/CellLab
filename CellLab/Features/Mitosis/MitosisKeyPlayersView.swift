@@ -4,45 +4,53 @@
 //
 //  Created by Giulia Cajati on 11/12/26.
 //
+
 import SwiftUI
 
-
 struct MitosisKeyPlayersView: View {
-    @State private var expandedPlayer: String?
-
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var selectedPlayer: String? = MitosisKeyPlayer.all.first?.id
     private let players = MitosisKeyPlayer.all
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
 
-            VStack(alignment: .leading, spacing: 5) {
-                Text("Meet the division crew")
-                    .font(.system(size: 24, weight: .bold, design: .rounded))
-
-                Text("Explore the structures that make cell division possible.")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-            }
-
-            LazyVGrid(
-                columns: [
-                    GridItem(.flexible(), spacing: 12),
-                    GridItem(.flexible(), spacing: 12)
-                ],
-                spacing: 12
-            ) {
-                ForEach(players) { player in
-                    MitosisPlayerCard(
-                        player: player,
-                        isExpanded: expandedPlayer == player.id
-                    ) {
-                        withAnimation(.spring(response: 0.35)) {
-                            expandedPlayer =
-                                expandedPlayer == player.id ? nil : player.id
-                        }
+            ScrollView(.horizontal) {
+                HStack(alignment: .top, spacing: 12) {
+                    ForEach(players) { player in
+                        MitosisPlayerCard(player: player)
+                            .containerRelativeFrame(.horizontal)
+                            .id(player.id)
                     }
                 }
+                .scrollTargetLayout()
             }
+            .scrollIndicators(.hidden)
+            .scrollTargetBehavior(.viewAligned)
+            .scrollPosition(id: $selectedPlayer)
+            .fixedSize(horizontal: false, vertical: true)
+
+            HStack(spacing: 2) {
+                ForEach(Array(players.enumerated()), id: \.element.id) { index, player in
+                    Button {
+                        withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.25)) {
+                            selectedPlayer = player.id
+                        }
+                    } label: {
+                        Capsule()
+                            .fill(selectedPlayer == player.id
+                                  ? player.color
+                                  : Color.secondary.opacity(0.25))
+                            .frame(width: selectedPlayer == player.id ? 22 : 7, height: 7)
+                            .frame(width: 44, height: 44)
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("\(player.name), \(index + 1) of \(players.count)")
+                    .accessibilityAddTraits(selectedPlayer == player.id ? [.isSelected] : [])
+                }
+            }
+            .frame(maxWidth: .infinity)
         }
         .padding(.vertical, 8)
     }
@@ -50,61 +58,47 @@ struct MitosisKeyPlayersView: View {
 
 private struct MitosisPlayerCard: View {
     let player: MitosisKeyPlayer
-    let isExpanded: Bool
-    let action: () -> Void
 
     var body: some View {
-        Button(action: action) {
+        VStack(alignment: .leading, spacing: 18) {
+            MitosisIllustration(name: player.name)
+                .padding(14)
+                .frame(maxWidth: .infinity)
+                .aspectRatio(1, contentMode: .fit)
+                .background(player.color.opacity(0.08), in: RoundedRectangle(cornerRadius: 20))
+
+            Text(player.name)
+                .font(.system(.title3, design: .rounded, weight: .bold))
+                .foregroundStyle(.primary)
+                .fixedSize(horizontal: false, vertical: true)
+                .accessibilityAddTraits(.isHeader)
+
             VStack(alignment: .leading, spacing: 12) {
-
-                ZStack {
-                    RoundedRectangle(cornerRadius: 14)
-                        .fill(player.color.opacity(0.10))
-
-                    MitosisIllustration(name: player.name)
-                        .padding(12)
+                ForEach(Array(player.bulletPoints.enumerated()), id: \.offset) { _, point in
+                    HStack(alignment: .firstTextBaseline, spacing: 10) {
+                        Text("•")
+                            .font(.body.weight(.bold))
+                            .foregroundStyle(player.color)
+                            .accessibilityHidden(true)
+                        Text(point)
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
                 }
-                .frame(height: 115)
-
-                Text(player.name)
-                    .font(.system(size: 14, weight: .bold, design: .rounded))
-                    .foregroundStyle(.primary)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-
-                HStack {
-                    Text(isExpanded ? "Close details" : "Explore concept")
-                        .font(.caption.weight(.medium))
-                        .foregroundStyle(player.color)
-
-                    Spacer()
-
-                    Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                        .font(.caption.weight(.bold))
-                        .foregroundStyle(player.color)
-                }
-
-                if isExpanded {
-                    Divider()
-
-                    Text(player.definition)
-                        .font(.system(size: 13))
-                        .foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-            }
-            .padding(12)
-            .background(
-                Color(uiColor: .secondarySystemGroupedBackground),
-                in: RoundedRectangle(cornerRadius: 20)
-            )
-            .overlay {
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(player.color.opacity(0.20), lineWidth: 1)
             }
         }
-        .buttonStyle(.plain)
+        .padding(18)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            Color(uiColor: .secondarySystemGroupedBackground),
+            in: RoundedRectangle(cornerRadius: 26)
+        )
+        .overlay {
+            RoundedRectangle(cornerRadius: 26)
+                .stroke(player.color.opacity(0.20), lineWidth: 1)
+        }
     }
 }
 
@@ -113,8 +107,15 @@ private struct MitosisKeyPlayer: Identifiable {
     let definition: String
     let symbol: String
     let color: Color
-
     var id: String { name }
+
+    // Preserve the original wording and punctuation; display each sentence as a bullet.
+    var bulletPoints: [String] {
+        let sentences = definition.components(separatedBy: ". ")
+        return sentences.enumerated().map { index, sentence in
+            index < sentences.count - 1 ? sentence + "." : sentence
+        }
+    }
 
     static let all: [MitosisKeyPlayer] = [
         .init(
@@ -156,10 +157,6 @@ private struct MitosisKeyPlayer: Identifiable {
     ]
 }
 
-
-
-
-
 private struct MitosisIllustration: View {
     let name: String
 
@@ -190,7 +187,3 @@ private struct MitosisIllustration: View {
             .accessibilityLabel(name)
     }
 }
-
-
-
-

@@ -32,7 +32,6 @@ struct MeiosisView: View {
                 }
                 MeiPhaseCarousel { detail = .phase($0) }
                 MeiCountJourney { detail = .counts }
-                diversity
                 Button { detail = .terms } label: {
                     HStack {
                         Label("Meet the key players", systemImage: "text.book.closed.fill")
@@ -49,32 +48,6 @@ struct MeiosisView: View {
         .background((scheme == .dark ? Color(red: 0.07, green: 0.12, blue: 0.16) : Color(red: 0.96, green: 0.97, blue: 1)).ignoresSafeArea())
         .navigationTitle("").navigationBarTitleDisplayMode(.inline)
         .sheet(item: $detail) { MeiDetailSheet(detail: $0) }
-    }
-
-    private var diversity: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Where the mix happens")
-                .font(.system(.title2, design: .rounded, weight: .heavy))
-            diversityButton("Crossing over", subtitle: "Swap DNA · prophase I", icon: "arrow.triangle.swap", color: MeiPalette.rose, target: .crossing)
-            diversityButton("Independent assortment", subtitle: "Shuffle pairs · metaphase I", icon: "shuffle", color: MeiPalette.teal, target: .assortment)
-            diversityButton("Random fertilization", subtitle: "Combine gametes · after meiosis", icon: "plus.circle.fill", color: MeiPalette.purple, target: .fertilization)
-        }
-    }
-
-    private func diversityButton(_ title: String, subtitle: String, icon: String, color: Color, target: MeiDetail) -> some View {
-        Button { detail = target } label: {
-            HStack(spacing: 12) {
-                Image(systemName: icon).font(.title2).foregroundStyle(color).frame(width: 38)
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(title).font(.system(.subheadline, design: .rounded, weight: .bold))
-                    Text(subtitle).font(.caption).foregroundStyle(.secondary)
-                }
-                Spacer(minLength: 4)
-                Image(systemName: "chevron.right").font(.caption.weight(.bold)).foregroundStyle(.secondary)
-            }
-            .padding(14).frame(maxWidth: .infinity, alignment: .leading)
-            .background(color.opacity(0.09), in: RoundedRectangle(cornerRadius: 20))
-        }.buttonStyle(.plain)
     }
 }
 
@@ -499,16 +472,13 @@ private struct MeiCountArt: View {
 // MARK: - Details, vocabulary, and small interactive explanations
 
 private enum MeiDetail: Identifiable {
-    case phase(MeiPhase), preparation, interkinesis, counts, crossing, assortment, fertilization, terms
+    case phase(MeiPhase), preparation, interkinesis, counts, terms
     var id: String {
         switch self {
         case .phase(let phase): return "phase-\(phase.id)"
         case .preparation: return "preparation"
         case .interkinesis: return "interkinesis"
         case .counts: return "counts"
-        case .crossing: return "crossing"
-        case .assortment: return "assortment"
-        case .fertilization: return "fertilization"
         case .terms: return "terms"
         }
     }
@@ -518,9 +488,6 @@ private enum MeiDetail: Identifiable {
         case .preparation: return "Copy once. Divide twice."
         case .interkinesis: return "A pause—not a copy round."
         case .counts: return "Count chromosomes, not arms."
-        case .crossing: return "A fair DNA swap."
-        case .assortment: return "Every pair gets a coin flip."
-        case .fertilization: return "Two gametes. One new mix."
         case .terms: return "Meet the key players"
         }
     }
@@ -594,28 +561,37 @@ private struct MeiDetailSheet: View {
             note("23 pairs = 46 chromosomes.\nOne haploid set = 23 chromosomes, not 23 pairs.")
             Text("A replicated chromosome counts as one while its sisters remain joined. In anaphase II, sisters become separate chromosomes: briefly 46 chromosomes in each still-dividing cell, with 23 moving to each pole.")
             Text("The four-product model shows chromosome segregation. In sperm formation, the four products can develop into sperm. In egg formation, unequal cytoplasm division produces one large egg and small polar bodies; four functional eggs are not produced.")
-        case .crossing:
-            MeiCrossingDemo()
-            Text("In prophase I, homologs align gene by gene (synapsis). Corresponding DNA segments are exchanged between non-sister chromatids. Chiasmata are the visible crossover connections.")
-            note("One crossover involves two of the four chromatids: two recombinant chromatids and two unchanged parental chromatids in this example.")
-            Text("Sisters start as identical copies. After crossing over, they can carry different allele combinations. A crossover does not guarantee that all four products are genetically distinct in every possible case.")
-        case .assortment:
-            MeiAssortmentDemo()
-            Text("Each homologous pair faces the poles independently at metaphase I. A maternal homolog of one pair can travel with a paternal homolog of another.")
-            note("2ⁿ combinations · n = chromosome pairs\nHumans: 2²³ = 8,388,608")
-            Text("That is the number of possible maternal/paternal chromosome combinations across many meioses, before counting crossing over—not millions of products from one division.")
-        case .fertilization:
-            HStack {
-                fertilizationBadge("23", "egg")
-                Text("+").font(.largeTitle.bold())
-                fertilizationBadge("23", "sperm")
-                Text("=").font(.largeTitle.bold())
-                fertilizationBadge("46", "zygote")
-            }
-            Text("Fertilization happens after meiosis. Any one egg can combine with any one sperm, restoring the diploid chromosome number.")
-            note("8,388,608 × 8,388,608\n= 70,368,744,177,664 combinations")
-            Text("Over 70 trillion possible chromosome combinations for a couple—even before adding crossing over.")
         case .terms:
+            DisclosureGroup {
+                MeiCrossingDemo()
+                Text("In prophase I, homologs align gene by gene (synapsis). Corresponding DNA segments are exchanged between non-sister chromatids. Chiasmata are the visible crossover connections.")
+                note("One crossover involves two of the four chromatids: two recombinant chromatids and two unchanged parental chromatids in this example.")
+                Text("Sisters start as identical copies. After crossing over, they can carry different allele combinations. A crossover does not guarantee that all four products are genetically distinct in every possible case.")
+            } label: { Text("Crossing over").font(.system(.headline, design: .rounded)) }
+            .padding(14).background(MeiPalette.purple.opacity(0.07), in: RoundedRectangle(cornerRadius: 16))
+
+            DisclosureGroup {
+                MeiAssortmentDemo()
+                Text("Each homologous pair faces the poles independently at metaphase I. A maternal homolog of one pair can travel with a paternal homolog of another.")
+                note("2ⁿ combinations · n = chromosome pairs\nHumans: 2²³ = 8,388,608")
+                Text("That is the number of possible maternal/paternal chromosome combinations across many meioses, before counting crossing over—not millions of products from one division.")
+            } label: { Text("Independent assortment").font(.system(.headline, design: .rounded)) }
+            .padding(14).background(MeiPalette.purple.opacity(0.07), in: RoundedRectangle(cornerRadius: 16))
+
+            DisclosureGroup {
+                HStack {
+                    fertilizationBadge("23", "egg")
+                    Text("+").font(.largeTitle.bold())
+                    fertilizationBadge("23", "sperm")
+                    Text("=").font(.largeTitle.bold())
+                    fertilizationBadge("46", "zygote")
+                }
+                Text("Fertilization happens after meiosis. Any one egg can combine with any one sperm, restoring the diploid chromosome number.")
+                note("8,388,608 × 8,388,608\n= 70,368,744,177,664 combinations")
+                Text("Over 70 trillion possible chromosome combinations for a couple—even before adding crossing over.")
+            } label: { Text("Random fertilization").font(.system(.headline, design: .rounded)) }
+            .padding(14).background(MeiPalette.purple.opacity(0.07), in: RoundedRectangle(cornerRadius: 16))
+
             ForEach(MeiTerm.all) { term in
                 DisclosureGroup {
                     Text(term.definition).padding(.top, 8).frame(maxWidth: .infinity, alignment: .leading)

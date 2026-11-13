@@ -231,13 +231,18 @@ struct CellLabHomeView: View {
                 VStack(spacing: 18) {
                     HeaderView()
                     SectionTitle(text: "Explore the lab")
-                    TitleModuleCard(
-                        title: "Cell Life Cycle",
-                        subtitle: "Grow. Copy. Divide.",
-                        fill: Theme.cycle,
-                        image: "art_cycle",
-                        action: .comingSoon
-                    )
+                    
+                    NavigationLink {
+                        CellLifeCycleView()
+                    } label: {
+                        TitleModuleCard(
+                            title: "Cell Life Cycle",
+                            subtitle: "Grow. Copy. Divide.",
+                            fill: Theme.cycle,
+                            image: "art_cycle",
+                            action: .open("Living the life \u{2192}")                        )
+                    }
+                    .buttonStyle(.plain)
 
                     LazyVGrid(columns: columns, spacing: 14) {
                         NavigationLink {

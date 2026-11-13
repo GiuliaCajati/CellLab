@@ -55,7 +55,7 @@ nonisolated struct MitosisSession {
     private(set) var checkpointPassed = false
     private(set) var separated = false
     private(set) var rebuiltNuclei: Set<Pole> = []
-    private(set) var feedback = "DNA was copied in S phase. Now divide the nucleus."
+    private(set) var feedback = "Starting to pack up."
     private(set) var needsCorrection = false
 
     var attachmentsComplete: Bool { leftAttachments.count == 4 && rightAttachments.count == 4 }
@@ -93,22 +93,62 @@ nonisolated struct MitosisSession {
         case .complete: "4 chromosomes per nucleus"
         }
     }
-    var fact: String {
+
+    var facts: [String] {
         switch stage {
+
         case .prophase:
-            "DNA was already copied during S phase. Each replicated chromosome has two sister chromatids. Chromatin, already associated with histones, condenses; the nucleolus disappears and the spindle begins forming. Each animal centrosome contains a pair of centrioles."
+            [
+                "Chromatin (DNA wrapped around histone proteins) condenses into visible chromosomes.",
+                "The nucleolus disappears, and the mitotic spindle begins to form.",
+                "In animal cells, the centrosomes move toward opposite sides of the cell. Each centrosome contains a pair of centrioles."
+            ]
+
         case .prometaphase:
-            "The nuclear envelope fragments. Spindle microtubules attach to kinetochores, protein complexes at the centromeres. The two sisters attach toward opposite poles. Gold dots in the scene mark these attachment sites."
+            [
+                "The nuclear envelope breaks down, allowing spindle microtubules to reach the chromosomes.",
+                "Kinetochores, protein structures located at the centromere region, form attachment sites for spindle microtubules.",
+                "Microtubules attach to the kinetochores of each sister chromatid, connecting the chromosome to opposite spindle poles.",
+                "The chromosomes begin moving toward the middle of the cell."
+            ]
+
         case .metaphase:
-            "Replicated chromosomes align at the cell's equator. The checkpoint prevents premature separation. This guided game verifies opposite-pole attachments and alignment before allowing anaphase."
+            [
+                "Replicated chromosomes line up along the middle of the cell, called the metaphase plate.",
+                "Sister chromatids are still joined at their centromeres.",
+                "Each sister chromatid should be attached to spindle microtubules from an opposite pole.",
+                "The spindle assembly checkpoint helps prevent separation until all chromosomes are properly attached."
+            ]
+
         case .anaphase:
-            "Sister chromatids separate and each becomes an individual chromosome. Kinetochore microtubules shorten to draw them toward opposite poles. Non-kinetochore microtubules help push the poles apart. Four replicated chromosomes become eight individual chromosomes, with four going toward each pole."
+            [
+                "The centromeres separate, allowing sister chromatids to split apart.",
+                "Once separated, each former chromatid is considered an individual chromosome.",
+                "Kinetochore microtubules shorten, pulling chromosomes toward opposite poles.",
+                "Non-kinetochore microtubules help push the spindle poles farther apart.",
+                "In this model, four replicated chromosomes become eight individual chromosomes, with four moving toward each pole."
+            ]
+
         case .telophase:
-            "Nuclear envelopes and nucleoli re-form around each set. Chromosomes decondense into chromatin, and the spindle disassembles. The two nuclei contain matching chromosome sets."
+            [
+                "Chromosomes arrive at opposite poles of the cell.",
+                "New nuclear envelopes form around each set of chromosomes.",
+                "The nucleoli reappear inside the newly forming nuclei.",
+                "Chromosomes loosen and return to their less-condensed chromatin form.",
+                "The mitotic spindle disassembles.",
+                "Two nuclei now contain matching sets of chromosomes."
+            ]
+
         case .complete:
-            "Mitosis is nuclear division. Cytokinesis divides the cytoplasm and is a separate process, not played here. It can overlap late mitosis; the cell outline stays whole in this simplified model so the two processes remain distinct."
+            [
+                "Mitosis is complete: one nucleus has divided into two genetically matching nuclei.",
+                "Cytokinesis is the separate process that divides the cytoplasm and separates the cell into two daughter cells.",
+                "Cytokinesis often overlaps with late mitosis, but it is not animated in this model.",
+                "The cell outline remains intact here to help distinguish nuclear division (mitosis) from cytoplasmic division (cytokinesis)."
+            ]
         }
     }
+
 
     mutating func send(_ action: Action) {
         needsCorrection = false
@@ -176,35 +216,66 @@ nonisolated struct MitosisSession {
 
 // Short phase-completion lessons; longer definitions remain in `fact`.
 extension MitosisSession.Stage {
-    var lessonJoke: String {
-        switch self {
-        case .prophase: "Packing for a very short trip."
-        case .prometaphase: "The nucleus has opened its doors."
-        case .metaphase: "Everyone made the group photo."
-        case .anaphase: "Identical DNA. Separate travel plans."
-        case .telophase: "Two nuclei. Both unpacked."
-        case .complete: "Same DNA. Two nuclear addresses."
-        }
-    }
+
     var lessonExplanation: String {
+
         switch self {
+
         case .prophase:
-            "Loose chromatin condensed into compact, replicated chromosomes. Each still has two sister chromatids. The centrosomes moved apart, and the spindle began forming."
+            [
+                "✅ Chromatin condenses into compact, visible chromosomes.",
+                "✅ The nucleolus disappears, and the mitotic spindle begins to form.",
+                "✅In animal cells, the centrosomes move toward opposite sides of the cell. Each contains a pair of centrioles."
+            ].joined(separator: "\n\n")
+
         case .prometaphase:
-            "The nuclear envelope fragmented, giving spindle fibers access to the chromosomes. You connected each sister's kinetochore to a different pole. Those gold dots are the attachment sites."
+            [
+                "✅ The nuclear envelope breaks down, allowing spindle microtubules to reach the chromosomes.",
+                "✅ Kinetochores, protein structures at the centromere region, provide attachment sites for spindle microtubules.",
+                "✅ Each sister chromatid's kinetochore attaches to microtubules oriented toward an opposite spindle pole.",
+                "✅ The gold dots in the scene represent these kinetochore attachment sites."
+            ].joined(separator: "\n\n")
+
         case .metaphase:
-            "The replicated chromosomes lined up at the equator. Your checkpoint confirmed they were aligned and attached to opposite poles. The sisters are still together—for now."
+            [
+                "✅ Replicated chromosomes line up across the middle of the cell, called the metaphase plate.",
+                "✅ Sister chromatids remain joined at their centromeres.",
+                "✅ Each sister chromatid should be attached to microtubules from an opposite spindle pole.",
+                "✅ The spindle assembly checkpoint helps prevent anaphase until all chromosomes are properly attached."
+            ].joined(separator: "\n\n")
+
         case .anaphase:
-            "Sister chromatids separated. Each is now an individual chromosome. The spindle moved four toward each pole. No extra DNA was copied during this step."
+            [
+                "✅Sister chromatids separate and are now considered individual chromosomes.",
+                "✅ Kinetochore microtubules shorten, pulling the chromosomes toward opposite poles.",
+                "✅ Other spindle microtubules help push the two poles farther apart.",
+                "✅ In this model, four replicated chromosomes become eight individual chromosomes, with four moving toward each pole.",
+                "✅ No additional DNA is copied during anaphase."
+            ].joined(separator: "\n\n")
+
         case .telophase:
-            "New nuclear envelopes formed around matching chromosome sets. The chromosomes loosened into chromatin, nucleoli re-formed, and the spindle disassembled. You have completed nuclear division!"
+            [
+                "✅ Chromosomes reach opposite poles of the cell.",
+                "✅ New nuclear envelopes form around each set of chromosomes.",
+                "✅ The nucleoli reappear inside the new nuclei.",
+                "✅ Chromosomes decondense, returning to their less compact chromatin form.",
+                "✅ The mitotic spindle disassembles.",
+                "✅ Two nuclei now contain matching sets of chromosomes."
+            ].joined(separator: "\n\n")
+
         case .complete:
-            "You made two nuclei with matching chromosome sets. Cytokinesis divides the cytoplasm; that separate process is outside this game. The cell stays whole here to keep the distinction clear."
+            [
+                "✅ Mitosis is complete! One nucleus has divided into two genetically matching nuclei.",
+                "✅ Cytokinesis is the separate process that divides the cytoplasm to produce two daughter cells.",
+                "✅ Cytokinesis often overlaps with late mitosis, but it is not included in this game.",
+                "✅ The cell outline stays whole in this model to make the distinction between nuclear division and cytoplasmic division clear."
+            ].joined(separator: "\n\n")
         }
     }
+
     var lessonTakeaway: String {
         switch self {
-        case .prophase: "Same DNA. More compact packaging."
+        case .prophase: "DNA was copied during S phase. Each chromosome now consists of two identical sister chromatids joined at the centromere."
         case .prometaphase: "Spindle fibers attach at kinetochores."
         case .metaphase: "Aligned + attached → ready to separate."
         case .anaphase: "Sister chromatids → individual chromosomes."

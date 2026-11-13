@@ -162,11 +162,11 @@ struct MitosisGameView: View {
         switch session.stage {
         case .prophase:
             return [.init(label: "Pack DNA", done: session.condensed.count == 4),
-                    .init(label: "Set poles", done: session.movedPoles.count == 2)]
+                    .init(label: "Set Centrosome", done: session.movedPoles.count == 2)]
         case .prometaphase:
-            return [.init(label: "Envelope", done: session.envelopeOpen),
-                    .init(label: "Left pole", done: session.leftAttachments.count == 4),
-                    .init(label: "Right pole", done: session.rightAttachments.count == 4)]
+            return [.init(label: "Envelope Disassembly", done: session.envelopeOpen),
+                    .init(label: "Left Microtubules", done: session.leftAttachments.count == 4),
+                    .init(label: "Right Microtubules", done: session.rightAttachments.count == 4)]
         case .metaphase:
             return [.init(label: "Align", done: session.aligned.count == 4),
                     .init(label: "Checkpoint", done: session.checkpointPassed)]
@@ -314,9 +314,6 @@ struct MitosisGameView: View {
                         Text(item.title)
                             .font(.system(.title2, design: .rounded, weight: .heavy))
                     }
-                    Text(item.joke)
-                        .font(.system(.title3, design: .rounded, weight: .bold))
-                        .foregroundStyle(accent)
                     Text(item.explanation)
                         .font(.body)
                         .lineSpacing(4)
@@ -381,7 +378,6 @@ struct MitosisGameView: View {
 private struct MitosisPopup: Identifiable {
     let id = UUID()
     let title: String
-    let joke: String
     let explanation: String
     let takeaway: String
     let buttonTitle: String
@@ -389,15 +385,22 @@ private struct MitosisPopup: Identifiable {
 
     static func completed(_ session: MitosisSession) -> Self {
         let next = MitosisSession.Stage(rawValue: session.stage.rawValue + 1)
-        return Self(title: "\(session.stage.title) complete!", joke: session.stage.lessonJoke,
+        return Self(title: "\(session.stage.title) complete!",
                     explanation: session.stage.lessonExplanation, takeaway: session.stage.lessonTakeaway,
                     buttonTitle: session.stage == .telophase ? "Mitosis complete!" : "Next: \(next?.title ?? "Continue")",
                     advancesStage: true)
     }
+
     static func explanation(_ session: MitosisSession) -> Self {
-        Self(title: session.stage.title, joke: session.stage.lessonJoke,
-             explanation: session.fact, takeaway: session.stage.lessonTakeaway,
-             buttonTitle: "Back to the cell", advancesStage: false)
+        Self(
+            title: session.stage.title,
+            explanation: session.facts
+                .map { "•  \($0)" }
+                .joined(separator: "\n\n"),
+            takeaway: session.stage.lessonTakeaway,
+            buttonTitle: "Back to the cell",
+            advancesStage: false
+        )
     }
 }
 

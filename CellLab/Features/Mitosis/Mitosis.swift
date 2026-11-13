@@ -462,7 +462,7 @@ private struct ChromosomeJourneyRow: View {
 
                     Text("1 chromosome").fontWeight(.bold)
 
-                    Text(replicated ? "2 sister chromatids" : "1 chromatid")
+                    Text(replicated ? "2 sister chromatids (nearly identical, were copied doring S phase)" : "1 chromatid")
 
                 }
 

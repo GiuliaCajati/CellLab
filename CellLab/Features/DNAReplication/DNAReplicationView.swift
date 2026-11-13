@@ -27,15 +27,17 @@ import UIKit
                                 .foregroundStyle(DNAReplicationTheme.muted)
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        Button(action: toggleLesson) {
-                            Label(session.isPlaying ? "Pause" : "Play", systemImage: session.isPlaying ? "pause.fill" : "play.fill")
+                        NavigationLink {
+                            DNAReplicationGameView()
+                        } label: {
+                            Label("Play", systemImage: "play.fill")
                                 .font(.system(.headline, design: .rounded))
-                                .padding(.horizontal, 17).frame(minHeight: 50)
+                                .padding(.horizontal, 17)
+                                .frame(minHeight: 50)
                                 .background(DNAReplicationTheme.teal, in: Capsule())
                         }
                         .buttonStyle(.plain)
-                        .disabled(reduceMotion)
-                        .accessibilityIdentifier("dna-play-pause")
+                        .accessibilityLabel("Play the DNA replication game")
                     }
 
                     TabView(selection: Binding(
@@ -74,6 +76,17 @@ import UIKit
                         }
                     }
                     .frame(maxWidth: .infinity)
+                    Button(action: toggleLesson) {
+                        Label(session.isPlaying ? "Pause" : "Play", systemImage: session.isPlaying ? "pause.fill" : "play.fill")
+                            .font(.system(.headline, design: .rounded))
+                            .padding(.horizontal, 17).frame(minHeight: 50)
+                            .background(DNAReplicationTheme.teal, in: Capsule())
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(reduceMotion)
+                    .accessibilityIdentifier("dna-play-pause")
+                    .frame(maxWidth: .infinity, alignment: .center)
+
 
                     DNAReplicationLegend().frame(maxWidth: .infinity)
 

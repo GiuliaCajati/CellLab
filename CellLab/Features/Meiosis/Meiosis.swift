@@ -102,24 +102,68 @@ private enum MeiPhase: Int, CaseIterable, Identifiable {
     var tint: Color {
         [MeiPalette.rose, MeiPalette.teal, Color.orange, MeiPalette.purple, MeiPalette.purple, MeiPalette.teal, Color.orange, MeiPalette.rose][rawValue]
     }
+
     var explanation: String {
         switch self {
+
         case .prophaseI:
-            return "Chromosomes condense. Homologs pair (synapsis); non-sister chromatids exchange matching DNA segments at crossover sites marked by chiasmata. This creates new allele combinations. The nuclear envelope breaks down, centrosomes move apart, and the spindle forms."
+            return """
+            • Chromosomes condense into visible chromosomes, each with two sister chromatids joined at a centromere.
+            • Synapsis: Homologous chromosomes pair, forming tetrads (four chromatids).
+            • Crossing over: Non-sister chromatids exchange matching DNA segments at chiasmata (crossover points).
+            • Genetic variation: New allele combinations are created.
+            • Nuclear envelope breaks down, centrosomes move apart, and the spindle forms.
+            """
+
         case .metaphaseI:
-            return "Homologous pairs align at the equator. Spindle fibers attach at kinetochores, connecting homologs to opposite poles. Each pair orients independently—independent assortment."
+            return """
+            • Homologous chromosome pairs (tetrads) align at the cell equator.
+            • Spindle fibers attach to kinetochores on homologous chromosomes.
+            • Each pair orients independently, called independent assortment, creating genetic variation.
+            """
+
         case .anaphaseI:
-            return "Spindle fibers pull homologs to opposite poles, one from each pair. Sisters stay joined at their centromeres. This division halves the chromosome sets."
+            return """
+            • Spindle fibers pull homologous chromosomes to opposite poles.
+            • Sister chromatids remain joined at their centromeres.
+            • Homologs separate, reducing the chromosome sets by half.
+            """
+
         case .telophaseI:
-            return "Chromosomes reach the poles; nuclear envelopes may re-form. Cytokinesis produces two haploid cells: each has 23 replicated chromosomes and 46 chromatids. Haploid means one chromosome set."
+            return """
+            • Homologous chromosomes reach opposite poles; nuclear envelopes may re-form.
+            • Cytokinesis divides the cell into two haploid cells.
+            • Each cell has 23 replicated chromosomes (46 chromatids).
+            • Haploid means one set of chromosomes.
+            """
+
         case .prophaseII:
-            return "Spindles form in both haploid cells. Chromosomes re-condense if needed, and any nuclear envelopes break down. No DNA replication occurs between meiosis I and II."
+            return """
+            • Spindles form in both haploid cells.
+            • Chromosomes re-condense if needed, and nuclear envelopes break down.
+            • No DNA replication occurs between meiosis I and meiosis II.
+            """
+
         case .metaphaseII:
-            return "Chromosomes align single-file. Sister kinetochores attach to opposite spindle poles. Each cell has 23 chromosomes, each with two chromatids."
+            return """
+            • Chromosomes align single-file at the cell equator.
+            • Spindle fibers attach to sister kinetochores from opposite poles.
+            • Each cell has 23 chromosomes, each containing two sister chromatids.
+            """
+
         case .anaphaseII:
-            return "Sisters separate at their centromeres and move to opposite poles. Each is now an individual chromosome. Crossing over may have made sisters genetically different."
+            return """
+            • Centromeres divide, and sister chromatids separate toward opposite poles.
+            • Each separated chromatid is now an individual chromosome.
+            • Crossing over may make sister chromatids genetically different.
+            """
+
         case .telophaseII:
-            return "Nuclei re-form; chromosomes uncoil. Cytokinesis produces four haploid products, each with 23 single-chromatid chromosomes. In egg formation, unequal divisions produce one large egg and small polar bodies."
+            return """
+            • Nuclear envelopes re-form, and chromosomes uncoil.
+            • Cytokinesis produces four haploid cells, each with 23 single-chromatid chromosomes.
+            • In egg formation (oogenesis), unequal cytokinesis produces one large egg and small polar bodies.
+            """
         }
     }
 }

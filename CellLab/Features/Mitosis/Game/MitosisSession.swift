@@ -232,8 +232,7 @@ extension MitosisSession.Stage {
             [
                 "✅ The nuclear envelope breaks down, allowing spindle microtubules to reach the chromosomes.",
                 "✅ Kinetochores, protein structures at the centromere region, provide attachment sites for spindle microtubules.",
-                "✅ Each sister chromatid's kinetochore attaches to microtubules oriented toward an opposite spindle pole.",
-                "✅ The gold dots in the scene represent these kinetochore attachment sites."
+                "✅ Each sister chromatid's kinetochore attaches to microtubules oriented toward an opposite spindle pole. The gold dots in the scene represent these kinetochore attachment sites."
             ].joined(separator: "\n\n")
 
         case .metaphase:

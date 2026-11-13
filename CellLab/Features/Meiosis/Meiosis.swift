@@ -43,8 +43,6 @@ struct MeiosisView: View {
                     .padding(18).background(MeiPalette.teal.opacity(0.12), in: RoundedRectangle(cornerRadius: 22))
                 }
                 .buttonStyle(.plain)
-                Button("Notes & video") { detail = .sources }
-                    .font(.caption).padding(.bottom, 8)
             }
             .padding(18).frame(maxWidth: 680).frame(maxWidth: .infinity)
         }
@@ -501,7 +499,7 @@ private struct MeiCountArt: View {
 // MARK: - Details, vocabulary, and small interactive explanations
 
 private enum MeiDetail: Identifiable {
-    case phase(MeiPhase), preparation, interkinesis, counts, crossing, assortment, fertilization, terms, sources
+    case phase(MeiPhase), preparation, interkinesis, counts, crossing, assortment, fertilization, terms
     var id: String {
         switch self {
         case .phase(let phase): return "phase-\(phase.id)"
@@ -512,7 +510,6 @@ private enum MeiDetail: Identifiable {
         case .assortment: return "assortment"
         case .fertilization: return "fertilization"
         case .terms: return "terms"
-        case .sources: return "sources"
         }
     }
     var title: String {
@@ -525,7 +522,6 @@ private enum MeiDetail: Identifiable {
         case .assortment: return "Every pair gets a coin flip."
         case .fertilization: return "Two gametes. One new mix."
         case .terms: return "Meet the key players"
-        case .sources: return "Notes & video"
         }
     }
 }
@@ -626,14 +622,6 @@ private struct MeiDetailSheet: View {
                 } label: { Text(term.name).font(.system(.headline, design: .rounded)) }
                 .padding(14).background(MeiPalette.purple.opacity(0.07), in: RoundedRectangle(cornerRadius: 16))
             }
-        case .sources:
-            Text("Based on the McGraw-Hill course notes supplied for this project. Wording is condensed for learning; the original numbered source markers were not complete references.")
-            Link(destination: URL(string: "https://www.youtube.com/watch?v=I-sucvMV0Ng")!) {
-                Label("Open supplied meiosis video", systemImage: "play.rectangle.fill")
-            }
-            Text("The linked video’s contents were not retrievable when this view was created. It is provided as a companion reference.").font(.caption).foregroundStyle(.secondary)
-            Text("Model notes").font(.headline)
-            Text("Human animal-cell counts are used. Phase drawings show two homologous pairs; count diagrams show all 46 or 23 chromosomes. Colors track chromosome origin and exchanged segments, not sex or gender. Chromosome shapes are schematic, and condensed symbols at the finish clarify counts rather than depicting decondensed chromatin.")
         }
     }
 

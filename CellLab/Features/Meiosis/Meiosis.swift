@@ -64,13 +64,15 @@ struct MeiosisView: View {
                     .foregroundStyle(.secondary)
             }
             Spacer(minLength: 12)
-            Button { detail = .phase(currentPhase ?? .prophaseI) } label: {
-                Label("Explore", systemImage: "arrow.right.circle.fill")
-                    .font(.system(.subheadline, design: .rounded, weight: .bold))
+            NavigationLink { MeiosisGameView() } label: {
+
+                Label("Play", systemImage: "play.fill")
+
+                    .font(.system(.headline, design: .rounded))
+
                     .frame(minHeight: 36)
+
             }
-            .buttonStyle(.borderedProminent)
-            .buttonBorderShape(.capsule)
         }
     }
 }

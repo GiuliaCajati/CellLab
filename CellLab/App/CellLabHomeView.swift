@@ -122,7 +122,7 @@ struct ActionPill: View {
 ///
 ///
 ///
-struct TitleModuleCard: View {
+struct LongModuleCard: View {
 let title: String
 let subtitle: String
 let fill: Color
@@ -235,7 +235,7 @@ struct CellLabHomeView: View {
                     NavigationLink {
                         CellLifeCycleView()
                     } label: {
-                        TitleModuleCard(
+                        LongModuleCard(
                             title: "Cell Life Cycle",
                             subtitle: "Grow. Copy. Divide.",
                             fill: Theme.cycle,
@@ -271,20 +271,26 @@ struct CellLabHomeView: View {
                         }
                         .buttonStyle(.plain)
                         
-                        ModuleCard(
-                            title: "DNA replication",
-                            subtitle: "S Phase",
-                            fill: Theme.dna,
-                            image: "art_dna",
-                            action: .comingSoon
-                        )
+                        NavigationLink {
+                            DNAReplicationView()
+                        } label: {
+                            ModuleCard(
+                                title: "DNA replication",
+                                subtitle: "S Phase",
+                                fill: Theme.dna,
+                                image: "art_s_phase",
+                                action: .open("Let\u{2019}s Synthesize \u{2192}")
+                            )
+                        }.buttonStyle(.plain)
+                        
+
                         
                         ModuleCard(
-                            title: "Protein Synthesis",
+                            title: "Central Dogma",
                             subtitle: "Transcription. Translation.",
                             fill: Theme.mitosis,
-                            image: "art_cycle",
-                            action: .comingSoon
+                            image: "art_dogma",
+                            action: .comingSoon //.open("Peptide assembly line.")
                         )
 
                         ModuleCard(
@@ -302,15 +308,16 @@ struct CellLabHomeView: View {
                             image: "art_respiration",
                             action: .comingSoon
                         )
-
-                        ModuleCard(
-                            title: "DNA Technology",
-                            subtitle: "Small tools. Big possibilities.",
-                            fill: Theme.dna,
-                            image: "art_dna",
-                            action: .comingSoon
-                        )
                     }
+                    
+                    LongModuleCard(
+                        title: "DNA Technology",
+                        subtitle: "Small tools. Big possibilities.",
+                        fill: Theme.dna,
+                        image: "art_dna",
+                        action: .comingSoon
+                    )
+
                 }
                 .padding(.horizontal, 16)
                 .padding(.bottom, 24)

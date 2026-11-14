@@ -43,7 +43,7 @@ struct DNACopyNucleotide: View {
         ZStack {
             RoundedRectangle(cornerRadius: 13)
                 .fill(DNACopyStyle.base(base).gradient)
-                .overlay(RoundedRectangle(cornerRadius: 13).strokeBorder(selected ? DNACopyStyle.teal : DNACopyStyle.edge, lineWidth: selected ? 3 : 1.3))
+                .overlay(RoundedRectangle(cornerRadius: 13).strokeBorder(selected ? DNACopyStyle.teal : DNACopyStyle.edge, lineWidth: selected ? 3 : 1.3).allowsHitTesting(false))
             Text(base.rawValue).font(.system(size: 22, weight: .heavy, design: .rounded)).foregroundStyle(DNACopyStyle.ink)
             Circle().fill(.white.opacity(0.65)).frame(width: 8, height: 5).offset(x: -11, y: -13)
         }

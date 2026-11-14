@@ -123,14 +123,21 @@ enum DNACopySequence {
     static let fragmentLength = 4
     static let fragmentCount = 2
     static let primerLength = 2
+    static func parentalBase(atRow row: Int) -> DNACopyBase {
+        leading[count - 1 - row]
+    }
 
     static func row(lane: DNACopyLane, index: Int) -> Int {
         lane == .leading ? count - 1 - index :
             (fragmentCount - 1 - index / fragmentLength) * fragmentLength + index % fragmentLength
     }
+    static func index(lane: DNACopyLane, row: Int) -> Int {
+        lane == .leading ? count - 1 - row :
+            (fragmentCount - 1 - row / fragmentLength) * fragmentLength + row % fragmentLength
+    }
     static func template(lane: DNACopyLane, index: Int) -> DNACopyBase {
         if lane == .leading { return leading[index] }
-        return leading[count - 1 - row(lane: lane, index: index)].complement
+        return parentalBase(atRow: row(lane: lane, index: index)).complement
     }
     static func replacementTemplate(site: DNACopySite, index: Int) -> DNACopyBase {
         if site == .leading { return leading[index] }

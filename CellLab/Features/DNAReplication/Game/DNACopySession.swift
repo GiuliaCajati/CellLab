@@ -27,8 +27,49 @@ import Observation
     private(set) var correctionSerial = 0
     private(set) var placedBases = 0
     private(set) var usedTools: Set<DNACopyTool> = []
+    private(set) var lastSuccessTarget: DNACopyTarget?
+
+    // A second, explicit way to use a selection. It obeys exactly the same
+    // biological guards as touching or dragging to a molecular target.
+    var canApplySelection: Bool {
+        guard celebration == nil, let target = activeTarget else { return false }
+        if case .origin = target { return false }
+        if expectedBase != nil {
+            if case .replacement = target, selectedTool != .polymerase { return false }
+            return selectedBase != nil
+        }
+        return selectedTool != nil
+    }
+    var primaryActionTitle: String {
+        guard let target = activeTarget else { return "Continue when ready" }
+        if case .origin = target { return "Tap an origin" }
+        if expectedBase != nil {
+            if case .replacement = target, selectedTool != .polymerase { return "Choose DNA polymerase" }
+            return selectedBase.map { "Attach \($0.rawValue)" } ?? "Choose a nucleotide"
+        }
+        return selectedTool.map { "Use \($0.title)" } ?? "Choose a tool"
+    }
+    func applySelection() {
+        guard canApplySelection, let target = activeTarget else { hint(); return }
+        tap(target)
+    }
+    func missedDrop() {
+        guard celebration == nil else { return }
+        notice = expectedBase == nil ? "Aim for the glowing +, or select a tool and use the button below." :
+            "Drop on the glowing + at the growing 3′ end—or use Attach below."
+    }
 
     var correctingMismatch: Bool { mismatchIntroduced && !mismatchCorrected }
+    func synthesizedBase(lane: DNACopyLane, index: Int) -> DNACopyBase? {
+        guard (0..<DNACopySequence.count).contains(index) else { return nil }
+        if lane == .leading {
+            return index < 2 ? replacements[.leading]?[index] : leading[index]
+        }
+        if index % 4 < 2, let site = DNACopySite(rawValue: index / 4 + 1) {
+            return replacements[site]?[index % 4]
+        }
+        return lagging[index]
+    }
     var activeSite: DNACopySite? {
         switch stage {
         case .remove: return DNACopySite.allCases.first { !removedPrimers.contains($0) }
@@ -130,8 +171,12 @@ import Observation
     }
     func choose(base: DNACopyBase) {
         guard celebration == nil, stage != .complete else { return }
+        guard expectedBase != nil else {
+            notice = neededTool.map { "Use \($0.title.lowercased()) at the glowing target first." } ?? instruction
+            return
+        }
         selectedBase = base
-        notice = "\(base.rawValue) selected. Tap the growing 3′ end."
+        notice = "\(base.rawValue) selected. Tap the glowing + or Attach \(base.rawValue)."
     }
     @discardableResult func receive(_ payload: String, at target: DNACopyTarget) -> Bool {
         guard celebration == nil else { return false }
@@ -160,6 +205,7 @@ import Observation
     func start(at index: Int) {
         guard stage == .origin, celebration == nil, (0..<3).contains(index) else { return }
         origin = index
+        lastSuccessTarget = .origin(index)
         celebrate("Starting line found!", "Replication begins at origins of replication. Hundreds of starting sites help a human cell copy billions of nucleotides in about 8–10 hours.", ["Origins of replication", "S phase"], next: .unwind)
     }
     @discardableResult func use(_ tool: DNACopyTool, at target: DNACopyTarget) -> Bool {
@@ -173,6 +219,7 @@ import Observation
             return false
         }
         selectedTool = tool; selectedBase = nil; usedTools.insert(tool)
+        lastSuccessTarget = target
         switch target {
         case .helicase:
             unwound = true
@@ -223,12 +270,13 @@ import Observation
             return false
         }
         selectedBase = nil; placedBases += 1
+        lastSuccessTarget = target
         switch target {
         case let .base(lane, index):
             if lane == .leading {
                 guard leadingPrimed && leadingLoaded else { return false }
                 leading[index] = base
-                succeed("\(expected.complement.rawValue)–\(base.rawValue) paired. Growing 5′ → 3′.")
+                succeed("\(baseCheer) \(expected.complement.rawValue)–\(base.rawValue) paired. Growing 5′ → 3′.")
                 if index == 3 && !mismatchIntroduced {
                     // A simulated polymerase slip appears at the NEXT growing end.
                     // A correctly placed player base is never changed into an error.
@@ -245,7 +293,7 @@ import Observation
             } else {
                 guard laggingPrimed.contains(fragment), laggingLoaded == fragment else { return false }
                 lagging[index] = base
-                succeed("\(expected.complement.rawValue)–\(base.rawValue) paired. This fragment grows away from the fork.")
+                succeed("\(baseCheer) \(expected.complement.rawValue)–\(base.rawValue) paired. This fragment grows away from the fork.")
                 if index % 4 == 3 {
                     let finished = fragment
                     fragment += 1; laggingLoaded = nil
@@ -260,7 +308,7 @@ import Observation
         case let .replacement(site, index):
             var values = replacements[site] ?? [nil, nil]
             values[index] = base; replacements[site] = values
-            succeed("DNA fills the gap from the neighboring 3′ end.")
+            succeed("\(baseCheer) DNA fills the gap from the neighboring 3′ end.")
             if DNACopySite.allCases.allSatisfy({ site in (replacements[site] ?? [nil, nil]).allSatisfy { $0 != nil } }) {
                 celebrate("RNA replaced with DNA!", "DNA polymerase fills the gaps using a neighboring 3′ end. A nick remains where the replacement DNA meets the existing strand; ligase will seal that last backbone bond.", ["DNA polymerase", "Primer replacement", "Nick"], next: .seal)
             }
@@ -277,6 +325,9 @@ import Observation
         notice = instruction
     }
     private func succeed(_ message: String) { successSerial += 1; notice = message }
+    private var baseCheer: String {
+        ["Nice match!", "That fits!", "Good pair!", "Keep building!"][max(0, placedBases - 1) % 4]
+    }
     private func reject(_ message: String) { correctionSerial += 1; notice = message }
     private func celebrate(_ title: String, _ body: String, _ tags: [String], next: DNACopyStage?) {
         successSerial += 1

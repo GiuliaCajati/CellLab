@@ -275,8 +275,8 @@ struct CellLabHomeView: View {
                             DNAReplicationView()
                         } label: {
                             ModuleCard(
-                                title: "DNA replication",
-                                subtitle: "S Phase",
+                                title: "S Phase",
+                                subtitle: "DNA replication",
                                 fill: Theme.dna,
                                 image: "art_s_phase",
                                 action: .open("Let\u{2019}s Synthesize \u{2192}")
@@ -292,14 +292,19 @@ struct CellLabHomeView: View {
                             image: "art_dogma",
                             action: .comingSoon //.open("Peptide assembly line.")
                         )
+                        
+                        NavigationLink {
+                            CellStructuresView()
+                        } label: {
+                            ModuleCard(
+                                title: "Cell Structures",
+                                subtitle: "Meet the tiny team.",
+                                fill: Theme.structures,
+                                image: "art_structures",
+                                action: .open("Let\u{2019}s Explore \u{2192}")
+                            )
+                        }.buttonStyle(.plain)
 
-                        ModuleCard(
-                            title: "Cell Structures",
-                            subtitle: "Meet the tiny team.",
-                            fill: Theme.structures,
-                            image: "art_structures",
-                            action: .comingSoon
-                        )
 
                         ModuleCard(
                             title: "Cellular Respiration",

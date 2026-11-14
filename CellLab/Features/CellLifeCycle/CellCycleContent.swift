@@ -189,22 +189,10 @@ struct CellCyclePlayer: Identifiable {
 
     static let all: [Self] = [
         CellCyclePlayer(
-            id: "chromosomes", title: "Chromatin &\nchromosomes", tint: .blue,
-            artwork: "CellCycleChromosome", illustration: .chromosome,
-            caption: "Sister chromatids · Centromere",
-            bullets: ["**Unwound chromatin** allows transcription and DNA copying during interphase.", "DNA replication produces **two identical sister chromatids** per chromosome, joined at the **centromere**.", "Once separated in anaphase, each chromatid is an individual **chromosome**."]
-        ),
-        CellCyclePlayer(
-            id: "spindle", title: "Centrosomes &\nthe spindle", tint: .sage,
-            artwork: "CellCycleSpindle", illustration: .spindle,
-            caption: "Centrioles · Microtubules",
-            bullets: ["An animal-cell **centrosome** contains a pair of **centrioles** and duplicates during S phase.", "Centrosomes organize the **mitotic spindle** and move toward opposite poles.", "Spindle **microtubules** attach to kinetochores, align chromosomes, and separate them."]
-        ),
-        CellCyclePlayer(
             id: "p53", title: "G₁ checkpoint\n& p53", tint: .peach,
             artwork: "CellCycleCell", illustration: .g1Checkpoint,
             caption: "DNA damage · Repair · Apoptosis",
-            bullets: ["**Internal checkpoints** check that each stage is complete before the cell proceeds.", "The **G₁ checkpoint** inspects DNA for damage; **p53** promotes repair.", "If damage cannot be repaired, p53 can trigger **apoptosis**: programmed cell death."]
+            bullets: ["**Internal checkpoints** check that each stage is complete before the cell proceeds.", "The **G₁ checkpoint** inspects DNA for damage; **p53** promotes repair.", "If damage cannot be repaired, p53 can trigger **apoptosis**: programmed cell death.", "**p53** (encoded by the TP53 gene on chromosome 17) is a vital regulatory transcription factor and tumor suppressor protein often called the 'guardian of the genome'"]
         ),
         CellCyclePlayer(
             id: "replicationChecks", title: "S & G₂\ncheckpoints", tint: .lavender,
@@ -222,7 +210,7 @@ struct CellCyclePlayer: Identifiable {
             id: "cyclins", title: "Cyclins", tint: .lavender,
             artwork: "CellCycleCell", illustration: .cyclins,
             caption: "Rise · Fall · Progress",
-            bullets: ["**Cyclins** are signaling proteins whose concentrations rise and fall.", "They help activate **transcription factors** that drive progress into subsequent cycle stages."]
+            bullets: ["**Cyclins** are signaling proteins whose concentrations rise and fall.", "They help activate **transcription factors** that drive progress into subsequent cycle stages.", "**transcription factors** is a specialized protein that controls the rate at which genetic information is transcribed from DNA into messenger RNA (mRNA)"]
         ),
         CellCyclePlayer(
             id: "contractileRing", title: "The contractile\nring", tint: .sage,

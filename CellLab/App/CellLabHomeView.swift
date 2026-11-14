@@ -292,7 +292,7 @@ struct CellLabHomeView: View {
                                 subtitle: "Transcription. Translation.",
                                 fill: Theme.mitosis,
                                 image: "art_dogma",
-                                action: .open("Peptide assembly line.")
+                                action: .open("Making Peptide")
                             )
                         }.buttonStyle(.plain)
                         
@@ -314,17 +314,21 @@ struct CellLabHomeView: View {
                             subtitle: "ATP, made here.",
                             fill: Theme.respiration,
                             image: "art_respiration",
-                            action: .comingSoon
+                            action: .open("Let\u{2019}s Explore \u{2192}")
                         )
                     }
                     
-                    LongModuleCard(
-                        title: "DNA Technology",
-                        subtitle: "Small tools. Big possibilities.",
-                        fill: Theme.dna,
-                        image: "art_dna",
-                        action: .comingSoon
-                    )
+                    NavigationLink {
+                        DNATechnologyView()
+                    } label: {
+                        LongModuleCard(
+                            title: "DNA Technology",
+                            subtitle: "Small tools. Big possibilities.",
+                            fill: Theme.dna,
+                            image: "art_dna",
+                            action: .comingSoon
+                        )
+                    }
 
                 }
                 .padding(.horizontal, 16)

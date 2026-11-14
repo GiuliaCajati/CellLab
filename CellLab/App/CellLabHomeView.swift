@@ -284,14 +284,17 @@ struct CellLabHomeView: View {
                         }.buttonStyle(.plain)
                         
 
-                        
-                        ModuleCard(
-                            title: "Central Dogma",
-                            subtitle: "Transcription. Translation.",
-                            fill: Theme.mitosis,
-                            image: "art_dogma",
-                            action: .comingSoon //.open("Peptide assembly line.")
-                        )
+                        NavigationLink {
+                            CentralDogmaView()
+                        } label: {
+                            ModuleCard(
+                                title: "Central Dogma",
+                                subtitle: "Transcription. Translation.",
+                                fill: Theme.mitosis,
+                                image: "art_dogma",
+                                action: .open("Peptide assembly line.")
+                            )
+                        }.buttonStyle(.plain)
                         
                         NavigationLink {
                             CellStructuresView()

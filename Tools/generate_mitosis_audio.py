@@ -31,6 +31,9 @@ MODEL_RELEASE = (
 )
 MODEL_FILES = ("kokoro-v1.0.onnx", "voices-v1.0.bin")
 VOICE = "af_heart"
+PLAYFUL_PAYOFF = "That’s mitosis!"
+PAYOFF_SPEED = 1.04
+PAYOFF_PHONEMES = "ðˈæts maɪtˈoʊsɪs!"
 # Kokoro phonemes, separate from the unchanged narration. The final /i/ keeps
 # "copied" sounding like "copy-d", rather than eSpeak's short /ɪ/ ("cop-id").
 PRONUNCIATION_OVERRIDES = {"copied": "kˈɑpid"}
@@ -72,12 +75,18 @@ def speech_segments(opening: str) -> list:
         (answer, 1.0, 0.35),
         (explanation_sentence + ".", 0.94, 0.35),
         (dna_question + "?", 0.86, 0.45),
-        (payoff, 1.0, 0.0),
+        (payoff, PAYOFF_SPEED, 0.0),
     ]
 
 
 def pronunciation_input(spoken_text: str, tokenizer) -> tuple:
     """Override selected pronunciations without respelling the source narration."""
+    # A little more emphasis on "That's" gives the reveal an animated delivery.
+    # Keep the same voice and words; Kokoro has no free-form emotion prompt.
+    if spoken_text == PLAYFUL_PAYOFF:
+        if any(symbol not in tokenizer.vocab for symbol in PAYOFF_PHONEMES):
+            raise ValueError("Unsupported pronunciation symbols in the closing reveal.")
+        return PAYOFF_PHONEMES, True
     overrides = [
         (word, pronunciation)
         for word, pronunciation in PRONUNCIATION_OVERRIDES.items()
@@ -154,6 +163,8 @@ def render_opening(opening: str, output_path: Path) -> float:
         samples = np.asarray(samples, dtype=np.float32).reshape(-1)
         if not samples.size or not np.isfinite(samples).all():
             raise ValueError("Kokoro returned invalid audio.")
+        if spoken_text == PLAYFUL_PAYOFF:
+            samples *= min(1.10, 0.96 / max(float(np.max(np.abs(samples))), 0.001))
         pieces.append(samples)
         if pause_seconds:
             pieces.append(np.zeros(round(pause_seconds * sample_rate), dtype=np.float32))

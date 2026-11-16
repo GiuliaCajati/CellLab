@@ -16,6 +16,8 @@ Recordings are prefixed with meiosis so the two lessons can coexist offline.
 RECORD lesson.overview | Opening · Listen
 Why can siblings with the same parents look so different? A chromosome shuffle!
 
+Most of your body’s cells have two chromosome sets: one from mom and one from dad. Matching chromosomes form homologous pairs. They carry the same genes in the same places, but may have different versions, called alleles.
+
 In cells that make eggs or sperm, DNA is copied once, then the cell divides twice. The first division separates homologous chromosomes. The second separates sister chromatids. That leaves haploid products with one chromosome set. In humans, that’s twenty-three chromosomes instead of forty-six. Mixing DNA and halving the sets? That’s meiosis! Swipe through the eight steps with me!
 
 RECORD lesson.prophase-i | Prophase I
@@ -65,3 +67,17 @@ RECORD reference.players | Meet the key players
 Meet the chromosome shuffling crew! Pick a player to hear its description, or explore crossing over, independent assortment, and random fertilization. Each recording starts when you tap its speaker.
 
 END OF RECORDINGS
+
+BIOLOGY SOURCES | Unspoken
+
+Homologous chromosomes: corresponding genes, order, and positions
+https://www.genomicseducation.hee.nhs.uk/glossary/homologous-chromosomes/
+
+Two chromosome sets, one inherited from each parent; haploid gametes
+https://www.genome.gov/genetics-glossary/Diploid
+
+Alleles are DNA variants and can match or differ
+https://www.genome.gov/genetics-glossary/Allele
+
+ABO blood-group gene on chromosome 9 and inheritance of A and B alleles
+https://www.ncbi.nlm.nih.gov/books/NBK2267/

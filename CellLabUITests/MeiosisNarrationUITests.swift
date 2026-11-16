@@ -174,6 +174,32 @@ final class MeiosisNarrationUITests: XCTestCase {
     }
 
     @MainActor
+    func testHomologousPairExplainerAndTranscriptShareTheBloodTypeExample() {
+        let app = openLesson()
+        let speaker = app.buttons["narration-player.term-4"]
+        reveal(speaker, in: app)
+        XCTAssertTrue(app.staticTexts["What is a homologous pair?"].exists)
+        speaker.tap()
+        waitFor(speaker, "label CONTAINS %@", "Stop")
+        capture(app, "Matching chromosome 9s with the ABO gene at the same position")
+        let details = app.buttons["Genes, alleles, and traits"]
+        reveal(details, in: app)
+        details.tap()
+        let explanation = app.staticTexts.matching(NSPredicate(format: "label CONTAINS %@",
+                                                               "both copies of chromosome 9 carry the ABO")).firstMatch
+        XCTAssertTrue(explanation.waitForExistence(timeout: 4))
+        capture(app, "Homologous chromosomes share a gene address but can carry different alleles")
+        reveal(speaker, in: app, up: false)
+        speaker.press(forDuration: 1)
+        app.buttons["Read transcript"].tap()
+        let transcript = app.staticTexts.matching(NSPredicate(format: "label CONTAINS %@",
+                                                              "Your two alleles can also be the same")).firstMatch
+        XCTAssertTrue(transcript.waitForExistence(timeout: 4))
+        app.buttons["Done"].tap()
+        waitFor(speaker, "label BEGINSWITH %@", "Hear")
+    }
+
+    @MainActor
     func testSmallPhoneLargeTextKeepsGuideAndPiecesReachable() {
         let app = openLesson()
         let guide = app.buttons["meiosisListenButton"]

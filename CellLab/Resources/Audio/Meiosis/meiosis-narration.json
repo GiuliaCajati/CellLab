@@ -4,14 +4,14 @@
     {
       "id": "lesson.overview",
       "title": "Opening · Listen",
-      "text": "Why can siblings with the same parents look so different? A chromosome shuffle!\n\nIn cells that make eggs or sperm, DNA is copied once, then the cell divides twice. The first division separates homologous chromosomes. The second separates sister chromatids. That leaves haploid products with one chromosome set. In humans, that’s twenty-three chromosomes instead of forty-six. Mixing DNA and halving the sets? That’s meiosis! Swipe through the eight steps with me!",
+      "text": "Why can siblings with the same parents look so different? A chromosome shuffle!\n\nMost of your body’s cells have two chromosome sets: one from mom and one from dad. Matching chromosomes form homologous pairs. They carry the same genes in the same places, but may have different versions, called alleles.\n\nIn cells that make eggs or sperm, DNA is copied once, then the cell divides twice. The first division separates homologous chromosomes. The second separates sister chromatids. That leaves haploid products with one chromosome set. In humans, that’s twenty-three chromosomes instead of forty-six. Mixing DNA and halving the sets? That’s meiosis! Swipe through the eight steps with me!",
       "resource": "meiosis.lesson.overview.wav",
       "event": "lesson.overview"
     },
     {
       "id": "lesson.prophase-i",
       "title": "Prophase I",
-      "text": "First up is prophase one: time to pair up and trade a little DNA.\n\nChromatin condenses into visible chromosomes, each with two sister chromatids joined at a centromere. Synapsis: Homologous chromosomes pair, forming tetrads (four chromatids). Crossing over: Non-sister chromatids exchange matching DNA segments at chiasmata (crossover points). Genetic variation: New allele combinations are created. Nuclear envelope breaks down, centrosomes move apart, and the spindle forms.",
+      "text": "First up is prophase one: time to pair up and trade a little DNA.\n\nChromatin condenses into visible chromosomes, each with two sister chromatids joined at a centromere. Homologous chromosomes are matching partners, one from each parent. They carry the same genes in the same positions, but their alleles can differ. Synapsis: Homologous chromosomes pair, forming tetrads (four chromatids). Crossing over: Non-sister chromatids exchange matching DNA segments at chiasmata (crossover points). Genetic variation: New allele combinations are created. Nuclear envelope breaks down, centrosomes move apart, and the spindle forms.",
       "resource": "meiosis.lesson.prophase-i.wav",
       "event": "lesson.prophase-i"
     },
@@ -109,14 +109,14 @@
     {
       "id": "player.term-4",
       "title": "Homologous chromosomes",
-      "text": "Homologous chromosomes. The two members of a chromosome pair, with corresponding genes at corresponding locations. They can carry the same or different alleles. One came from each parent. Human X and Y chromosomes are a special case: they share only limited homologous regions.",
+      "text": "Homologous chromosomes. Most of your body’s cells have 46 chromosomes in 23 pairs. One set of 23 came from your mom’s egg, and the other set came from your dad’s sperm. A set is the whole collection; a pair contains two matching chromosomes of one type.\n\nMatching partners are called homologous chromosomes, or homologs. They carry the same genes in the same order and at the same positions. Each gene’s position is called its locus. Think of two editions of a recipe book: the same recipe is on the same page, but some instructions can differ.\n\nFor example, both copies of chromosome 9 carry the ABO blood-group gene at the same position. You might inherit the A allele from mom and the B allele from dad. These are different versions of the same gene. Together, these alleles usually give AB blood type.\n\nA gene is a DNA instruction. An allele is a version of that instruction. A trait is a feature, such as your blood type, that genes help shape. Your two alleles can also be the same. Different alleles do not always change a trait.\n\nMeiosis I separates homologous partners, so each new cell receives one chromosome from each pair. Eggs and sperm have one chromosome set rather than pairs. Human X and Y are a special case: they share only some matching regions.",
       "resource": "meiosis.player.term-4.wav",
       "event": "player.term-4"
     },
     {
       "id": "player.term-5",
       "title": "Allele",
-      "text": "Allele. A version of a gene. Homologs have corresponding gene locations, but the versions at those locations may differ.",
+      "text": "Allele. An allele is a version of a gene’s DNA instructions. At the ABO gene on chromosome 9, A, B, and O are examples of alleles. You inherit one allele from each parent. For example, the A allele from mom and the B allele from dad usually give AB blood type. A and B are the alleles; blood type is the trait. Your two alleles can also match.",
       "resource": "meiosis.player.term-5.wav",
       "event": "player.term-5"
     },

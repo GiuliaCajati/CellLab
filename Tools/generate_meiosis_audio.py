@@ -35,6 +35,10 @@ base.opening.PRONUNCIATION_OVERRIDES.update({
     'chiasma': 'kaɪˈæzmə',
     'chiasmata': 'kaɪˈæzmətə',
     'oogenesis': 'ˌoʊədʒˈɛnəsɪs',
+    # Gene and allele labels are letter names, rather than the article "a".
+    'A allele': 'ˈeɪ ɐlˈiːl',
+    'A and B': 'ˈeɪ ænd bˈiː',
+    'A, B, and O': 'ˈeɪ, bˈiː, ænd ˈoʊ',
 })
 
 
@@ -132,6 +136,7 @@ def number_words(number):
 
 def synthesis_text(text):
     """Say displayed notation naturally, without changing the visible transcript."""
+    text = re.sub(r'\bABO\b', 'A-B-O', text)
     text = re.sub(r'\b(meiosis|prophase|metaphase|anaphase|telophase) (II|I)\b',
                   lambda m: m[1] + (' two' if m[2] == 'II' else ' one'), text, flags=re.I)
     text = re.sub(r'\bI and II\b', 'one and two', text)

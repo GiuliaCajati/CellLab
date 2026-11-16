@@ -36,6 +36,7 @@ struct MeiosisView: View {
                         .padding(.bottom, 10)
                     MeiPhaseCarousel(selection: $currentPhase)
                 }
+                MeiHomologsCard()
                 MeiCountJourney { detail = .counts }
 
                 Button { narration.stop(); detail = .terms } label: {

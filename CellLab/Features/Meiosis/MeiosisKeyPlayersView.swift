@@ -349,6 +349,8 @@ private struct MeiTermIllustration: View {
 
     @ViewBuilder var body: some View {
         switch name {
+        case "Homologous chromosomes", "Allele":
+            MeiHomologPairArt()
         case "Sister chromatids":
             Image("ChromosomesSisterChromatids").resizable().scaledToFit()
         case "Centromere & kinetochore":
@@ -675,8 +677,8 @@ struct MeiTerm: Identifiable {
         .init(name: "Diploid · 2n", definition: "Two chromosome sets, one inherited from each biological parent. In humans, 2n = 46 chromosomes, arranged as 23 pairs."),
         .init(name: "Haploid · n", definition: "One chromosome set. Human gametes have n = 23 chromosomes. A cell can be haploid while its chromosomes still have two chromatids, as after meiosis I."),
         .init(name: "Somatic vs. germ cells", definition: "Somatic cells are body cells; mitosis supports growth and repair. Germ-line cells give rise to gametes. In animals, specialized diploid precursors in ovaries or testes enter meiosis; not every germ-line cell is always undergoing meiosis."),
-        .init(name: "Homologous chromosomes", definition: "The two members of a chromosome pair, with corresponding genes at corresponding locations. They can carry the same or different alleles. One came from each parent. Human X and Y chromosomes are a special case: they share only limited homologous regions."),
-        .init(name: "Allele", definition: "A version of a gene. Homologs have corresponding gene locations, but the versions at those locations may differ."),
+        .init(name: "Homologous chromosomes", definition: "Most of your body’s cells have 46 chromosomes in 23 pairs. One set of 23 came from your mom’s egg, and the other set came from your dad’s sperm. A set is the whole collection; a pair contains two matching chromosomes of one type.\n\nMatching partners are called homologous chromosomes, or homologs. They carry the same genes in the same order and at the same positions. Each gene’s position is called its locus. Think of two editions of a recipe book: the same recipe is on the same page, but some instructions can differ.\n\nFor example, both copies of chromosome 9 carry the ABO blood-group gene at the same position. You might inherit the A allele from mom and the B allele from dad. These are different versions of the same gene. Together, these alleles usually give AB blood type.\n\nA gene is a DNA instruction. An allele is a version of that instruction. A trait is a feature, such as your blood type, that genes help shape. Your two alleles can also be the same. Different alleles do not always change a trait.\n\nMeiosis I separates homologous partners, so each new cell receives one chromosome from each pair. Eggs and sperm have one chromosome set rather than pairs. Human X and Y are a special case: they share only some matching regions."),
+        .init(name: "Allele", definition: "An allele is a version of a gene’s DNA instructions. At the ABO gene on chromosome 9, A, B, and O are examples of alleles. You inherit one allele from each parent. For example, the A allele from mom and the B allele from dad usually give AB blood type. A and B are the alleles; blood type is the trait. Your two alleles can also match."),
         .init(name: "Sister chromatids", definition: "The two copies of a replicated chromosome, initially identical and joined at a centromere. Crossing over can make sister chromatids genetically different."),
         .init(name: "Centromere & kinetochore", definition: "The centromere is the chromosome region where sisters are joined. A kinetochore is a protein complex assembled there that binds spindle microtubules."),
         .init(name: "Spindle fibers & centrosomes", definition: "Spindle fibers are microtubules that move chromosomes through kinetochore attachments. Centrosomes organize the animal-cell spindle and move toward opposite poles."),
@@ -718,6 +720,7 @@ enum MeiPhase: Int, CaseIterable, Identifiable {
         case .prophaseI:
             return """
             • Chromatin condenses into visible chromosomes, each with two sister chromatids joined at a centromere.
+            • Homologous chromosomes are matching partners, one from each parent. They carry the same genes in the same positions, but their alleles can differ.
             • Synapsis: Homologous chromosomes pair, forming tetrads (four chromatids).
             • Crossing over: Non-sister chromatids exchange matching DNA segments at chiasmata (crossover points).
             • Genetic variation: New allele combinations are created.

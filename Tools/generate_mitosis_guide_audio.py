@@ -30,6 +30,8 @@ opening.PRONUNCIATION_OVERRIDES.update({
     'prophase': 'pɹˈoʊfeɪz',
     # Keep the full "forty" syllables; eSpeak otherwise joins the hyphenated words.
     'forty-six': 'fˌɔːɹti sˈɪks',
+    # The plural ends in "eye", rather than eSpeak's "ee".
+    'nuclei': 'nˈuːkliˌaɪ',
     'prometaphase': 'pɹoʊmˈɛtəˌfeɪz',
     'chromatid': 'kɹˈoʊmətɪd',
     'chromatids': 'kɹˈoʊmətɪdz',
@@ -42,7 +44,7 @@ SETTINGS = {'voice': opening.VOICE, 'speed': 0.94, 'version': 1,
 # fingerprint. New fingerprints depend only on words actually spoken in a cue.
 LEGACY_SETTINGS = {**SETTINGS, 'pronunciations': {
     word: pronunciation for word, pronunciation in opening.PRONUNCIATION_OVERRIDES.items()
-    if word not in {'prophase', 'forty-six'}
+    if word not in {'prophase', 'forty-six', 'copies', 'nuclei'}
 }}
 
 
@@ -177,7 +179,7 @@ def main():
     for entry in entries:
         fingerprint = cue_fingerprint(entry, hook_hash, pronunciation_settings(entry['text']))
         allowed_fingerprints = {fingerprint}
-        if not re.search(r'\b(?:prophase|forty-six)\b', entry['text'], re.IGNORECASE):
+        if not re.search(r'\b(?:prophase|forty-six|copies|nuclei)\b', entry['text'], re.IGNORECASE):
             allowed_fingerprints.add(cue_fingerprint(entry, hook_hash, LEGACY_SETTINGS))
         output = OUTPUT / entry['resource']
         old = cache.get(entry['id'], {})

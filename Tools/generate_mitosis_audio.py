@@ -35,8 +35,9 @@ PLAYFUL_PAYOFF = "That’s mitosis!"
 PAYOFF_SPEED = 1.04
 PAYOFF_PHONEMES = "ðˈæts maɪtˈoʊsɪs!"
 # Kokoro phonemes, separate from the unchanged narration. The final /i/ keeps
-# "copied" sounding like "copy-d", rather than eSpeak's short /ɪ/ ("cop-id").
-PRONUNCIATION_OVERRIDES = {"copied": "kˈɑpid"}
+# "copied" sounding like "copy-d" and "copies" like "copy-z", rather than
+# eSpeak's short /ɪ/ in these endings.
+PRONUNCIATION_OVERRIDES = {"copied": "kˈɑpid", "copies": "kˈɑpiz"}
 
 
 def read_opening(narration_path: Path) -> str:

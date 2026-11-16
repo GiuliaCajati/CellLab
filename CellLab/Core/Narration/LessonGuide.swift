@@ -12,6 +12,7 @@ struct LessonGuide: View {
     var showsTranscriptOption = true
     var layoutTitle = "Replay instruction"
     var instruction: Text? = nil
+    var instructionID = "mitosis-instruction"
     @State private var transcript: NarrationRecording?
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -24,7 +25,7 @@ struct LessonGuide: View {
                         instruction
                             .multilineTextAlignment(.leading)
                             .fixedSize(horizontal: false, vertical: true)
-                            .accessibilityIdentifier("mitosis-instruction")
+                            .accessibilityIdentifier(instructionID)
                         HStack(spacing: 4) {
                             Button(action: action) { playbackLabel }
                                 .buttonStyle(.plain)

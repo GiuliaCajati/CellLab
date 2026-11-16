@@ -9,6 +9,7 @@ import SwiftUI
 import UIKit
 
 struct MeiosisKeyPlayersView: View {
+    @EnvironmentObject private var narration: LessonNarrator
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var selectedPlayer: String? = MeiCrewPage.all.first?.id
 
@@ -61,6 +62,7 @@ struct MeiosisKeyPlayersView: View {
             .frame(maxWidth: .infinity)
         }
         .padding(.vertical, 8)
+        .onChange(of: selectedPlayer) { _, _ in narration.stop() }
     }
 
     private func move(by offset: Int) {
@@ -96,6 +98,15 @@ private enum MeiCrewPage: Identifiable {
         }
     }
 
+    var narrationID: String {
+        switch self {
+        case .crossing: "player.crossing"
+        case .assortment: "player.assortment"
+        case .fertilization: "player.fertilization"
+        case .term(let index): "player.term-\(index)"
+        }
+    }
+
     var color: Color {
         switch self {
         case .crossing: MeiPalette.rose
@@ -117,11 +128,15 @@ private struct MeiPlayerCard: View {
                 .frame(maxWidth: .infinity)
                 .background(page.color.opacity(0.08), in: RoundedRectangle(cornerRadius: 20))
 
-            Text(page.title)
-                .font(.system(.title3, design: .rounded, weight: .bold))
-                .foregroundStyle(.primary)
-                .fixedSize(horizontal: false, vertical: true)
-                .accessibilityAddTraits(.isHeader)
+            HStack {
+                Text(page.title)
+                    .font(.system(.title3, design: .rounded, weight: .bold))
+                    .foregroundStyle(.primary)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .accessibilityAddTraits(.isHeader)
+                Spacer(minLength: 4)
+                NarrationSpeakerButton(cueID: page.narrationID, title: page.title)
+            }
 
             switch page {
             case .crossing:
@@ -451,29 +466,36 @@ enum MeiDrawing {
         }
     }
 
-    static func cell(_ context: inout GraphicsContext, _ rect: CGRect, nucleus: Bool = false) {
+    static func cell(_ context: inout GraphicsContext, _ rect: CGRect, nucleus: Bool = false,
+                     nucleusScale: CGFloat = 1) {
         context.draw(context.resolve(Image("CellLabCellShell")), in: rect)
         if nucleus {
+            let boundary = rect.insetBy(dx: rect.width * 0.17, dy: rect.height * 0.13)
             context.draw(context.resolve(Image("CellLabPhaseNucleus")),
-                         in: rect.insetBy(dx: rect.width * 0.17, dy: rect.height * 0.13))
+                         in: boundary.insetBy(dx: boundary.width * (1 - nucleusScale) / 2,
+                                              dy: boundary.height * (1 - nucleusScale) / 2))
         }
     }
 
-    static func fiber(_ context: inout GraphicsContext, from start: CGPoint, to end: CGPoint) {
+    static func fiber(_ context: inout GraphicsContext, from start: CGPoint, to end: CGPoint,
+                      activity: Double = 1) {
         let dx = end.x - start.x
         let dy = end.y - start.y
         var fiber = context
-        fiber.opacity = 0.7
+        fiber.opacity = 0.7 * activity
         fiber.translateBy(x: start.x, y: start.y)
         fiber.rotate(by: .radians(atan2(dy, dx)))
         fiber.draw(context.resolve(Image("CellLabSpindleFiber")),
                    in: CGRect(x: 0, y: -1.5, width: hypot(dx, dy), height: 3))
     }
 
-    static func poles(_ context: inout GraphicsContext, left: CGPoint, right: CGPoint) {
+    static func poles(_ context: inout GraphicsContext, left: CGPoint, right: CGPoint,
+                      scale: CGFloat = 1) {
         for point in [left, right] {
+            let radius = 15 * scale
             context.draw(context.resolve(Image("CellLabCentrosome")),
-                         in: CGRect(x: point.x - 15, y: point.y - 15, width: 30, height: 30))
+                         in: CGRect(x: point.x - radius, y: point.y - radius,
+                                    width: radius * 2, height: radius * 2))
             for index in 0..<2 {
                 var barrel = context
                 barrel.translateBy(x: point.x + (index == 0 ? -2 : 3),
@@ -485,23 +507,37 @@ enum MeiDrawing {
         }
     }
 
-    static func phase(_ phase: MeiPhase, in context: inout GraphicsContext) {
+    /// Decorative motion preserves each phase's chromosome count and attachments.
+    /// Homologs move together in meiosis I; individual sisters move in meiosis II.
+    static func phase(_ phase: MeiPhase, in context: inout GraphicsContext,
+                      time: Double = 0, animated: Bool = false) {
+        let movement = animated ? 1.0 : 0.0
+        func wave(_ offset: Double = 0) -> Double { sin(time * 1.8 + offset) * movement }
+        let activity = 1 + 0.18 * wave()
+        let poleScale = CGFloat(1 + 0.08 * wave())
+        let nucleusScale = CGFloat(1 + 0.025 * wave())
+
         if !phase.second && phase != .telophaseI {
-            cell(&context, CGRect(x: 15, y: 8, width: 310, height: 174), nucleus: phase == .prophaseI)
+            cell(&context, CGRect(x: 15, y: 8, width: 310, height: 174),
+                 nucleus: phase == .prophaseI, nucleusScale: nucleusScale)
             let left = CGPoint(x: 35, y: 95)
             let right = CGPoint(x: 305, y: 95)
-            poles(&context, left: left, right: right)
+            poles(&context, left: left, right: right, scale: poleScale)
 
             for pair in 0..<2 {
-                let y: CGFloat = pair == 0 ? 60 : 130
+                let drift = CGFloat(3 * wave(Double(pair) * 1.4))
+                let sway = CGFloat(1.5 * wave(Double(pair) * 1.4 + 0.5))
+                let y: CGFloat = (pair == 0 ? 60 : 130) + drift
                 let length: CGFloat = pair == 0 ? 48 : 34
                 for homolog in 0..<2 {
-                    let x: CGFloat = phase == .anaphaseI
+                    let baseX: CGFloat = phase == .anaphaseI
                         ? (homolog == 0 ? 85 : 255) : (homolog == 0 ? 152 : 188)
+                    let pull = phase == .anaphaseI ? CGFloat(4 * wave()) * (homolog == 0 ? -1 : 1) : 0
+                    let x = baseX + sway + pull
                     let parent = pair == 0 ? homolog : 1 - homolog
                     let point = CGPoint(x: x, y: y)
                     if phase != .prophaseI {
-                        fiber(&context, from: homolog == 0 ? left : right, to: point)
+                        fiber(&context, from: homolog == 0 ? left : right, to: point, activity: activity)
                     }
                     chromosome(&context, at: point, length: length, parent: parent,
                                swapped: pair == 0, swappedSister: homolog == 0 ? 1 : 0)
@@ -509,8 +545,10 @@ enum MeiDrawing {
             }
             if phase == .prophaseI {
                 var bridge = Path()
-                bridge.move(to: CGPoint(x: 159, y: 76))
-                bridge.addLine(to: CGPoint(x: 181, y: 76))
+                let drift = CGFloat(3 * wave())
+                let sway = CGFloat(1.5 * wave(0.5))
+                bridge.move(to: CGPoint(x: 159 + sway, y: 76 + drift))
+                bridge.addLine(to: CGPoint(x: 181 + sway, y: 76 + drift))
                 context.stroke(bridge, with: .color(MeiPalette.gold),
                                style: StrokeStyle(lineWidth: 2, dash: [3, 3]))
             }
@@ -519,30 +557,34 @@ enum MeiDrawing {
             for product in 0..<4 {
                 let x: CGFloat = product % 2 == 0 ? 85 : 255
                 let y: CGFloat = product < 2 ? 48 : 142
-                cell(&context, CGRect(x: x - 70, y: y - 43, width: 140, height: 86), nucleus: true)
+                cell(&context, CGRect(x: x - 70, y: y - 43, width: 140, height: 86),
+                     nucleus: true, nucleusScale: CGFloat(1 + 0.025 * wave(Double(product))))
                 let parent = product % 2
                 chromatin(&context, at: CGPoint(x: x, y: y - 10), parent: parent,
-                          swapped: product == 1 || product == 2)
-                chromatin(&context, at: CGPoint(x: x, y: y + 12), parent: 1 - parent, swapped: false)
+                          swapped: product == 1 || product == 2, bend: CGFloat(4 * wave(Double(product))))
+                chromatin(&context, at: CGPoint(x: x, y: y + 12), parent: 1 - parent,
+                          swapped: false, bend: CGFloat(4 * wave(Double(product) + 1)))
             }
 
         } else {
             for daughter in 0..<2 {
                 let center: CGFloat = daughter == 0 ? 85 : 255
                 cell(&context, CGRect(x: center - 77, y: 12, width: 154, height: 166),
-                     nucleus: phase == .telophaseI)
+                     nucleus: phase == .telophaseI,
+                     nucleusScale: CGFloat(1 + 0.025 * wave(Double(daughter))))
                 let left = CGPoint(x: center - 64, y: 95)
                 let right = CGPoint(x: center + 64, y: 95)
-                if phase != .telophaseI { poles(&context, left: left, right: right) }
+                if phase != .telophaseI { poles(&context, left: left, right: right, scale: poleScale) }
 
                 for pair in 0..<2 {
-                    let y: CGFloat = pair == 0 ? 62 : 128
+                    let y: CGFloat = (pair == 0 ? 62 : 128) + CGFloat(3 * wave(Double(pair + daughter) * 1.4))
                     let length: CGFloat = pair == 0 ? 40 : 28
                     let parent = pair == 0 ? daughter : 1 - daughter
                     if phase == .anaphaseII {
                         for sister in 0..<2 {
-                            let point = CGPoint(x: center + (sister == 0 ? -37 : 37), y: y)
-                            fiber(&context, from: sister == 0 ? left : right, to: point)
+                            let distance = 37 + CGFloat(2.5 * wave())
+                            let point = CGPoint(x: center + (sister == 0 ? -distance : distance), y: y)
+                            fiber(&context, from: sister == 0 ? left : right, to: point, activity: activity)
                             chromosome(&context, at: point, length: length, parent: parent,
                                        replicated: false,
                                        swapped: pair == 0 && sister == (daughter == 0 ? 1 : 0))
@@ -550,8 +592,8 @@ enum MeiDrawing {
                     } else {
                         let point = CGPoint(x: center, y: y)
                         if phase == .metaphaseII {
-                            fiber(&context, from: left, to: CGPoint(x: center - 3, y: y))
-                            fiber(&context, from: right, to: CGPoint(x: center + 3, y: y))
+                            fiber(&context, from: left, to: CGPoint(x: center - 3, y: y), activity: activity)
+                            fiber(&context, from: right, to: CGPoint(x: center + 3, y: y), activity: activity)
                         }
                         chromosome(&context, at: point, length: length, parent: parent,
                                    swapped: pair == 0, swappedSister: daughter == 0 ? 1 : 0)
@@ -562,12 +604,12 @@ enum MeiDrawing {
     }
 
     private static func chromatin(_ context: inout GraphicsContext, at point: CGPoint,
-                                  parent: Int, swapped: Bool) {
+                                  parent: Int, swapped: Bool, bend: CGFloat = 0) {
         var thread = Path()
         thread.move(to: CGPoint(x: point.x - 27, y: point.y))
         thread.addCurve(to: CGPoint(x: point.x + 27, y: point.y),
-                        control1: CGPoint(x: point.x - 8, y: point.y - 17),
-                        control2: CGPoint(x: point.x + 8, y: point.y + 17))
+                        control1: CGPoint(x: point.x - 8, y: point.y - 17 + bend),
+                        control2: CGPoint(x: point.x + 8, y: point.y + 17 - bend))
         let base = parent == 0 ? MeiPalette.rose : MeiPalette.blue
         let other = parent == 0 ? MeiPalette.blue : MeiPalette.rose
         context.stroke(thread, with: .color(MeiPalette.ink.opacity(0.65)),
@@ -654,6 +696,9 @@ enum MeiPhase: Int, CaseIterable, Identifiable {
     case prophaseII, metaphaseII, anaphaseII, telophaseII
     var id: Int { rawValue }
     var second: Bool { rawValue >= 4 }
+    var narrationID: String {
+        "lesson." + title.lowercased().replacingOccurrences(of: " ", with: "-")
+    }
     var title: String {
         ["Prophase I", "Metaphase I", "Anaphase I", "Telophase I", "Prophase II", "Metaphase II", "Anaphase II", "Telophase II"][rawValue]
     }
@@ -667,6 +712,7 @@ enum MeiPhase: Int, CaseIterable, Identifiable {
         [MeiPalette.butter, MeiPalette.mint, MeiPalette.blush, MeiPalette.lilac,
          MeiPalette.lilac, MeiPalette.mint, MeiPalette.blush, MeiPalette.butter][rawValue]
     }
+    // Shared with offline narration: rerun Tools/generate_meiosis_audio.py after edits.
     var explanation: String {
         switch self {
         case .prophaseI:

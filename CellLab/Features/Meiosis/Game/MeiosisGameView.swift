@@ -4,6 +4,8 @@ import Foundation
 /// Matches MitosisGameView: fixed portrait/landscape playfield, checklist, controls,
 /// hints, phase-completion sheet and restart. Only explanations/lab sheets scroll.
 struct MeiosisGameView: View {
+    @EnvironmentObject private var narration: LessonNarrator
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var session = MeiosisSession()
     @State private var popup: MeiosisPopup?
     @State private var lab: MeiosisLabSheet?
@@ -22,20 +24,32 @@ struct MeiosisGameView: View {
         GeometryReader { geometry in
             let landscape = geometry.size.width > geometry.size.height * 1.2
             let compact = geometry.size.height < 620
-            VStack(spacing: compact ? 8 : 14) {
-                heading(compact: compact)
-                if landscape {
-                    HStack(spacing: 18) {
-                        playfield.frame(maxWidth: .infinity, maxHeight: .infinity)
-                        dashboard(compact: true).frame(width: min(340, geometry.size.width * 0.42))
+            if dynamicTypeSize.isAccessibilitySize {
+                ScrollView {
+                    VStack(spacing: 16) {
+                        heading(compact: true)
+                        playfield.frame(height: min(max(geometry.size.width * 0.8, 260), 360))
+                        dashboard(compact: true)
                     }
-                } else {
-                    playfield.frame(maxWidth: .infinity, maxHeight: .infinity)
-                    dashboard(compact: compact)
+                    .padding(16)
+                    .frame(maxWidth: 1100).frame(maxWidth: .infinity)
                 }
+            } else {
+                VStack(spacing: compact ? 8 : 14) {
+                    heading(compact: compact)
+                    if landscape {
+                        HStack(spacing: 18) {
+                            playfield.frame(maxWidth: .infinity, maxHeight: .infinity)
+                            dashboard(compact: true).frame(width: min(340, geometry.size.width * 0.42))
+                        }
+                    } else {
+                        playfield.frame(maxWidth: .infinity, maxHeight: .infinity)
+                        dashboard(compact: compact)
+                    }
+                }
+                .padding(landscape ? 12 : 16)
+                .frame(maxWidth: 1100).frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            .padding(landscape ? 12 : 16)
-            .frame(maxWidth: 1100).frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .background(background.ignoresSafeArea())
         .navigationTitle("Meiosis").navigationBarTitleDisplayMode(.inline)
@@ -58,11 +72,11 @@ struct MeiosisGameView: View {
                 .accessibilityLabel("Game options").disabled(motionInProgress)
             }
         }
-        .sheet(item: $popup) { item in
+        .sheet(item: $popup, onDismiss: { narration.gameEventChanged(activeNarrationEvent) }) { item in
             lessonPopup(item).presentationDetents([.fraction(0.72), .large])
                 .presentationDragIndicator(.visible).presentationCornerRadius(30)
         }
-        .sheet(item: $lab) { item in
+        .sheet(item: $lab, onDismiss: { narration.stop() }) { item in
             NavigationStack {
                 Group {
                     switch item {
@@ -78,7 +92,9 @@ struct MeiosisGameView: View {
             Button("Restart", role: .destructive) { restart() }
             Button("Keep playing", role: .cancel) { }
         }
-        .onDisappear { motionTask?.cancel(); motionInProgress = false }
+        .onChange(of: activeNarrationEvent) { _, event in narration.gameEventChanged(event) }
+        .onChange(of: lab) { _, _ in narration.stop() }
+        .onDisappear { narration.stop(); motionTask?.cancel(); motionInProgress = false }
     }
 
     private func phaseColor(_ stage: MeiosisSession.Stage) -> Color {
@@ -135,10 +151,9 @@ struct MeiosisGameView: View {
     }
     private func dashboard(compact: Bool) -> some View {
         VStack(spacing: compact ? 8 : 12) {
-            MeiosisBiologyEmphasis.text(session.instruction)
-                .font(.system(compact ? .subheadline : .headline, design: .rounded, weight: .bold))
-                .multilineTextAlignment(.center).lineLimit(3).minimumScaleFactor(0.85)
-                .accessibilityIdentifier("meiosis-instruction")
+            gameGuide(cueID: session.canAdvance ? session.completionNarrationID : session.instructionNarrationID,
+                      instruction: MeiosisBiologyEmphasis.text(session.instruction)
+                        .font(.system(compact ? .subheadline : .headline, design: .rounded, weight: .bold)))
             HStack(spacing: 6) {
                 ForEach(phaseTasks) { task in
                     HStack(spacing: 4) {
@@ -189,7 +204,7 @@ struct MeiosisGameView: View {
                 .font(.system(.subheadline, design: .rounded, weight: .semibold)).buttonStyle(.bordered).tint(accent)
             }
         }
-        .fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("meiosis-controls")
+        .fixedSize(horizontal: false, vertical: true)
     }
 
     @ViewBuilder private var controls: some View {
@@ -286,6 +301,8 @@ struct MeiosisGameView: View {
         VStack(spacing: 0) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 18) {
+                    gameGuide(cueID: session.stage == .complete ? session.instructionNarrationID : session.completionNarrationID,
+                              controlID: "meiosisPopupListenButton")
                     HStack(spacing: 12) {
                         Image(systemName: item.advancesStage ? "checkmark.seal.fill" : "lightbulb.fill")
                             .font(.system(size: 32)).foregroundStyle(accent)
@@ -301,6 +318,7 @@ struct MeiosisGameView: View {
                 .padding(24).frame(maxWidth: 600).frame(maxWidth: .infinity)
             }
             Button {
+                narration.gameEventChanged(nil)
                 popup = nil
                 if item.advancesStage { perform(.advance) }
             } label: {
@@ -336,8 +354,28 @@ struct MeiosisGameView: View {
         }
     }
     private func restart() {
+        narration.resetGameGuidance()
         motionTask?.cancel(); motionInProgress = false; popup = nil
         session.send(.restart)
+        narration.gameEventChanged(session.instructionNarrationID)
+    }
+
+    private var activeNarrationEvent: String? {
+        guard lab == nil else { return nil }
+        if let popup { return popup.advancesStage ? session.completionNarrationID : nil }
+        return session.canAdvance ? nil : session.instructionNarrationID
+    }
+
+    private func gameGuide(cueID: String, controlID: String = "meiosisGameListenButton", instruction: Text? = nil) -> some View {
+        LessonGuide(narrator: narration,
+                    title: narration.isPlaying ? "Stop" : narration.completedCues.contains(cueID) ? "Replay instruction" : "Hear instruction",
+                    cueID: cueID,
+                    action: {
+                        if narration.isPlaying { narration.stop() }
+                        else { narration.startGameGuidance(cueID) }
+                    },
+                    showsStopBetweenClips: narration.mode == .game,
+                    controlID: controlID, instruction: instruction, instructionID: "meiosis-instruction")
     }
 }
 
@@ -350,40 +388,6 @@ private struct MeiosisTaskCheck: Identifiable {
     let done: Bool
     var id: String { label }
     init(_ label: String, _ done: Bool) { self.label = label; self.done = done }
-}
-private struct MeiosisPopup: Identifiable {
-    let id = UUID()
-    let title: String
-    let explanation: String
-    let takeaway: String
-    let buttonTitle: String
-    let advancesStage: Bool
-    let showsTakeaway: Bool
-    static func completed(_ s: MeiosisSession) -> Self {
-        let next = MeiosisSession.Stage(rawValue: s.stage.rawValue + 1)
-        // Short milestone lesson; complete content remains in the options explanation.
-        let summary: [String]
-        switch s.stage {
-        case .interphase: summary = [s.facts[1], s.facts[2], s.facts[3]]
-        case .prophaseI: summary = [s.facts[1], s.facts[2]]
-        case .metaphaseI: summary = [s.facts[0], s.facts[1], s.facts[3]]
-        case .anaphaseI: summary = s.facts
-        case .telophaseI: summary = [s.facts[1], s.facts[2]]
-        case .interkinesis: summary = [s.facts[1]]
-        case .prophaseII: summary = s.facts
-        case .metaphaseII: summary = [s.facts[0], s.facts[1]]
-        case .anaphaseII: summary = s.facts
-        case .telophaseII: summary = [s.facts[0], s.facts[1], s.facts[2]]
-        case .complete: summary = s.facts
-        }
-        return Self(title: "\(s.stage.title) complete!", explanation: summary.map { "✅ \($0)" }.joined(separator: "\n\n"),
-                    takeaway: s.stage.takeaway, buttonTitle: "Next: \(next?.title ?? "Continue")", advancesStage: true,
-                    showsTakeaway: s.stage == .interphase || s.stage == .interkinesis)
-    }
-    static func explanation(_ s: MeiosisSession) -> Self {
-        Self(title: s.stage.title, explanation: s.facts.map { "•  \($0)" }.joined(separator: "\n\n"),
-             takeaway: s.stage.takeaway, buttonTitle: "Back to the cell", advancesStage: false, showsTakeaway: false)
-    }
 }
 
 enum MeiosisBiologyEmphasis {
@@ -407,5 +411,5 @@ enum MeiosisBiologyEmphasis {
     }
 }
 
-#Preview("Meiosis • Full screen") { NavigationStack { MeiosisGameView() } }
-#Preview("Meiosis • Dark") { NavigationStack { MeiosisGameView() }.preferredColorScheme(.dark) }
+#Preview("Meiosis • Full screen") { NavigationStack { MeiosisGameView().environmentObject(LessonNarrator.meiosis()) } }
+#Preview("Meiosis • Dark") { NavigationStack { MeiosisGameView().environmentObject(LessonNarrator.meiosis()) }.preferredColorScheme(.dark) }

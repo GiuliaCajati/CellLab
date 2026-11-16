@@ -1,0 +1,67 @@
+CellLab · Meiosis axolotl narration
+
+Use the existing axolotl and free local Kokoro af_heart voice. No network, API
+key, or paid service is needed. Run from the CellLab project directory:
+
+Tools/.kokoro-venv/bin/python Tools/generate_meiosis_audio.py
+
+The phase descriptions and key-player definitions come directly from
+MeiosisKeyPlayersView.swift. Edit those descriptions there, then rerun the
+generator to update the recording and transcript. READ_PHASE_DESCRIPTION is a
+silent directive; only the introduction and the live description are spoken.
+The game instructions and completion explanations are exported from the actual
+MeiosisSession and MeiosisPopup using Tools/export_meiosis_narration.swift.
+Recordings are prefixed with meiosis so the two lessons can coexist offline.
+
+RECORD lesson.overview | Opening · Listen
+Why can siblings with the same parents look so different? A chromosome shuffle!
+
+In cells that make eggs or sperm, DNA is copied once, then the cell divides twice. The first division separates homologous chromosomes. The second separates sister chromatids. That leaves haploid products with one chromosome set. In humans, that’s twenty-three chromosomes instead of forty-six. Mixing DNA and halving the sets? That’s meiosis! Swipe through the eight steps with me!
+
+RECORD lesson.prophase-i | Prophase I
+First up is prophase one: time to pair up and trade a little DNA.
+
+READ_PHASE_DESCRIPTION prophaseI
+
+RECORD lesson.metaphase-i | Metaphase I
+In metaphase one, the pairs get ready for their big lineup.
+
+READ_PHASE_DESCRIPTION metaphaseI
+
+RECORD lesson.anaphase-i | Anaphase I
+Anaphase one sends the homologs on separate journeys.
+
+READ_PHASE_DESCRIPTION anaphaseI
+
+RECORD lesson.telophase-i | Telophase I
+Telophase one wraps up the first division.
+
+READ_PHASE_DESCRIPTION telophaseI
+
+RECORD lesson.prophase-ii | Prophase II
+Welcome to prophase two: another division, without another round of copying.
+
+READ_PHASE_DESCRIPTION prophaseII
+
+RECORD lesson.metaphase-ii | Metaphase II
+In metaphase two, it’s single file in both cells.
+
+READ_PHASE_DESCRIPTION metaphaseII
+
+RECORD lesson.anaphase-ii | Anaphase II
+Anaphase two is the sisters’ big send-off.
+
+READ_PHASE_DESCRIPTION anaphaseII
+
+RECORD lesson.telophase-ii | Telophase II
+Finally, telophase two brings the chromosome shuffle home.
+
+READ_PHASE_DESCRIPTION telophaseII
+
+RECORD reference.counts | Copy once · Divide twice
+Let’s follow the chromosomes in a human example. Before meiosis, one diploid cell has forty-six chromosomes in twenty-three pairs. After DNA is copied, it still has forty-six chromosomes, but now there are ninety-two chromatids. Meiosis one separates homologs. Each of the two cells has twenty-three chromosomes, each still made of two sister chromatids. There’s no extra round of DNA copying. Meiosis two separates the sisters. Each of the four haploid products has twenty-three single-chromatid chromosomes. In egg formation, the cytoplasm divides unequally, giving one large egg and small polar bodies. The four products do not become four functional eggs.
+
+RECORD reference.players | Meet the key players
+Meet the chromosome shuffling crew! Pick a player to hear its description, or explore crossing over, independent assortment, and random fertilization. Each recording starts when you tap its speaker.
+
+END OF RECORDINGS

@@ -105,6 +105,7 @@ final class LessonNarrator: ObservableObject {
     let overviewCueID: String
     private let phaseDelay: TimeInterval
     private let overviewDelay: TimeInterval
+    private let phaseNames: [String: String]
     private var playbackToken: UUID?
     private var workID = UUID()
     private var delayedStart: Task<Void, Never>?
@@ -117,6 +118,7 @@ final class LessonNarrator: ObservableObject {
 
     init(library: NarrationLibrary, playback: (any NarrationPlayback)? = nil,
          overviewCueID: String = "lesson.overview", initialPhaseID: String = "lesson.prophase",
+         phaseNames: [String: String] = [:],
          phaseDelay: TimeInterval = 0.25, overviewDelay: TimeInterval = 0.35,
          resolveURL: @escaping (NarrationRecording) -> URL? = { recording in
              let path = recording.resource as NSString
@@ -125,6 +127,7 @@ final class LessonNarrator: ObservableObject {
         self.library = library
         self.overviewCueID = overviewCueID
         self.visiblePhase = initialPhaseID
+        self.phaseNames = phaseNames
         self.playback = playback ?? LocalNarrationPlayback()
         self.phaseDelay = phaseDelay
         self.overviewDelay = overviewDelay
@@ -153,7 +156,18 @@ final class LessonNarrator: ObservableObject {
         return LessonNarrator(library: library)
     }
 
-    var phaseName: String { visiblePhase.split(separator: ".").last.map { String($0).capitalized } ?? library.lessonTitle }
+    static func meiosis() -> LessonNarrator {
+        let library = (try? NarrationLibrary.load(resource: "meiosis-narration"))
+            ?? NarrationLibrary(lessonTitle: "Meiosis", recordings: [])
+        return LessonNarrator(library: library, initialPhaseID: MeiPhase.prophaseI.narrationID,
+                              phaseNames: Dictionary(uniqueKeysWithValues: MeiPhase.allCases.map { ($0.narrationID, $0.title) }))
+    }
+
+    var phaseName: String {
+        phaseNames[visiblePhase]
+            ?? visiblePhase.split(separator: ".").last.map { String($0).capitalized }
+            ?? library.lessonTitle
+    }
     var lessonButtonTitle: String {
         if isPlaying { return "Stop" }
         if !hasBegunLesson { return "Hear overview" }

@@ -14,17 +14,31 @@ import SwiftUI
 struct MeiosisView: View {
     init(catalog: BiologyCatalog? = nil) {}
 
+    @StateObject private var narration = LessonNarrator.meiosis()
+    @Environment(\.scenePhase) private var scenePhase
     @State private var detail: MeiDetail?
     @State private var currentPhase: MeiPhase? = .prophaseI
+    @State private var showingGame = false
 
     var body: some View {
         ScrollView {
             VStack(spacing: 18) {
-                header
-                MeiPhaseCarousel(selection: $currentPhase)
+                VStack(spacing: 0) {
+                    header
+                    LessonGuide(narrator: narration, title: narration.lessonButtonTitle,
+                                cueID: narration.isPlaying ? (narration.currentCueID ?? narration.overviewCueID)
+                                    : (narration.hasBegunLesson ? (currentPhase ?? .prophaseI).narrationID : narration.overviewCueID),
+                                action: narration.toggleLesson,
+                                showsStopBetweenClips: narration.mode == .lesson,
+                                replayOverview: narration.playOverview, controlID: "meiosisListenButton",
+                                layoutTitle: "Replay Metaphase II")
+                        .padding(.top, 8)
+                        .padding(.bottom, 10)
+                    MeiPhaseCarousel(selection: $currentPhase)
+                }
                 MeiCountJourney { detail = .counts }
 
-                Button { detail = .terms } label: {
+                Button { narration.stop(); detail = .terms } label: {
                     HStack {
                         Label("Meet the key players", systemImage: "text.book.closed.fill")
                         Spacer()
@@ -41,7 +55,9 @@ struct MeiosisView: View {
                 }
                 .buttonStyle(.plain)
             }
-            .padding(18)
+            .padding(.horizontal, 18)
+            .padding(.top, 6)
+            .padding(.bottom, 18)
             .frame(maxWidth: 680)
             .frame(maxWidth: .infinity)
         }
@@ -50,30 +66,67 @@ struct MeiosisView: View {
         .tint(MeiPalette.teal)
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
-        .sheet(item: $detail) { MeiDetailSheet(detail: $0) }
+        .environmentObject(narration)
+        .sheet(item: $detail, onDismiss: narration.stop) {
+            MeiDetailSheet(detail: $0).environmentObject(narration)
+        }
+        .navigationDestination(isPresented: $showingGame) {
+            MeiosisGameView().environmentObject(narration)
+        }
+        .onAppear {
+            narration.stop()
+            narration.selectPhase((currentPhase ?? .prophaseI).narrationID)
+        }
+        .onDisappear { narration.stop() }
+        .onChange(of: currentPhase) { _, phase in
+            if let phase { narration.selectPhase(phase.narrationID) }
+        }
+        .onChange(of: detail?.id) { _, _ in narration.stop() }
+        .onChange(of: scenePhase) { _, phase in if phase != .active { narration.stop() } }
+        .alert("Unable to play audio", isPresented: Binding(
+            get: { narration.errorMessage != nil },
+            set: { if !$0 { narration.errorMessage = nil } }
+        )) { Button("OK", role: .cancel) { narration.errorMessage = nil } }
+        message: { Text(narration.errorMessage ?? "Please try again.") }
     }
 
     private var header: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 3) {
-                Text("Meiosis")
-                    .font(.system(.largeTitle, design: .serif, weight: .bold))
-                    .accessibilityAddTraits(.isHeader)
-                Text("Half the chromosomes. A new mix.")
-                    .font(.system(.caption, design: .rounded, weight: .medium))
-                    .foregroundStyle(.secondary)
+        ViewThatFits(in: .horizontal) {
+            HStack(alignment: .top) {
+                headerTitle.fixedSize(horizontal: true, vertical: true)
+                Spacer(minLength: 12)
+                gameButton
             }
-            Spacer(minLength: 12)
-            NavigationLink { MeiosisGameView() } label: {
-
-                Label("Play", systemImage: "play.fill")
-
-                    .font(.system(.headline, design: .rounded))
-
-                    .frame(minHeight: 36)
-
+            VStack(alignment: .leading, spacing: 8) {
+                headerTitle
+                HStack { Spacer(); gameButton }
             }
         }
+    }
+
+    private var headerTitle: some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text("Meiosis")
+                .font(.system(.largeTitle, design: .serif, weight: .bold))
+                .accessibilityAddTraits(.isHeader)
+            Text("Half the chromosomes. A new mix.")
+                .font(.system(.caption, design: .rounded, weight: .medium))
+                .foregroundStyle(.secondary)
+        }
+        .fixedSize(horizontal: false, vertical: true)
+    }
+
+    private var gameButton: some View {
+        Button { narration.stop(); showingGame = true } label: {
+            Label("Play game", systemImage: "play.fill")
+                .font(.system(.headline, design: .rounded))
+                .frame(minHeight: 36)
+        }
+        .buttonStyle(.borderedProminent)
+        .buttonBorderShape(.capsule)
+        .tint(MeiPalette.teal)
+        .fixedSize(horizontal: true, vertical: false)
+        .accessibilityIdentifier("meiosisPlayButton")
     }
 }
 
@@ -85,18 +138,10 @@ private struct MeiPhaseCarousel: View {
 
     var body: some View {
         VStack(spacing: 8) {
-            HStack(alignment: .firstTextBaseline) {
-                Text(current.second ? "MEIOSIS II" : "MEIOSIS I")
-                    .foregroundStyle(current.second ? MeiPalette.teal : MeiPalette.rose)
-                Spacer()
-                Text(current.second ? "Separate sisters" : "Separate homologs")
-            }
-            .font(.system(.caption, design: .rounded, weight: .bold))
-
             ScrollView(.horizontal) {
                 HStack(alignment: .top, spacing: 12) {
                     ForEach(MeiPhase.allCases) { phase in
-                        MeiPhaseCard(phase: phase)
+                        MeiPhaseCard(phase: phase, isActive: phase == current)
                             .containerRelativeFrame(.horizontal)
                             .id(phase)
                     }
@@ -107,6 +152,7 @@ private struct MeiPhaseCarousel: View {
             .scrollTargetBehavior(.viewAligned)
             .scrollPosition(id: $selection)
             .fixedSize(horizontal: false, vertical: true)
+            .accessibilityIdentifier("meiosis-phase-carousel")
 
             HStack(spacing: 0) {
                 ForEach(MeiPhase.allCases) { phase in
@@ -123,6 +169,7 @@ private struct MeiPhaseCarousel: View {
                     }
                     .buttonStyle(.plain)
                     .accessibilityLabel(phase.title)
+                    .accessibilityIdentifier("meiosis-phase-\(phase.narrationID.dropFirst(7))")
                     .accessibilityAddTraits(current == phase ? [.isSelected] : [])
 
                     if phase == .telophaseI {
@@ -141,10 +188,18 @@ private struct MeiPhaseCarousel: View {
 
 private struct MeiPhaseCard: View {
     let phase: MeiPhase
+    let isActive: Bool
     @State private var expanded = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
+            HStack(alignment: .firstTextBaseline) {
+                Text(phase.second ? "MEIOSIS II" : "MEIOSIS I")
+                    .foregroundStyle(phase.second ? MeiPalette.teal : MeiPalette.rose)
+                Spacer(minLength: 4)
+                Text(phase.second ? "Separate sisters" : "Separate homologs")
+            }
+            .font(.system(.caption, design: .rounded, weight: .bold))
             HStack(alignment: .firstTextBaseline) {
                 Text(phase.title)
                     .font(.system(.title, design: .serif, weight: .bold))
@@ -157,7 +212,7 @@ private struct MeiPhaseCard: View {
                     .fixedSize()
             }
 
-            MeiPhaseArt(phase: phase)
+            MeiPhaseArt(phase: phase, isActive: isActive)
                 .modifier(MeiSpecimenMotion(amount: 0.45))
                 .aspectRatio(340.0 / 190.0, contentMode: .fit)
                 .accessibilityHidden(true)
@@ -191,12 +246,23 @@ private struct MeiPhaseCard: View {
 
 struct MeiPhaseArt: View {
     let phase: MeiPhase
+    var isActive = true
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.scenePhase) private var scenePhase
+    @State private var isVisible = false
+
+    private var animates: Bool { isActive && isVisible && !reduceMotion && scenePhase == .active }
 
     var body: some View {
-        Canvas { context, size in
-            MeiDrawing.fit(&context, size: size, width: 340, height: 190)
-            MeiDrawing.phase(phase, in: &context)
+        TimelineView(.animation(minimumInterval: 1.0 / 30.0, paused: !animates)) { timeline in
+            let time = animates ? timeline.date.timeIntervalSinceReferenceDate : 0
+            Canvas { context, size in
+                MeiDrawing.fit(&context, size: size, width: 340, height: 190)
+                MeiDrawing.phase(phase, in: &context, time: time, animated: animates)
+            }
         }
+        .onAppear { isVisible = true }
+        .onDisappear { isVisible = false }
     }
 }
 
@@ -208,7 +274,11 @@ private struct MeiCountJourney: View {
     var body: some View {
         VStack(spacing: 12) {
             HStack {
+                Text("Chromosomes, before and after")
+                    .font(.system(.headline, design: .rounded))
+                    .accessibilityAddTraits(.isHeader)
                 Spacer()
+                NarrationSpeakerButton(cueID: "reference.counts", title: "meiosis chromosome counts")
                 Button(action: showDetails) {
                     Image(systemName: "info.circle")
                         .font(.title3)
@@ -384,16 +454,29 @@ private enum MeiDetail: Identifiable {
 }
 
 private struct MeiDetailSheet: View {
+    @EnvironmentObject private var narration: LessonNarrator
     let detail: MeiDetail
     @Environment(\.dismiss) private var dismiss
     @State private var phaseOverride: MeiPhase?
 
     private var active: MeiDetail { phaseOverride.map { .phase($0) } ?? detail }
+    private var narrationID: String {
+        switch active {
+        case .phase(let phase): phase.narrationID
+        case .counts: "reference.counts"
+        case .terms: "reference.players"
+        }
+    }
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
+                    LessonGuide(narrator: narration,
+                                title: narration.isPlaying ? "Stop" : "Hear \(active.title)",
+                                cueID: narrationID,
+                                action: { narration.toggleStandalone(narrationID) },
+                                controlID: "meiosisReferenceListenButton")
                     Text(active.title)
                         .font(.system(.largeTitle, design: .serif, weight: .bold))
                         .accessibilityAddTraits(.isHeader)
@@ -414,6 +497,8 @@ private struct MeiDetailSheet: View {
                 }
             }
         }
+        .onDisappear { narration.stop() }
+        .onChange(of: narrationID) { _, _ in narration.stop() }
     }
 
     @ViewBuilder private var content: some View {

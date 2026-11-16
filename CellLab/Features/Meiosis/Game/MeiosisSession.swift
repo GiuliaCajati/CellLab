@@ -355,7 +355,7 @@ nonisolated struct MeiosisSession {
 }
 
 extension MeiosisSession.Stage {
-    var takeaway: String {
+    nonisolated var takeaway: String {
         switch self {
         case .interphase: "DNA doubles. Chromosome count does not."
         case .prophaseI: "Non-sister chromatids swap corresponding segments."

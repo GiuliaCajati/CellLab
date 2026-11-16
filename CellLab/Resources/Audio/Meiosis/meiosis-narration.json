@@ -1,0 +1,453 @@
+{
+  "lessonTitle": "Meiosis",
+  "recordings": [
+    {
+      "id": "lesson.overview",
+      "title": "Opening · Listen",
+      "text": "Why can siblings with the same parents look so different? A chromosome shuffle!\n\nIn cells that make eggs or sperm, DNA is copied once, then the cell divides twice. The first division separates homologous chromosomes. The second separates sister chromatids. That leaves haploid products with one chromosome set. In humans, that’s twenty-three chromosomes instead of forty-six. Mixing DNA and halving the sets? That’s meiosis! Swipe through the eight steps with me!",
+      "resource": "meiosis.lesson.overview.wav",
+      "event": "lesson.overview"
+    },
+    {
+      "id": "lesson.prophase-i",
+      "title": "Prophase I",
+      "text": "First up is prophase one: time to pair up and trade a little DNA.\n\nChromatin condenses into visible chromosomes, each with two sister chromatids joined at a centromere. Synapsis: Homologous chromosomes pair, forming tetrads (four chromatids). Crossing over: Non-sister chromatids exchange matching DNA segments at chiasmata (crossover points). Genetic variation: New allele combinations are created. Nuclear envelope breaks down, centrosomes move apart, and the spindle forms.",
+      "resource": "meiosis.lesson.prophase-i.wav",
+      "event": "lesson.prophase-i"
+    },
+    {
+      "id": "lesson.metaphase-i",
+      "title": "Metaphase I",
+      "text": "In metaphase one, the pairs get ready for their big lineup.\n\nHomologous chromosome pairs (tetrads) align at the cell equator. Spindle fibers attach to kinetochores on homologous chromosomes. Each pair orients independently, called independent assortment, creating genetic variation.",
+      "resource": "meiosis.lesson.metaphase-i.wav",
+      "event": "lesson.metaphase-i"
+    },
+    {
+      "id": "lesson.anaphase-i",
+      "title": "Anaphase I",
+      "text": "Anaphase one sends the homologs on separate journeys.\n\nSpindle fibers pull homologous chromosomes to opposite poles. Sister chromatids remain joined at their centromeres. Homologs separate, reducing the chromosome sets by half.",
+      "resource": "meiosis.lesson.anaphase-i.wav",
+      "event": "lesson.anaphase-i"
+    },
+    {
+      "id": "lesson.telophase-i",
+      "title": "Telophase I",
+      "text": "Telophase one wraps up the first division.\n\nHomologous chromosomes reach opposite poles; nuclear envelopes may re-form. Cytokinesis divides the cell into two haploid cells. Each cell has 23 replicated chromosomes (46 chromatids). Haploid means one set of chromosomes.",
+      "resource": "meiosis.lesson.telophase-i.wav",
+      "event": "lesson.telophase-i"
+    },
+    {
+      "id": "lesson.prophase-ii",
+      "title": "Prophase II",
+      "text": "Welcome to prophase two: another division, without another round of copying.\n\nSpindles form in both haploid cells. Chromosomes re-condense if needed, and nuclear envelopes break down. No DNA replication occurs between meiosis I and meiosis II.",
+      "resource": "meiosis.lesson.prophase-ii.wav",
+      "event": "lesson.prophase-ii"
+    },
+    {
+      "id": "lesson.metaphase-ii",
+      "title": "Metaphase II",
+      "text": "In metaphase two, it’s single file in both cells.\n\nChromosomes align single-file at the cell equator. Spindle fibers attach to sister kinetochores from opposite poles. Each cell has 23 chromosomes, each containing two sister chromatids.",
+      "resource": "meiosis.lesson.metaphase-ii.wav",
+      "event": "lesson.metaphase-ii"
+    },
+    {
+      "id": "lesson.anaphase-ii",
+      "title": "Anaphase II",
+      "text": "Anaphase two is the sisters’ big send-off.\n\nCentromeres divide, and sister chromatids separate toward opposite poles. Each separated chromatid is now an individual chromosome. Crossing over may make sister chromatids genetically different.",
+      "resource": "meiosis.lesson.anaphase-ii.wav",
+      "event": "lesson.anaphase-ii"
+    },
+    {
+      "id": "lesson.telophase-ii",
+      "title": "Telophase II",
+      "text": "Finally, telophase two brings the chromosome shuffle home.\n\nNuclear envelopes re-form, and chromosomes uncoil. Cytokinesis produces four haploid cells, each with 23 single-chromatid chromosomes. In egg formation (oogenesis), unequal cytokinesis produces one large egg and small polar bodies.",
+      "resource": "meiosis.lesson.telophase-ii.wav",
+      "event": "lesson.telophase-ii"
+    },
+    {
+      "id": "reference.counts",
+      "title": "Copy once · Divide twice",
+      "text": "Let’s follow the chromosomes in a human example. Before meiosis, one diploid cell has forty-six chromosomes in twenty-three pairs. After DNA is copied, it still has forty-six chromosomes, but now there are ninety-two chromatids. Meiosis one separates homologs. Each of the two cells has twenty-three chromosomes, each still made of two sister chromatids. There’s no extra round of DNA copying. Meiosis two separates the sisters. Each of the four haploid products has twenty-three single-chromatid chromosomes. In egg formation, the cytoplasm divides unequally, giving one large egg and small polar bodies. The four products do not become four functional eggs.",
+      "resource": "meiosis.reference.counts.wav",
+      "event": "reference.counts"
+    },
+    {
+      "id": "reference.players",
+      "title": "Meet the key players",
+      "text": "Meet the chromosome shuffling crew! Pick a player to hear its description, or explore crossing over, independent assortment, and random fertilization. Each recording starts when you tap its speaker.",
+      "resource": "meiosis.reference.players.wav",
+      "event": "reference.players"
+    },
+    {
+      "id": "player.term-0",
+      "title": "Meiosis I vs. meiosis II",
+      "text": "Meiosis I vs. meiosis II. Meiosis I is reduction division: homologous chromosomes separate, reducing two chromosome sets to one. Meiosis II is equational division: sister chromatids separate while each final product retains one chromosome set.",
+      "resource": "meiosis.player.term-0.wav",
+      "event": "player.term-0"
+    },
+    {
+      "id": "player.term-1",
+      "title": "Diploid · 2n",
+      "text": "Diploid · 2n. Two chromosome sets, one inherited from each biological parent. In humans, 2n = 46 chromosomes, arranged as 23 pairs.",
+      "resource": "meiosis.player.term-1.wav",
+      "event": "player.term-1"
+    },
+    {
+      "id": "player.term-2",
+      "title": "Haploid · n",
+      "text": "Haploid · n. One chromosome set. Human gametes have n = 23 chromosomes. A cell can be haploid while its chromosomes still have two chromatids, as after meiosis I.",
+      "resource": "meiosis.player.term-2.wav",
+      "event": "player.term-2"
+    },
+    {
+      "id": "player.term-3",
+      "title": "Somatic vs. germ cells",
+      "text": "Somatic vs. germ cells. Somatic cells are body cells; mitosis supports growth and repair. Germ-line cells give rise to gametes. In animals, specialized diploid precursors in ovaries or testes enter meiosis; not every germ-line cell is always undergoing meiosis.",
+      "resource": "meiosis.player.term-3.wav",
+      "event": "player.term-3"
+    },
+    {
+      "id": "player.term-4",
+      "title": "Homologous chromosomes",
+      "text": "Homologous chromosomes. The two members of a chromosome pair, with corresponding genes at corresponding locations. They can carry the same or different alleles. One came from each parent. Human X and Y chromosomes are a special case: they share only limited homologous regions.",
+      "resource": "meiosis.player.term-4.wav",
+      "event": "player.term-4"
+    },
+    {
+      "id": "player.term-5",
+      "title": "Allele",
+      "text": "Allele. A version of a gene. Homologs have corresponding gene locations, but the versions at those locations may differ.",
+      "resource": "meiosis.player.term-5.wav",
+      "event": "player.term-5"
+    },
+    {
+      "id": "player.term-6",
+      "title": "Sister chromatids",
+      "text": "Sister chromatids. The two copies of a replicated chromosome, initially identical and joined at a centromere. Crossing over can make sister chromatids genetically different.",
+      "resource": "meiosis.player.term-6.wav",
+      "event": "player.term-6"
+    },
+    {
+      "id": "player.term-7",
+      "title": "Centromere & kinetochore",
+      "text": "Centromere & kinetochore. The centromere is the chromosome region where sisters are joined. A kinetochore is a protein complex assembled there that binds spindle microtubules.",
+      "resource": "meiosis.player.term-7.wav",
+      "event": "player.term-7"
+    },
+    {
+      "id": "player.term-8",
+      "title": "Spindle fibers & centrosomes",
+      "text": "Spindle fibers & centrosomes. Spindle fibers are microtubules that move chromosomes through kinetochore attachments. Centrosomes organize the animal-cell spindle and move toward opposite poles.",
+      "resource": "meiosis.player.term-8.wav",
+      "event": "player.term-8"
+    },
+    {
+      "id": "player.term-9",
+      "title": "Synapsis & tetrad",
+      "text": "Synapsis & tetrad. Synapsis is the close alignment of homologs during prophase I. Two replicated homologs together contain four chromatids, called a tetrad.",
+      "resource": "meiosis.player.term-9.wav",
+      "event": "player.term-9"
+    },
+    {
+      "id": "player.term-10",
+      "title": "Chiasma · plural chiasmata",
+      "text": "Chiasma · plural chiasmata. A visible connection between homologs at a crossover site involving non-sister chromatids.",
+      "resource": "meiosis.player.term-10.wav",
+      "event": "player.term-10"
+    },
+    {
+      "id": "player.term-11",
+      "title": "Recombinant vs. parental",
+      "text": "Recombinant vs. parental. Recombinant chromatids contain new mixtures of parental alleles following crossing over. Parental chromatids retain their original allele arrangement.",
+      "resource": "meiosis.player.term-11.wav",
+      "event": "player.term-11"
+    },
+    {
+      "id": "player.term-12",
+      "title": "Independent assortment",
+      "text": "Independent assortment. Each homologous pair orients independently at metaphase I, creating different combinations of maternal and paternal chromosomes in meiotic products.",
+      "resource": "meiosis.player.term-12.wav",
+      "event": "player.term-12"
+    },
+    {
+      "id": "player.term-13",
+      "title": "Interkinesis",
+      "text": "Interkinesis. An interval between meiosis I and II in many species. No DNA replication occurs.",
+      "resource": "meiosis.player.term-13.wav",
+      "event": "player.term-13"
+    },
+    {
+      "id": "player.term-14",
+      "title": "Cytokinesis",
+      "text": "Cytokinesis. Division of the cytoplasm. In animal cells, a contractile ring produces a cleavage furrow. Nuclear division and cytoplasm division are distinct processes.",
+      "resource": "meiosis.player.term-14.wav",
+      "event": "player.term-14"
+    },
+    {
+      "id": "player.term-15",
+      "title": "Karyotype",
+      "text": "Karyotype. An ordered display of chromosomes grouped by size and other features. A typical human diploid karyotype shows 22 autosome pairs and one sex-chromosome pair, commonly XX or XY—not always XY.",
+      "resource": "meiosis.player.term-15.wav",
+      "event": "player.term-15"
+    },
+    {
+      "id": "player.term-16",
+      "title": "Gamete & fertilization",
+      "text": "Gamete & fertilization. A gamete is a haploid reproductive cell, such as an egg or sperm. Fertilization combines two gametes to form a diploid zygote. It occurs after meiosis.",
+      "resource": "meiosis.player.term-16.wav",
+      "event": "player.term-16"
+    },
+    {
+      "id": "player.crossing",
+      "title": "Crossing over",
+      "text": "Crossing over. In prophase I, homologs align gene by gene (synapsis). Corresponding DNA segments are exchanged between non-sister chromatids. Chiasmata are the visible crossover connections.\n\nOne crossover involves two of the four chromatids: two recombinant chromatids and two unchanged parental chromatids in this example.\n\nSisters start as identical copies. After crossing over, they can carry different allele combinations. A crossover does not guarantee that all four products are genetically distinct in every possible case.",
+      "resource": "meiosis.player.crossing.wav",
+      "event": "player.crossing"
+    },
+    {
+      "id": "player.assortment",
+      "title": "Independent assortment",
+      "text": "Independent assortment. Each homologous pair faces the poles independently at metaphase I. A maternal homolog of one pair can travel with a paternal homolog of another.\n\n2ⁿ combinations · n = chromosome pairs\nHumans: 2²³ = 8,388,608\n\nThat is the number of possible maternal/paternal chromosome combinations across many meioses, before counting crossing over—not millions of products from one division.",
+      "resource": "meiosis.player.assortment.wav",
+      "event": "player.assortment"
+    },
+    {
+      "id": "player.fertilization",
+      "title": "Random fertilization",
+      "text": "Random fertilization. Fertilization happens after meiosis. Any one egg can combine with any one sperm, restoring the diploid chromosome number.\n\n8,388,608 × 8,388,608\n= 70,368,744,177,664 combinations\n\nOver 70 trillion possible chromosome combinations for a couple—even before adding crossing over.",
+      "resource": "meiosis.player.fertilization.wav",
+      "event": "player.fertilization"
+    },
+    {
+      "id": "game.prophase-i.start",
+      "title": "Prophase I · Instruction",
+      "text": "Tap each DNA bundle to pack it.",
+      "resource": "meiosis.game.prophase-i.start.wav",
+      "event": "game.prophase-i.start"
+    },
+    {
+      "id": "game.prophase-i.envelope",
+      "title": "Prophase I · Instruction",
+      "text": "Open the nuclear envelope.",
+      "resource": "meiosis.game.prophase-i.envelope.wav",
+      "event": "game.prophase-i.envelope"
+    },
+    {
+      "id": "game.prophase-i.pair",
+      "title": "Prophase I · Instruction",
+      "text": "Drag matching homologs together—or tap to pair.",
+      "resource": "meiosis.game.prophase-i.pair.wav",
+      "event": "game.prophase-i.pair"
+    },
+    {
+      "id": "game.prophase-i.cross",
+      "title": "Prophase I · Instruction",
+      "text": "Tap each chiasma to swap matching DNA segments.",
+      "resource": "meiosis.game.prophase-i.cross.wav",
+      "event": "game.prophase-i.cross"
+    },
+    {
+      "id": "game.prophase-i.result",
+      "title": "Prophase I complete!",
+      "text": "Synapsis pairs maternal and paternal homologs gene by gene. Homologs have corresponding genes at corresponding positions and matching overall size, centromere position and banding; their alleles can differ.\n\nCrossing over exchanges corresponding segments between non-sister chromatids at chiasmata. Recombinant chromatids have new allele combinations; chromatids not involved remain parental.",
+      "resource": "meiosis.game.prophase-i.result.wav",
+      "event": "game.prophase-i.result"
+    },
+    {
+      "id": "game.metaphase-i.start",
+      "title": "Metaphase I · Instruction",
+      "text": "Orient pairs. Choose a pole; connect its homologs.",
+      "resource": "meiosis.game.metaphase-i.start.wav",
+      "event": "game.metaphase-i.start"
+    },
+    {
+      "id": "game.metaphase-i.align",
+      "title": "Metaphase I · Instruction",
+      "text": "Drag pairs to the equator—or tap to align.",
+      "resource": "meiosis.game.metaphase-i.align.wav",
+      "event": "game.metaphase-i.align"
+    },
+    {
+      "id": "game.metaphase-i.inspect",
+      "title": "Metaphase I · Instruction",
+      "text": "Inspect the double-file lineup.",
+      "resource": "meiosis.game.metaphase-i.inspect.wav",
+      "event": "game.metaphase-i.inspect"
+    },
+    {
+      "id": "game.metaphase-i.result",
+      "title": "Metaphase I complete!",
+      "text": "Homologous pairs align double-file at the cell equator. Each replicated homolog faces an opposite pole from its partner.\n\nIn meiosis I, the sister kinetochores of one homolog connect toward the same pole. Its homolog connects toward the other pole. Sisters remain joined.\n\nFor humans, 2²³ = 8,388,608 chromosome combinations per gamete from independent assortment alone. Crossing over adds further diversity. Two illustrated pairs give 2² = 4 orientations.",
+      "resource": "meiosis.game.metaphase-i.result.wav",
+      "event": "game.metaphase-i.result"
+    },
+    {
+      "id": "game.anaphase-i.start",
+      "title": "Anaphase I · Instruction",
+      "text": "Keep sisters joined at their centromeres.",
+      "resource": "meiosis.game.anaphase-i.start.wav",
+      "event": "game.anaphase-i.start"
+    },
+    {
+      "id": "game.anaphase-i.separate",
+      "title": "Anaphase I · Instruction",
+      "text": "Pull homologs to opposite poles.",
+      "resource": "meiosis.game.anaphase-i.separate.wav",
+      "event": "game.anaphase-i.separate"
+    },
+    {
+      "id": "game.anaphase-i.result",
+      "title": "Anaphase I complete!",
+      "text": "Spindle microtubules shorten and pull homologous chromosomes to opposite poles.\n\nSister chromatids remain attached at their centromeres. They do not separate in anaphase I.\n\nEach future daughter cell receives one replicated homolog from every pair. This is the reduction division: 2n → n.",
+      "resource": "meiosis.game.anaphase-i.result.wav",
+      "event": "game.anaphase-i.result"
+    },
+    {
+      "id": "game.telophase-i.start",
+      "title": "Telophase I & cytokinesis · Instruction",
+      "text": "Tap both chromosome groups to rebuild nuclei.",
+      "resource": "meiosis.game.telophase-i.start.wav",
+      "event": "game.telophase-i.start"
+    },
+    {
+      "id": "game.telophase-i.divide",
+      "title": "Telophase I & cytokinesis · Instruction",
+      "text": "Pinch the cytoplasm into two cells.",
+      "resource": "meiosis.game.telophase-i.divide.wav",
+      "event": "game.telophase-i.divide"
+    },
+    {
+      "id": "game.telophase-i.result",
+      "title": "Telophase I & cytokinesis complete!",
+      "text": "Cytokinesis divides the cytoplasm into two haploid cells. Each contains one set of replicated chromosomes, not homologous pairs.\n\nIn humans, each daughter cell has n = 23 chromosomes, each still made of two sister chromatids. In this model, each has n = 2.",
+      "resource": "meiosis.game.telophase-i.result.wav",
+      "event": "game.telophase-i.result"
+    },
+    {
+      "id": "game.interkinesis.start",
+      "title": "Interkinesis · Instruction",
+      "text": "Block DNA replication. No second copy!",
+      "resource": "meiosis.game.interkinesis.start.wav",
+      "event": "game.interkinesis.start"
+    },
+    {
+      "id": "game.interkinesis.prepare",
+      "title": "Interkinesis · Instruction",
+      "text": "Make proteins for the next division.",
+      "resource": "meiosis.game.interkinesis.prepare.wav",
+      "event": "game.interkinesis.prepare"
+    },
+    {
+      "id": "game.interkinesis.result",
+      "title": "Interkinesis complete!",
+      "text": "There is no S phase and no DNA replication between the two meiotic divisions. Copying DNA here earns a penalty and is blocked.\n\nNo DNA replication between the two divisions.",
+      "resource": "meiosis.game.interkinesis.result.wav",
+      "event": "game.interkinesis.result"
+    },
+    {
+      "id": "game.prophase-ii.start",
+      "title": "Prophase II · Instruction",
+      "text": "Tap chromosomes in both cells to re-pack them.",
+      "resource": "meiosis.game.prophase-ii.start.wav",
+      "event": "game.prophase-ii.start"
+    },
+    {
+      "id": "game.prophase-ii.envelopes",
+      "title": "Prophase II · Instruction",
+      "text": "Open both nuclear envelopes.",
+      "resource": "meiosis.game.prophase-ii.envelopes.wav",
+      "event": "game.prophase-ii.envelopes"
+    },
+    {
+      "id": "game.prophase-ii.result",
+      "title": "Prophase II complete!",
+      "text": "Chromosomes re-condense in both haploid cells. Spindle apparatuses form and the nuclear envelopes shown in this model break down.\n\nNo additional DNA is copied. Each chromosome still consists of two sister chromatids; crossing over can have made those chromatids genetically different.",
+      "resource": "meiosis.game.prophase-ii.result.wav",
+      "event": "game.prophase-ii.result"
+    },
+    {
+      "id": "game.metaphase-ii.start",
+      "title": "Metaphase II · Instruction",
+      "text": "Choose top or bottom. Connect each sister's kinetochore.",
+      "resource": "meiosis.game.metaphase-ii.start.wav",
+      "event": "game.metaphase-ii.start"
+    },
+    {
+      "id": "game.metaphase-ii.align",
+      "title": "Metaphase II · Instruction",
+      "text": "Move chromosomes onto each cell's equator.",
+      "resource": "meiosis.game.metaphase-ii.align.wav",
+      "event": "game.metaphase-ii.align"
+    },
+    {
+      "id": "game.metaphase-ii.inspect",
+      "title": "Metaphase II · Instruction",
+      "text": "Inspect both single-file lineups.",
+      "resource": "meiosis.game.metaphase-ii.inspect.wav",
+      "event": "game.metaphase-ii.inspect"
+    },
+    {
+      "id": "game.metaphase-ii.result",
+      "title": "Metaphase II complete!",
+      "text": "Chromosomes align single-file along the equator of each haploid cell.\n\nThe kinetochores of sister chromatids connect to spindle fibers from opposite poles. In this scene those poles are at the top and bottom of each cell.",
+      "resource": "meiosis.game.metaphase-ii.result.wav",
+      "event": "game.metaphase-ii.result"
+    },
+    {
+      "id": "game.anaphase-ii.start",
+      "title": "Anaphase II · Instruction",
+      "text": "Release the connections at the centromeres.",
+      "resource": "meiosis.game.anaphase-ii.start.wav",
+      "event": "game.anaphase-ii.start"
+    },
+    {
+      "id": "game.anaphase-ii.separate",
+      "title": "Anaphase II · Instruction",
+      "text": "Now pull sister chromatids apart.",
+      "resource": "meiosis.game.anaphase-ii.separate.wav",
+      "event": "game.anaphase-ii.separate"
+    },
+    {
+      "id": "game.anaphase-ii.result",
+      "title": "Anaphase II complete!",
+      "text": "Cohesion holding sister chromatids together at their centromeres is released. The DNA at the centromere is not cut out.\n\nSpindle microtubules shorten and separate sister chromatids toward opposite poles of each cell.\n\nEach separated chromatid is now an individual, unreplicated chromosome. Both cells divide their chromosome copies.",
+      "resource": "meiosis.game.anaphase-ii.result.wav",
+      "event": "game.anaphase-ii.result"
+    },
+    {
+      "id": "game.telophase-ii.start",
+      "title": "Telophase II & cytokinesis · Instruction",
+      "text": "Tap all four groups to rebuild nuclear envelopes.",
+      "resource": "meiosis.game.telophase-ii.start.wav",
+      "event": "game.telophase-ii.start"
+    },
+    {
+      "id": "game.telophase-ii.unpack",
+      "title": "Telophase II & cytokinesis · Instruction",
+      "text": "Unpack chromosomes into chromatin.",
+      "resource": "meiosis.game.telophase-ii.unpack.wav",
+      "event": "game.telophase-ii.unpack"
+    },
+    {
+      "id": "game.telophase-ii.divide",
+      "title": "Telophase II & cytokinesis · Instruction",
+      "text": "Divide both cells. Four haploid products!",
+      "resource": "meiosis.game.telophase-ii.divide.wav",
+      "event": "game.telophase-ii.divide"
+    },
+    {
+      "id": "game.telophase-ii.result",
+      "title": "Telophase II & cytokinesis complete!",
+      "text": "Four nuclear envelopes form around the isolated chromosome sets. Chromosomes de-condense into extended chromatin.\n\nCytokinesis divides both cells, producing four genetically nonidentical haploid products in this model.\n\nEach illustrated product has n = 2; human gametes have n = 23. The equal divisions here model gamete formation generally; the oogenesis mode shows unequal cytoplasmic packaging.",
+      "resource": "meiosis.game.telophase-ii.result.wav",
+      "event": "game.telophase-ii.result"
+    },
+    {
+      "id": "game.complete.start",
+      "title": "Meiosis complete · Instruction",
+      "text": "Four distinct chromosome combinations. Nicely divided.\n\nOne diploid precursor has undergone two divisions to form four haploid products. DNA was copied once, before meiosis I. Crossing over and independent assortment create genetic diversity. In this model, the four displayed allele combinations are distinct.",
+      "resource": "meiosis.game.complete.start.wav",
+      "event": "game.complete.start"
+    }
+  ]
+}

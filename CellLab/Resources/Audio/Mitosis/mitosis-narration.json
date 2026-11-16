@@ -1,0 +1,229 @@
+{
+  "lessonTitle": "Mitosis",
+  "recordings": [
+    {
+      "id": "lesson.overview",
+      "title": "Opening · Listen",
+      "text": "What do axolotl tails and the skin on your nose have in common? Dividing cells!\n\nThey help regrow a lost tail or replace the skin you shed every day. The part where the cell separates its copied DNA? That’s mitosis!\n\nLet’s zoom in on a human skin cell. We start with one nucleus and forty-six chromosomes. The cell already copied each chromosome during interphase, so each one has two copies joined together. By the end of mitosis, those copies have separated. Now there are two nuclei, each with a full set of forty-six. How does the cell sort them? Swipe through the five steps with me!",
+      "resource": "lesson.overview.wav",
+      "event": "lesson.overview"
+    },
+    {
+      "id": "lesson.prophase",
+      "title": "1 · Prophase | Pack it up",
+      "text": "First up is prophase: time to pack it up.\n\nChromatin condenses into visible chromosomes. Centrosomes move apart. The mitotic spindle begins to form.",
+      "resource": "lesson.prophase.wav",
+      "event": "lesson.prophase"
+    },
+    {
+      "id": "lesson.prometaphase",
+      "title": "2 · Prometaphase | Make connections",
+      "text": "Next is prometaphase: time to make connections.\n\nThe nuclear envelope fragments. Spindle microtubules attach to kinetochores, protein complexes at chromosome centromeres.",
+      "resource": "lesson.prometaphase.wav",
+      "event": "lesson.prometaphase"
+    },
+    {
+      "id": "lesson.metaphase",
+      "title": "3 · Metaphase | Get in line",
+      "text": "In metaphase, it’s time to get in line.\n\nReplicated chromosomes align at the cell’s equator. The checkpoint prevents separation before chromosomes are properly attached to the spindle.",
+      "resource": "lesson.metaphase.wav",
+      "event": "lesson.metaphase"
+    },
+    {
+      "id": "lesson.anaphase",
+      "title": "4 · Anaphase | Sister send-off",
+      "text": "Anaphase is the sisters’ big send-off.\n\nSister chromatids separate and move toward opposite poles. Each separated chromatid is now an individual chromosome.",
+      "resource": "lesson.anaphase.wav",
+      "event": "lesson.anaphase"
+    },
+    {
+      "id": "lesson.telophase",
+      "title": "5 · Telophase | Build two nuclei",
+      "text": "Finally, telophase builds two nuclei.\n\nNuclear envelopes re-form around the two chromosome sets. Chromosomes decondense. The spindle disassembles.",
+      "resource": "lesson.telophase.wav",
+      "event": "lesson.telophase"
+    },
+    {
+      "id": "reference.human-count",
+      "title": "Optional · Human chromosome count illustration",
+      "text": "Most of your body cells have forty-six chromosomes. That’s twenty-three pairs. For each pair, you inherited one chromosome from the egg and one from the sperm. Before mitosis, the cell copies each of the forty-six during a stage called S phase. Now there are ninety-two sister chromatids. Mitosis sorts the copies so each new nucleus gets forty-six chromosomes again.",
+      "resource": "reference.human-count.wav",
+      "event": "reference.human-count"
+    },
+    {
+      "id": "reference.chromosome-eleven",
+      "title": "Optional · What’s actually on chromosome eleven?",
+      "text": "What do breathing and lunch have in common? Try chromosome eleven. It carries lots of genes, stretches of DNA with particular instructions. One tells cells in your pancreas how to make insulin, which helps manage blood sugar after a meal. Another, called H-B-B, gives instructions for part of hemoglobin, the protein your red blood cells use to carry oxygen. Even the skin cell patching your knee passes on both genes when it divides.",
+      "resource": "reference.chromosome-eleven.wav",
+      "event": "reference.chromosome-eleven"
+    },
+    {
+      "id": "reference.count-history",
+      "title": "Optional · Who counted all forty-six?",
+      "text": "How many chromosomes do humans usually have? For about thirty years, the accepted answer was forty-eight. Then researchers got a clearer look at human chromosomes during metaphase. They could spread them out and count them. In nineteen fifty-six, they published the answer we use today. Forty-six. Imagine opening your biology book and having to fix the answer key.",
+      "resource": "reference.count-history.wav",
+      "event": "reference.count-history"
+    },
+    {
+      "id": "reference.players",
+      "title": "Meet the key players",
+      "text": "Tap a name to meet the division crew. Who moves the chromosomes, and what holds the copies together? Pick a player and I’ll show you its part.",
+      "resource": "reference.players.wav",
+      "event": "reference.players"
+    },
+    {
+      "id": "reference.cytokinesis",
+      "title": "Actin and myosin",
+      "text": "How does one animal cell actually become two? Just under the cell membrane, actin and myosin form a ring. As the ring tightens, it pinches the cell in two. That’s cytokinesis!",
+      "resource": "reference.cytokinesis.wav",
+      "event": "reference.cytokinesis"
+    },
+    {
+      "id": "game.prophase.start",
+      "title": "Prophase · Game begins",
+      "text": "Your turn. We’ve given you four chromosomes to keep track of. Tap each loose bundle of DNA to pack it up. Watch for the two copies in every X.",
+      "resource": "game.prophase.start.wav",
+      "event": "game.prophase.start"
+    },
+    {
+      "id": "game.prophase.packed",
+      "title": "Prophase · All four bundles packed",
+      "text": "Tap the two centrosomes. They move toward opposite ends of the cell. Those ends are called poles, and each will get its own set of chromosomes.",
+      "resource": "game.prophase.packed.wav",
+      "event": "game.prophase.packed"
+    },
+    {
+      "id": "game.prophase.result",
+      "title": "Prophase · Completion pop-up",
+      "text": "How much DNA would you be packing in a human cell? Even before it makes a copy, a typical body cell has about six feet of DNA tucked inside its nucleus. Imagine fitting a jump rope into a speck you need a microscope to see.",
+      "resource": "game.prophase.result.wav",
+      "event": "game.prophase.result"
+    },
+    {
+      "id": "game.prometaphase.start",
+      "title": "Prometaphase · Stage begins",
+      "text": "Tap Open envelope. That’s the membrane around the nucleus. Once it breaks down, spindle fibers can reach the chromosomes.",
+      "resource": "game.prometaphase.start.wav",
+      "event": "game.prometaphase.start"
+    },
+    {
+      "id": "game.prometaphase.envelope-open",
+      "title": "Prometaphase · Envelope open",
+      "text": "Choose a pole, then tap all four chromosomes. Switch poles and tap them again. See those gold dots? They’re the kinetochores, the places where spindle fibers attach.",
+      "resource": "game.prometaphase.envelope-open.wav",
+      "event": "game.prometaphase.envelope-open"
+    },
+    {
+      "id": "game.prometaphase.result",
+      "title": "Prometaphase · Completion pop-up",
+      "text": "Pick any X and trace its two connections. One sister is hooked to the left side. Her sister’s hooked to the right. Same starting point, different rides home.",
+      "resource": "game.prometaphase.result.wav",
+      "event": "game.prometaphase.result"
+    },
+    {
+      "id": "game.metaphase.start",
+      "title": "Metaphase · Stage begins",
+      "text": "Bring the four X’s to the dashed line. You can drag them or give each one a tap. We drew you a guide. The cell does this freehand.",
+      "resource": "game.metaphase.start.wav",
+      "event": "game.metaphase.start"
+    },
+    {
+      "id": "game.metaphase.aligned",
+      "title": "Metaphase · All four aligned",
+      "text": "They look lined up. But is every sister connected? Tap Run checkpoint.",
+      "resource": "game.metaphase.aligned.wav",
+      "event": "game.metaphase.aligned"
+    },
+    {
+      "id": "game.metaphase.result",
+      "title": "Metaphase · Completion pop-up",
+      "text": "All connected. In a real cell, even one sister with an empty attachment site can delay the split for everybody. The cell takes attendance very seriously.",
+      "resource": "game.metaphase.result.wav",
+      "event": "game.metaphase.result"
+    },
+    {
+      "id": "game.anaphase.start",
+      "title": "Anaphase · Stage begins",
+      "text": "Pick one X to watch and tap Separate sisters. See if you can follow both copies.",
+      "resource": "game.anaphase.start.wav",
+      "event": "game.anaphase.start"
+    },
+    {
+      "id": "game.anaphase.result",
+      "title": "Anaphase · Completion pop-up",
+      "text": "Count them now. Four on the left, four on the right. How did four chromosomes become eight? A second ago each X counted as one. Now its two copies are apart, so each counts as a chromosome. The amount of DNA stayed the same.",
+      "resource": "game.anaphase.result.wav",
+      "event": "game.anaphase.result"
+    },
+    {
+      "id": "game.telophase.start",
+      "title": "Telophase · Stage begins",
+      "text": "Tap each group to give its chromosomes a new nucleus. Watch those tightly packed shapes loosen into threads.",
+      "resource": "game.telophase.start.wav",
+      "event": "game.telophase.start"
+    },
+    {
+      "id": "game.telophase.result",
+      "title": "Telophase · Completion pop-up",
+      "text": "Four chromosomes in this nucleus, four in that one. Each group has one copy from every X you started with.",
+      "resource": "game.telophase.result.wav",
+      "event": "game.telophase.result"
+    },
+    {
+      "id": "game.complete",
+      "title": "Mitosis complete · Final screen",
+      "text": "You’ve made two nuclei. Notice there’s still one cell around them. To finish dividing, an animal cell pinches through the middle and splits its contents between two new cells. That’s cytokinesis. It can start while mitosis is wrapping up. Remember the skin on your nose? Making new cells like this helps replace the ones you shed.",
+      "resource": "game.complete.wav",
+      "event": "game.complete"
+    },
+    {
+      "id": "game.growth",
+      "title": "Optional · The growth-spurt connection",
+      "text": "Ever outgrow a pair of pants that still fits at the waist? As a kid, you had strips of cartilage called growth plates near the ends of your leg bones. Cells there divided, and some grew larger. New bone gradually replaced that cartilage, helping your legs grow longer. Those mysteriously shorter pants? Your cells had something to do with that.",
+      "resource": "game.growth.wav",
+      "event": "game.growth"
+    },
+    {
+      "id": "player.chromosomes-sister-chromatids",
+      "title": "Chromosomes & Sister Chromatids",
+      "text": "Chromosomes & Sister Chromatids. After DNA replication, one chromosome has two identical sister chromatids joined at the centromere. In anaphase, they separate; each is now an individual chromosome. Two chromatids do not mean two chromosomes while they remain joined.",
+      "resource": "player.chromosomes-sister-chromatids.wav",
+      "event": "player.chromosomes-sister-chromatids"
+    },
+    {
+      "id": "player.centromere-kinetochore",
+      "title": "Centromere & Kinetochore",
+      "text": "Centromere & Kinetochore. The centromere is the chromosome region where sister chromatids are joined. Kinetochores are protein complexes assembled at this region; spindle microtubules attach there to move the chromosomes.",
+      "resource": "player.centromere-kinetochore.wav",
+      "event": "player.centromere-kinetochore"
+    },
+    {
+      "id": "player.centrosomes-centrioles",
+      "title": "Centrosomes & Centrioles",
+      "text": "Centrosomes & Centrioles. Centrosomes organize the spindle in animal cells. Each contains a pair of barrel-shaped centrioles. The two centrosomes move toward opposite poles as the spindle forms.",
+      "resource": "player.centrosomes-centrioles.wav",
+      "event": "player.centrosomes-centrioles"
+    },
+    {
+      "id": "player.spindle-fibers",
+      "title": "Spindle Fibers",
+      "text": "Spindle Fibers. These microtubules form the mitotic spindle. Kinetochore microtubules move chromosomes and shorten during anaphase. Other spindle microtubules help push the cell's poles apart.",
+      "resource": "player.spindle-fibers.wav",
+      "event": "player.spindle-fibers"
+    },
+    {
+      "id": "player.nuclear-envelope-nucleolus",
+      "title": "Nuclear Envelope & Nucleolus",
+      "text": "Nuclear Envelope & Nucleolus. The nuclear envelope surrounds the nucleus. It breaks down during prometaphase so spindle fibers can reach chromosomes, then re-forms around each chromosome set in telophase. The nucleolus disappears during prophase and reappears as the new nuclei form.",
+      "resource": "player.nuclear-envelope-nucleolus.wav",
+      "event": "player.nuclear-envelope-nucleolus"
+    },
+    {
+      "id": "player.chromatin-histones",
+      "title": "Chromatin & Histones",
+      "text": "Chromatin & Histones. Chromatin is DNA together with its associated proteins. DNA wraps around histone proteins to form nucleosomes—beads on a string. Chromatin condenses into compact chromosomes for division and loosens again during telophase.",
+      "resource": "player.chromatin-histones.wav",
+      "event": "player.chromatin-histones"
+    }
+  ]
+}

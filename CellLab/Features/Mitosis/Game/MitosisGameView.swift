@@ -10,9 +10,12 @@ import Foundation
 
 /// Fixed gameplay layout: portrait stacks the cell above its controls;
 
-/// landscape puts the controls beside the cell. Only modal explanations can scroll.
+/// landscape puts the controls beside the cell. Accessibility sizes scroll so tools
+/// and the cell keep usable dimensions.
 
 struct MitosisGameView: View {
+    @EnvironmentObject private var narration: LessonNarrator
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     @State private var session = MitosisSession()
 
@@ -53,6 +56,18 @@ struct MitosisGameView: View {
 
             let compact = geometry.size.height < 620
 
+            if dynamicTypeSize.isAccessibilitySize {
+                ScrollView {
+                    VStack(spacing: 16) {
+                        heading(compact: true)
+                        playfield.frame(height: min(max(geometry.size.width * 0.8, 260), 360))
+                        dashboard(compact: true)
+                    }
+                    .padding(16)
+                    .frame(maxWidth: 1100)
+                    .frame(maxWidth: .infinity)
+                }
+            } else {
             VStack(spacing: compact ? 8 : 14) {
 
                 heading(compact: compact)
@@ -88,6 +103,8 @@ struct MitosisGameView: View {
             .frame(maxWidth: 1100)
 
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            }
 
         }
 
@@ -137,7 +154,7 @@ struct MitosisGameView: View {
 
         }
 
-        .sheet(item: $popup) { item in
+        .sheet(item: $popup, onDismiss: { narration.gameEventChanged(activeNarrationEvent) }) { item in
 
             lessonPopup(item)
 
@@ -157,8 +174,9 @@ struct MitosisGameView: View {
 
         }
 
+        .onChange(of: activeNarrationEvent) { _, event in narration.gameEventChanged(event) }
         .onDisappear {
-
+            narration.stop()
             motionTask?.cancel()
 
             motionInProgress = false
@@ -375,6 +393,7 @@ struct MitosisGameView: View {
 
         .overlay(RoundedRectangle(cornerRadius: 32).stroke(Color(red: 0.19, green: 0.37, blue: 0.35).opacity(0.8), lineWidth: 1.5))
 
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("mitosis-playfield")
 
     }
@@ -382,24 +401,24 @@ struct MitosisGameView: View {
     private func dashboard(compact: Bool) -> some View {
 
         VStack(spacing: compact ? 8 : 12) {
-
-            MitosisBiologyEmphasis.text(session.instruction)
-
-                .font(.system(compact ? .subheadline : .headline, design: .rounded, weight: .bold))
-
-                .multilineTextAlignment(.center)
-
-                .lineLimit(3)
-
-                .minimumScaleFactor(0.85)
-
-                .accessibilityIdentifier("mitosis-instruction")
+            gameGuide(
+                cueID: session.canAdvance ? session.completionNarrationID : session.instructionNarrationID,
+                instruction: MitosisBiologyEmphasis.text(session.instruction)
+                    .font(.system(compact ? .subheadline : .headline, design: .rounded, weight: .bold))
+            )
 
             taskChecklist
 
                 .accessibilityIdentifier("mitosis-task-checklist")
 
             controls
+            if session.stage == .complete {
+                HStack {
+                    Text("The growth-spurt connection").font(.subheadline)
+                    Spacer(minLength: 4)
+                    NarrationSpeakerButton(cueID: "game.growth", title: "the growth-spurt connection")
+                }
+            }
 
             if session.needsCorrection {
                 // Tap the compact bubble for the full explanation. Text can grow in the popup.
@@ -481,6 +500,7 @@ struct MitosisGameView: View {
 
         .fixedSize(horizontal: false, vertical: true)
 
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("mitosis-controls")
 
     }
@@ -587,6 +607,8 @@ struct MitosisGameView: View {
 
                 VStack(alignment: .leading, spacing: 18) {
 
+                    gameGuide(cueID: item.advancesStage ? session.completionNarrationID : session.lessonNarrationID,
+                              controlID: "mitosisPopupListenButton")
                     HStack(spacing: 12) {
 
                         Image(systemName: item.advancesStage ? "checkmark.seal.fill" : "lightbulb.fill")
@@ -630,7 +652,7 @@ struct MitosisGameView: View {
             }
 
             Button {
-
+                narration.gameEventChanged(nil)
                 popup = nil
 
                 if item.advancesStage { perform(.advance) }
@@ -704,7 +726,7 @@ struct MitosisGameView: View {
     }
 
     private func restart() {
-
+        narration.resetGameGuidance()
         motionTask?.cancel()
 
         motionInProgress = false
@@ -712,7 +734,24 @@ struct MitosisGameView: View {
         popup = nil
 
         session.send(.restart)
+        narration.gameEventChanged(session.instructionNarrationID)
+    }
 
+    private var activeNarrationEvent: String? {
+        guard let popup else { return session.instructionNarrationID }
+        return popup.advancesStage ? session.completionNarrationID : nil
+    }
+
+    private func gameGuide(cueID: String, controlID: String = "mitosisGameListenButton", instruction: Text? = nil) -> some View {
+        LessonGuide(narrator: narration,
+                    title: narration.isPlaying ? "Stop" : narration.completedCues.contains(cueID) ? "Replay instruction" : "Hear instruction",
+                    cueID: cueID,
+                    action: {
+                        if narration.isPlaying { narration.stop() }
+                        else { narration.startGameGuidance(cueID) }
+                    },
+                    showsStopBetweenClips: narration.mode == .game,
+                    controlID: controlID, instruction: instruction)
     }
 
 }
@@ -773,13 +812,13 @@ private struct MitosisPopup: Identifiable {
 
 #Preview("Mitosis • Full screen") {
 
-    NavigationStack { MitosisGameView() }
+    NavigationStack { MitosisGameView().environmentObject(LessonNarrator.mitosis()) }
 
 }
 
 #Preview("Mitosis • Dark") {
 
-    NavigationStack { MitosisGameView() }.preferredColorScheme(.dark)
+    NavigationStack { MitosisGameView().environmentObject(LessonNarrator.mitosis()) }.preferredColorScheme(.dark)
 
 }
 

@@ -31,6 +31,9 @@ MODEL_RELEASE = (
 )
 MODEL_FILES = ("kokoro-v1.0.onnx", "voices-v1.0.bin")
 VOICE = "af_heart"
+# Kokoro phonemes, separate from the unchanged narration. The final /i/ keeps
+# "copied" sounding like "copy-d", rather than eSpeak's short /ɪ/ ("cop-id").
+PRONUNCIATION_OVERRIDES = {"copied": "kˈɑpid"}
 
 
 def read_opening(narration_path: Path) -> str:
@@ -60,13 +63,38 @@ def speech_segments(opening: str) -> list:
         raise ValueError("The opening's question/answer structure has changed.")
     if answer != "Dividing cells!" or payoff != "That’s mitosis!":
         raise ValueError("Cannot identify the opening's two playful answers.")
+    explanation_sentence, sentence_break, dna_question = lead_in.partition(". ")
+    if not sentence_break:
+        raise ValueError("Cannot separate the explanation from the DNA question.")
     # Exact spoken text, speed, and following pause in seconds.
     return [
         (question + "?", 0.92, 1.0),
         (answer, 1.0, 0.35),
-        (lead_in + "?", 0.94, 0.4),
+        (explanation_sentence + ".", 0.94, 0.35),
+        (dna_question + "?", 0.86, 0.45),
         (payoff, 1.0, 0.0),
     ]
+
+
+def pronunciation_input(spoken_text: str, tokenizer) -> tuple:
+    """Override selected pronunciations without respelling the source narration."""
+    overrides = [
+        (word, pronunciation)
+        for word, pronunciation in PRONUNCIATION_OVERRIDES.items()
+        if re.search(r"\b" + re.escape(word) + r"\b", spoken_text, flags=re.IGNORECASE)
+    ]
+    if not overrides:
+        return spoken_text, False
+    phonemes = tokenizer.phonemize(spoken_text, lang="en-us")
+    for word, pronunciation in overrides:
+        if any(symbol not in tokenizer.vocab for symbol in pronunciation):
+            raise ValueError("Unsupported pronunciation symbols for '%s'." % word)
+        original = tokenizer.phonemize(word, lang="en-us")
+        pattern = r"(?<!\S)" + re.escape(original) + r"(?=[\s.,!?;:]|$)"
+        phonemes, replacements = re.subn(pattern, lambda _: pronunciation, phonemes)
+        if not replacements:
+            raise ValueError("Could not apply the pronunciation override for '%s'." % word)
+    return phonemes, True
 
 
 def download_models() -> None:
@@ -116,8 +144,9 @@ def render_opening(opening: str, output_path: Path) -> float:
     sample_rate = None
     for spoken_text, speed, pause_seconds in speech_segments(opening):
         print("  %s" % spoken_text, flush=True)
+        speech_input, is_phonemes = pronunciation_input(spoken_text, kokoro.tokenizer)
         samples, clip_rate = kokoro.create(
-            spoken_text, voice=VOICE, speed=speed, lang="en-us"
+            speech_input, voice=VOICE, speed=speed, lang="en-us", is_phonemes=is_phonemes
         )
         if sample_rate is not None and clip_rate != sample_rate:
             raise ValueError("Kokoro returned inconsistent sample rates.")

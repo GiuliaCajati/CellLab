@@ -8,17 +8,38 @@
 import SwiftUI
 
 struct MitosisKeyPlayersView: View {
+    @EnvironmentObject private var narration: LessonNarrator
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var selectedPlayer: String? = MitosisKeyPlayer.all.first?.id
     private let players = MitosisKeyPlayer.all
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
+            ScrollView(.horizontal) {
+                HStack(spacing: 8) {
+                    ForEach(players) { player in
+                        Button {
+                            withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.25)) {
+                                selectedPlayer = player.id
+                            }
+                        } label: {
+                            Text(player.name)
+                                .font(.system(.subheadline, design: .rounded, weight: .semibold))
+                                .padding(.horizontal, 12)
+                                .frame(minHeight: 44)
+                                .background(player.color.opacity(selectedPlayer == player.id ? 0.2 : 0.07), in: Capsule())
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityAddTraits(selectedPlayer == player.id ? .isSelected : [])
+                    }
+                }
+            }
+            .scrollIndicators(.hidden)
 
             ScrollView(.horizontal) {
                 HStack(alignment: .top, spacing: 12) {
                     ForEach(players) { player in
-                        MitosisPlayerCard(player: player)
+                        MitosisPlayerCard(player: player, isSelected: selectedPlayer == player.id)
                             .containerRelativeFrame(.horizontal)
                             .id(player.id)
                     }
@@ -53,11 +74,13 @@ struct MitosisKeyPlayersView: View {
             .frame(maxWidth: .infinity)
         }
         .padding(.vertical, 8)
+        .onChange(of: selectedPlayer) { _, _ in narration.stop() }
     }
 }
 
 private struct MitosisPlayerCard: View {
     let player: MitosisKeyPlayer
+    let isSelected: Bool
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
@@ -67,11 +90,17 @@ private struct MitosisPlayerCard: View {
                 .aspectRatio(1, contentMode: .fit)
                 .background(player.color.opacity(0.08), in: RoundedRectangle(cornerRadius: 20))
 
-            Text(player.name)
-                .font(.system(.title3, design: .rounded, weight: .bold))
-                .foregroundStyle(.primary)
-                .fixedSize(horizontal: false, vertical: true)
-                .accessibilityAddTraits(.isHeader)
+            HStack {
+                Text(player.name)
+                    .font(.system(.title3, design: .rounded, weight: .bold))
+                    .foregroundStyle(.primary)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .accessibilityAddTraits(.isHeader)
+                if isSelected {
+                    Spacer(minLength: 4)
+                    NarrationSpeakerButton(cueID: player.narrationID, title: player.name)
+                }
+            }
 
             VStack(alignment: .leading, spacing: 12) {
                 ForEach(Array(player.bulletPoints.enumerated()), id: \.offset) { _, point in
@@ -108,6 +137,11 @@ private struct MitosisKeyPlayer: Identifiable {
     let symbol: String
     let color: Color
     var id: String { name }
+    var narrationID: String {
+        "player." + name.lowercased()
+            .replacingOccurrences(of: "[^a-z0-9]+", with: "-", options: .regularExpression)
+            .trimmingCharacters(in: CharacterSet(charactersIn: "-"))
+    }
 
     // Preserve the original wording and punctuation; display each sentence as a bullet.
     var bulletPoints: [String] {

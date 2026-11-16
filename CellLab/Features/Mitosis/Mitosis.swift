@@ -12,179 +12,134 @@ struct MitosisView: View {
 
     let catalog: BiologyCatalog
 
-    var body: some View { MitosisOverview() }
+    @StateObject private var narration = LessonNarrator.mitosis()
+    @Environment(\.scenePhase) private var scenePhase
+
+    var body: some View {
+        MitosisOverview()
+            .environmentObject(narration)
+            .onChange(of: scenePhase) { _, phase in
+                if phase != .active { narration.stop() }
+            }
+    }
 
 }
 
 private struct MitosisOverview: View {
-
-    @StateObject private var narration = MitosisNarrationPlayer()
+    @EnvironmentObject private var narration: LessonNarrator
     @State private var showingGame = false
-    @Environment(\.scenePhase) private var scenePhase
-
-    @ScaledMetric(relativeTo: .title2) private var carouselHeight: CGFloat = 290
-    @ScaledMetric(relativeTo: .body) private var expandedHeight: CGFloat = 200
     @State private var expandedPhase: MitosisPreviewPhase?
-
+    @State private var phaseHeights: [MitosisPreviewPhase: CGFloat] = [:]
     @State private var currentPhase = MitosisPreviewPhase.prophase
-
     @State private var selectedPhase: MitosisPreviewPhase?
-
     @State private var referenceSheet: MitosisReferenceSheet?
-
-    @Environment(\.colorScheme) private var colorScheme
-
     private let phases = MitosisPreviewPhase.allCases.filter { $0 != .cytokinesis }
 
     var body: some View {
-
         ScrollView {
-
-            VStack(spacing: 18) {
-
-                header
-
-                phaseCarousel
-
+            VStack(spacing: 14) {
+                VStack(spacing: 0) {
+                    header
+                    LessonGuide(narrator: narration, title: narration.lessonButtonTitle,
+                                cueID: narration.isPlaying ? (narration.currentCueID ?? narration.overviewCueID)
+                                    : (narration.hasBegunLesson ? currentPhase.narrationID : narration.overviewCueID),
+                                action: narration.toggleLesson,
+                                showsStopBetweenClips: narration.mode == .lesson,
+                                replayOverview: narration.playOverview, controlID: "mitosisListenButton",
+                                layoutTitle: "Replay Prometaphase")
+                        .padding(.horizontal, 2)
+                        .padding(.top, 8)
+                        .padding(.bottom, 10)
+                    phaseCarousel
+                }
                 ChromosomeJourneyCard()
-
-                Button { referenceSheet = .players } label: {
-
+                Button {
+                    narration.stop()
+                    referenceSheet = .players
+                } label: {
                     HStack {
-
                         Label("Meet the key players", systemImage: "text.book.closed.fill")
-
                         Spacer()
-
                         Image(systemName: "chevron.right")
-
                     }
-
                     .font(.system(.headline, design: .rounded))
-
                     .padding(18)
-
                     .background(MitosisLabStyle.mint, in: RoundedRectangle(cornerRadius: 22))
                     .foregroundStyle(MitosisLabStyle.ink)
                     .overlay(RoundedRectangle(cornerRadius: 22).stroke(MitosisLabStyle.ink.opacity(0.7), lineWidth: 1.5))
-
                 }
-
                 .buttonStyle(.plain)
-
             }
-
-            .padding(18)
-
+            .padding(.horizontal, 18)
+            .padding(.top, 6)
+            .padding(.bottom, 18)
             .frame(maxWidth: 680)
-
             .frame(maxWidth: .infinity)
-
         }
-
         .background(MitosisLabStyle.paper.ignoresSafeArea())
         .foregroundStyle(MitosisLabStyle.text)
         .tint(MitosisLabStyle.teal)
-
         .navigationTitle("")
-
         .navigationBarTitleDisplayMode(.inline)
-
-        .sheet(item: $selectedPhase) { PhaseDetail(phase: $0) }
-
-//        .sheet(isPresented: $showingCounts) { ChromosomeCountDetail() }
-
-        .sheet(item: $referenceSheet) { MitosisReferenceView(section: $0) }
-        .navigationDestination(isPresented: $showingGame) { MitosisGameView() }
-        .onDisappear { narration.stop() }
-        .onChange(of: scenePhase) { _, phase in
-            if phase != .active { narration.stop() }
+        .sheet(item: $selectedPhase, onDismiss: narration.stop) { PhaseDetail(phase: $0) }
+        .sheet(item: $referenceSheet, onDismiss: narration.stop) { MitosisReferenceView(section: $0) }
+        .navigationDestination(isPresented: $showingGame) {
+            MitosisGameView().environmentObject(narration)
         }
-        .onReceive(NotificationCenter.default.publisher(for: AVAudioSession.interruptionNotification)) { _ in
+        .onAppear {
             narration.stop()
+            narration.selectPhase(currentPhase.narrationID)
         }
+        .onDisappear { if !showingGame { narration.stop() } }
+        .onChange(of: currentPhase) { _, phase in narration.selectPhase(phase.narrationID) }
+        .onChange(of: selectedPhase) { _, _ in narration.stop() }
         .alert("Unable to play audio", isPresented: Binding(
             get: { narration.errorMessage != nil },
             set: { if !$0 { narration.errorMessage = nil } }
-        )) {
-            Button("OK", role: .cancel) { narration.errorMessage = nil }
-        } message: {
-            Text(narration.errorMessage ?? "Please try again.")
-        }
-
+        )) { Button("OK", role: .cancel) { narration.errorMessage = nil } }
+        message: { Text(narration.errorMessage ?? "Please try again.") }
     }
 
     private var header: some View {
         ViewThatFits(in: .horizontal) {
-            HStack {
-                headerTitle
+            HStack(alignment: .top) {
+                headerTitle.fixedSize(horizontal: true, vertical: true)
                 Spacer(minLength: 12)
-                headerActions
+                gameButton
             }
-            VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: 8) {
                 headerTitle
-                HStack {
-                    Spacer()
-                    headerActions
-                }
+                HStack { Spacer(); gameButton }
             }
         }
     }
 
     private var headerTitle: some View {
         VStack(alignment: .leading, spacing: 3) {
-
-                Text("Mitosis")
-
-                    .font(.system(.largeTitle, design: .serif, weight: .bold))
-
-                    .accessibilityAddTraits(.isHeader)
-
-                Text("One nucleus → two nuclei")
-
-                    .font(.system(.caption, design: .rounded, weight: .medium))
-
-                    .foregroundStyle(.secondary)
-
+            Text("Mitosis")
+                .font(.system(.largeTitle, design: .serif, weight: .bold))
+                .accessibilityAddTraits(.isHeader)
+            Text("One nucleus → two nuclei")
+                .font(.system(.caption, design: .rounded, weight: .medium))
+                .foregroundStyle(.secondary)
         }
-        .fixedSize(horizontal: true, vertical: false)
+        .fixedSize(horizontal: false, vertical: true)
     }
 
-    private var headerActions: some View {
-        HStack(spacing: 8) {
-            Button { narration.toggle() } label: {
-                Label(narration.isPlaying ? "Stop" : "Listen",
-                      systemImage: narration.isPlaying ? "stop.fill" : "speaker.wave.2.fill")
-                    .font(.system(.subheadline, design: .rounded, weight: .semibold))
-                    .frame(minHeight: 36)
-            }
-            .buttonStyle(.bordered)
-            .buttonBorderShape(.capsule)
-            .accessibilityIdentifier("mitosisListenButton")
-            .accessibilityHint(narration.isPlaying ? "Stops the opening narration." : "Plays the opening narration.")
-
-            Button {
-                narration.stop()
-                showingGame = true
-            } label: {
-
-                Label("Play", systemImage: "play.fill")
-
-                    .font(.system(.headline, design: .rounded))
-
-                    .frame(minHeight: 36)
-
-            }
-
-            .buttonStyle(.borderedProminent)
-
-            .tint(MitosisLabStyle.teal)
-            .buttonBorderShape(.capsule)
-            .accessibilityIdentifier("mitosisPlayButton")
-
+    private var gameButton: some View {
+        Button {
+            narration.stop()
+            showingGame = true
+        } label: {
+            Label("Play game", systemImage: "play.fill")
+                .font(.system(.headline, design: .rounded))
+                .frame(minHeight: 36)
         }
+        .buttonStyle(.borderedProminent)
+        .tint(MitosisLabStyle.teal)
+        .buttonBorderShape(.capsule)
+        .accessibilityIdentifier("mitosisPlayButton")
         .fixedSize(horizontal: true, vertical: false)
-
     }
 
     private var phaseCarousel: some View {
@@ -255,9 +210,7 @@ private struct MitosisOverview: View {
 
                                     .font(.system(.subheadline, design: .rounded, weight: .medium))
 
-                                    .lineLimit(1)
-
-                                    .minimumScaleFactor(0.85)
+                                    .fixedSize(horizontal: false, vertical: true)
 
                                 Spacer(minLength: 0)
 
@@ -275,6 +228,10 @@ private struct MitosisOverview: View {
 
                     .padding(16)
 
+                    .fixedSize(horizontal: false, vertical: true)
+                    .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { height in
+                        phaseHeights[phase] = height
+                    }
                     .background(MitosisLabStyle.card(phase), in: RoundedRectangle(cornerRadius: 26))
 
                     .overlay(RoundedRectangle(cornerRadius: 26).stroke(MitosisLabStyle.ink.opacity(0.75), lineWidth: 1.5))
@@ -290,7 +247,8 @@ private struct MitosisOverview: View {
 
             .tabViewStyle(.page(indexDisplayMode: .never))
 
-            .frame(height: carouselHeight + (expandedPhase == currentPhase ? expandedHeight : 0))
+            .frame(height: phaseHeights[currentPhase] ?? 290)
+            .accessibilityIdentifier("mitosis-phase-carousel")
 
             HStack(spacing: 4) {
 
@@ -304,7 +262,7 @@ private struct MitosisOverview: View {
 
                             .frame(width: currentPhase == phase ? 22 : 7, height: 7)
 
-                            .frame(width: 40, height: 32)
+                            .frame(width: 44, height: 44)
 
                             .contentShape(Rectangle())
 
@@ -313,6 +271,7 @@ private struct MitosisOverview: View {
                     .buttonStyle(.plain)
 
                     .accessibilityLabel(phase.rawValue)
+                    .accessibilityIdentifier("mitosis-phase-\(phase.rawValue.lowercased())")
 
                     .accessibilityAddTraits(currentPhase == phase ? .isSelected : [])
 
@@ -320,7 +279,7 @@ private struct MitosisOverview: View {
 
             }
 
-            .accessibilityLabel("Choose a mitosis phase")
+            .accessibilityElement(children: .contain)
 
         }
 
@@ -339,6 +298,13 @@ private struct ChromosomeJourneyCard: View {
     var body: some View {
 
         VStack(spacing: 14) {
+            HStack {
+                Text("Chromosomes, before and after")
+                    .font(.system(.headline, design: .rounded))
+                    .accessibilityAddTraits(.isHeader)
+                Spacer(minLength: 4)
+                NarrationSpeakerButton(cueID: "reference.human-count", title: "human chromosome counts")
+            }
 
 //            ZStack {
 
@@ -383,7 +349,22 @@ private struct ChromosomeJourneyCard: View {
             }
 
             ChromosomeJourneyRow(replicated: false)
-
+            DisclosureGroup("More about human chromosomes") {
+                VStack(spacing: 8) {
+                    HStack {
+                        Text("What’s on chromosome eleven?")
+                        Spacer(minLength: 4)
+                        NarrationSpeakerButton(cueID: "reference.chromosome-eleven", title: "chromosome eleven")
+                    }
+                    HStack {
+                        Text("Who counted all forty-six?")
+                        Spacer(minLength: 4)
+                        NarrationSpeakerButton(cueID: "reference.count-history", title: "the chromosome count story")
+                    }
+                }
+                .font(.subheadline)
+                .padding(.top, 6)
+            }
         }
 
         .foregroundStyle(ink)
@@ -618,6 +599,7 @@ private enum MitosisPreviewPhase: String, CaseIterable, Identifiable {
     case cytokinesis = "Cytokinesis"
 
     var id: String { rawValue }
+    var narrationID: String { "lesson." + rawValue.lowercased() }
 
     var color: Color {
 
@@ -659,6 +641,7 @@ private enum MitosisPreviewPhase: String, CaseIterable, Identifiable {
 
     }
 
+    // Shared with offline narration: after editing, rerun Tools/generate_mitosis_guide_audio.py.
     var explanationPoints: [String] {
 
         switch self {
@@ -744,6 +727,7 @@ private enum MitosisPreviewPhase: String, CaseIterable, Identifiable {
 }
 
 private struct PhaseDetail: View {
+    @EnvironmentObject private var narration: LessonNarrator
 
     let phase: MitosisPreviewPhase
 
@@ -757,6 +741,8 @@ private struct PhaseDetail: View {
 
                 VStack(alignment: .leading, spacing: 24) {
 
+                    LessonGuide(narrator: narration, title: narration.isPlaying ? "Stop" : "Hear \(phase.rawValue)",
+                                cueID: phase.narrationID) { narration.toggleStandalone(phase.narrationID) }
                     Text(phase.rawValue)
 
                         .font(.system(.largeTitle, design: .serif, weight: .bold))
@@ -832,7 +818,7 @@ private struct PhaseDetail: View {
 
 #Preview("Mitosis • Light") {
 
-    NavigationStack { MitosisOverview() }
+    NavigationStack { MitosisOverview().environmentObject(LessonNarrator.mitosis()) }
 
         .preferredColorScheme(.light)
 
@@ -840,7 +826,7 @@ private struct PhaseDetail: View {
 
 #Preview("Mitosis • Dark") {
 
-    NavigationStack { MitosisOverview() }
+    NavigationStack { MitosisOverview().environmentObject(LessonNarrator.mitosis()) }
 
         .preferredColorScheme(.dark)
 
@@ -1113,6 +1099,7 @@ private enum MitosisReferenceSheet: String, Identifiable {
 }
 
 private struct MitosisReferenceView: View {
+    @EnvironmentObject private var narration: LessonNarrator
 
     let section: MitosisReferenceSheet
 
@@ -1126,6 +1113,13 @@ private struct MitosisReferenceView: View {
 
                 VStack(alignment: .leading, spacing: 18) {
 
+                    LessonGuide(narrator: narration, title: narration.isPlaying ? "Stop" : "Hear about the players",
+                                cueID: "reference.players",
+                                action: {
+                                    if narration.isPlaying { narration.stop() }
+                                    else { narration.playStandalone("reference.players") }
+                                },
+                                controlID: "mitosisReferenceListenButton", layoutTitle: "Hear about the players")
                     Text(section.title)
 
                         .font(.system(.largeTitle, design: .serif, weight: .bold))
@@ -1154,9 +1148,11 @@ private struct MitosisReferenceView: View {
 
                         } label: {
 
-                            Text("Actin & myosin")
-
-                                .font(.system(.headline, design: .rounded))
+                            HStack {
+                                Text("Actin & myosin").font(.system(.headline, design: .rounded))
+                                Spacer(minLength: 4)
+                                NarrationSpeakerButton(cueID: "reference.cytokinesis", title: "cytokinesis")
+                            }
 
                         }
 

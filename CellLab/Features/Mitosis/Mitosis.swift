@@ -4,6 +4,7 @@
 //
 //  Created by Giulia Cajati on 11/12/26.
 //
+import AVFAudio
 import SwiftUI
 import UIKit
 
@@ -16,6 +17,10 @@ struct MitosisView: View {
 }
 
 private struct MitosisOverview: View {
+
+    @StateObject private var narration = MitosisNarrationPlayer()
+    @State private var showingGame = false
+    @Environment(\.scenePhase) private var scenePhase
 
     @ScaledMetric(relativeTo: .title2) private var carouselHeight: CGFloat = 290
     @ScaledMetric(relativeTo: .body) private var expandedHeight: CGFloat = 200
@@ -90,14 +95,44 @@ private struct MitosisOverview: View {
 //        .sheet(isPresented: $showingCounts) { ChromosomeCountDetail() }
 
         .sheet(item: $referenceSheet) { MitosisReferenceView(section: $0) }
+        .navigationDestination(isPresented: $showingGame) { MitosisGameView() }
+        .onDisappear { narration.stop() }
+        .onChange(of: scenePhase) { _, phase in
+            if phase != .active { narration.stop() }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: AVAudioSession.interruptionNotification)) { _ in
+            narration.stop()
+        }
+        .alert("Unable to play audio", isPresented: Binding(
+            get: { narration.errorMessage != nil },
+            set: { if !$0 { narration.errorMessage = nil } }
+        )) {
+            Button("OK", role: .cancel) { narration.errorMessage = nil }
+        } message: {
+            Text(narration.errorMessage ?? "Please try again.")
+        }
 
     }
 
     private var header: some View {
+        ViewThatFits(in: .horizontal) {
+            HStack {
+                headerTitle
+                Spacer(minLength: 12)
+                headerActions
+            }
+            VStack(alignment: .leading, spacing: 12) {
+                headerTitle
+                HStack {
+                    Spacer()
+                    headerActions
+                }
+            }
+        }
+    }
 
-        HStack(alignment: .center) {
-
-            VStack(alignment: .leading, spacing: 3) {
+    private var headerTitle: some View {
+        VStack(alignment: .leading, spacing: 3) {
 
                 Text("Mitosis")
 
@@ -111,11 +146,27 @@ private struct MitosisOverview: View {
 
                     .foregroundStyle(.secondary)
 
+        }
+        .fixedSize(horizontal: true, vertical: false)
+    }
+
+    private var headerActions: some View {
+        HStack(spacing: 8) {
+            Button { narration.toggle() } label: {
+                Label(narration.isPlaying ? "Stop" : "Listen",
+                      systemImage: narration.isPlaying ? "stop.fill" : "speaker.wave.2.fill")
+                    .font(.system(.subheadline, design: .rounded, weight: .semibold))
+                    .frame(minHeight: 36)
             }
+            .buttonStyle(.bordered)
+            .buttonBorderShape(.capsule)
+            .accessibilityIdentifier("mitosisListenButton")
+            .accessibilityHint(narration.isPlaying ? "Stops the opening narration." : "Plays the opening narration.")
 
-            Spacer(minLength: 12)
-
-            NavigationLink { MitosisGameView() } label: {
+            Button {
+                narration.stop()
+                showingGame = true
+            } label: {
 
                 Label("Play", systemImage: "play.fill")
 
@@ -129,8 +180,10 @@ private struct MitosisOverview: View {
 
             .tint(MitosisLabStyle.teal)
             .buttonBorderShape(.capsule)
+            .accessibilityIdentifier("mitosisPlayButton")
 
         }
+        .fixedSize(horizontal: true, vertical: false)
 
     }
 

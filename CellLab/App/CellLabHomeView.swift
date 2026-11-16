@@ -308,7 +308,9 @@ struct CellLabHomeView: View {
                             )
                         }.buttonStyle(.plain)
 
-
+                        NavigationLink {
+                            CellularRespirationView()
+                        } label: {
                         ModuleCard(
                             title: "Cellular Respiration",
                             subtitle: "ATP, made here.",
@@ -316,6 +318,8 @@ struct CellLabHomeView: View {
                             image: "art_respiration",
                             action: .open("Let\u{2019}s Explore \u{2192}")
                         )
+                        }.buttonStyle(.plain)
+                        
                     }
                     
                     NavigationLink {
@@ -326,7 +330,7 @@ struct CellLabHomeView: View {
                             subtitle: "Small tools. Big possibilities.",
                             fill: Theme.dna,
                             image: "art_dna",
-                            action: .comingSoon
+                            action: .open("Let\u{2019}s Get Crisp \u{2192}")
                         )
                     }
 

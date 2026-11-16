@@ -1,0 +1,139 @@
+CellLab | Mitosis narration
+Recording script for the lesson and game
+
+Voice direction
+Tell this like you’re showing a friend something surprising through a microscope. Pause after a question so they have time to look. Read each game cue once, when the player can act. Headings, playback notes, and sources are silent.
+
+THE LESSON
+
+Opening · Listen
+What do axolotl tails and the skin on your nose have in common? Dividing cells!
+
+They help regrow a lost tail or replace the skin you shed every day. The part where the cell separates its copied DNA? That’s mitosis!
+
+1 · Prophase | Pack it up
+Prophase. See the two sides of the pink X? Before mitosis, the cell copied its DNA. Now the DNA coils up tightly enough to see the two copies side by side. Together they’re one chromosome. Each copy is a sister chromatid.
+
+2 · Prometaphase | Make connections
+Prometaphase. The membrane around the nucleus breaks apart. Now spindle fibers can reach the pink sisters. One sister connects to fibers from the left, the other to fibers from the right.
+
+3 · Metaphase | Get in line
+Metaphase. The chromosomes line up in the middle, almost like they’re posing for a picture. Funny enough, scientists really do photograph them at this stage to count them!
+
+4 · Anaphase | Sister send-off
+Anaphase. Watch the pink X come apart. One sister moves left and the other moves right. Each is now a chromosome in its own right.
+
+5 · Telophase | Build two nuclei
+See a pink strand on each side? A new nucleus forms around each set of chromosomes. One nucleus became two, each with a full set. That’s mitosis!! The cell itself pinches in two during cytokinesis.
+
+Optional · Human chromosome count illustration
+Most of your body cells have forty-six chromosomes. That’s twenty-three pairs. For each pair, you inherited one chromosome from the egg and one from the sperm. Before mitosis, the cell copies each of the forty-six during a stage called S phase. Now there are ninety-two sister chromatids. Mitosis sorts the copies so each new nucleus gets forty-six chromosomes again.
+
+Optional · What’s actually on chromosome eleven?
+What do breathing and lunch have in common? Try chromosome eleven. It carries lots of genes, stretches of DNA with particular instructions. One tells cells in your pancreas how to make insulin, which helps manage blood sugar after a meal. Another, called H-B-B, gives instructions for part of hemoglobin, the protein your red blood cells use to carry oxygen. Even the skin cell patching your knee passes on both genes when it divides.
+
+Optional · Who counted all forty-six?
+How many chromosomes do humans usually have? For about thirty years, the accepted answer was forty-eight. Then researchers got a clearer look at human chromosomes during metaphase. They could spread them out and count them. In nineteen fifty-six, they published the answer we use today. Forty-six. Imagine opening your biology book and having to fix the answer key.
+
+THE GAME
+
+Prophase · Game begins
+Your turn. We’ve given you four chromosomes to keep track of. Tap each loose bundle of DNA to pack it up. Watch for the two copies in every X.
+
+Prophase · All four bundles packed
+Tap the two centrosomes. They move toward opposite ends of the cell. Those ends are called poles, and each will get its own set of chromosomes.
+
+Prophase · Completion pop-up
+How much DNA would you be packing in a human cell? Even before it makes a copy, a typical body cell has about six feet of DNA tucked inside its nucleus. Imagine fitting a jump rope into a speck you need a microscope to see.
+
+Prometaphase · Stage begins
+Tap Open envelope. That’s the membrane around the nucleus. Once it breaks down, spindle fibers can reach the chromosomes.
+
+Prometaphase · Envelope open
+Choose a pole, then tap all four chromosomes. Switch poles and tap them again. See those gold dots? They’re the kinetochores, the places where spindle fibers attach.
+
+Prometaphase · Completion pop-up
+Pick any X and trace its two connections. One sister is hooked to the left side. Her sister’s hooked to the right. Same starting point, different rides home.
+
+Metaphase · Stage begins
+Bring the four X’s to the dashed line. You can drag them or give each one a tap. We drew you a guide. The cell does this freehand.
+
+Metaphase · All four aligned
+They look lined up. But is every sister connected? Tap Run checkpoint.
+
+Metaphase · Completion pop-up
+All connected. In a real cell, even one sister with an empty attachment site can delay the split for everybody. The cell takes attendance very seriously.
+
+Anaphase · Stage begins
+Pick one X to watch and tap Separate sisters. See if you can follow both copies.
+
+Anaphase · Completion pop-up
+Count them now. Four on the left, four on the right. How did four chromosomes become eight? A second ago each X counted as one. Now its two copies are apart, so each counts as a chromosome. The amount of DNA stayed the same.
+
+Telophase · Stage begins
+Tap each group to give its chromosomes a new nucleus. Watch those tightly packed shapes loosen into threads.
+
+Telophase · Completion pop-up
+Four chromosomes in this nucleus, four in that one. Each group has one copy from every X you started with.
+
+Mitosis complete · Final screen
+You’ve made two nuclei. Notice there’s still one cell around them. To finish dividing, an animal cell pinches through the middle and splits its contents between two new cells. That’s cytokinesis. It can start while mitosis is wrapping up. Back at your scraped knee, making more cells is part of how your skin grows back.
+
+Optional · The growth-spurt connection
+Ever outgrow a pair of pants that still fits at the waist? As a kid, you had strips of cartilage called growth plates near the ends of your leg bones. Cells there divided, and some grew larger. New bone gradually replaced that cartilage, helping your legs grow longer. Those mysteriously shorter pants? Your cells had something to do with that.
+
+ALTERNATE RECORDING | Scraped knee
+
+Opening · Listen
+Have you ever scraped your knee and wondered how your skin heals? Nearby skin cells divide to make new ones. A typical skin cell has forty-six chromosomes, little packages of DNA. So how can one cell divide and give both new cells all forty-six? The answer is hiding in that pink X. Swipe with me.
+
+5 · Telophase | Human-cell ending
+Telophase. Can you find a pink strand on each side? A new nucleus forms around each complete set. In your skin cell, that’s forty-six chromosomes here and forty-six over there. That’s mitosis!! The cell finishes dividing when it pinches in two, a process called cytokinesis.
+
+PLAYBACK NOTES | Unspoken
+
+• With Listen on, play the opening and the selected phase. Narrate the next card on a swipe or phase-dot tap. The game begins at Play. Interrupt the current cue when the learner moves on.
+• The lesson drawings use three illustrative chromosomes, the game uses four, and the magnifier shows a separate typical human example with forty-six. Pink tracks one chromosome in the lesson.
+• Keep the chromosome-eleven and historical facts available as optional clips with the human illustration. The growth-spurt clip works as an optional encore after the game. The five stages can be heard straight through.
+• In the game, play an action cue when its control becomes available. Play the short result when the completion pop-up opens. The model ends before the cell physically splits.
+• For speech synthesis, read H-B-B as three letters and S phase as “ess phase.”
+
+BIOLOGY SOURCES | Unspoken
+
+Skin repair and the different roles of migrating and dividing skin cells
+“Plasticity of Epithelial Cells during Skin Wound Healing”
+https://pmc.ncbi.nlm.nih.gov/articles/PMC10153802/
+
+Cell growth in childhood and the growth plates
+NICHD, Section on Growth and Development
+https://research.nih.gov/research/atNICHD/Investigators/baron
+
+DNA copying, the phases of mitosis, chromosome counts, and cytokinesis
+OpenStax, Biology 2e, sections 10.2 and 10.3
+https://openstax.org/books/biology-2e/pages/10-2-the-cell-cycle
+https://openstax.org/books/biology-2e/pages/10-3-control-of-the-cell-cycle
+
+The effect of even one unattached kinetochore
+“Kinetic framework of spindle assembly checkpoint signaling”
+https://pmc.ncbi.nlm.nih.gov/articles/PMC4067996/
+
+Human chromosomes, inheritance, and DNA length
+National Human Genome Research Institute, Chromosomes Fact Sheet
+https://www.genome.gov/about-genomics/fact-sheets/Chromosomes-Fact-Sheet
+MedlinePlus Genetics, How many chromosomes do people have?
+https://medlineplus.gov/genetics/understanding/basics/howmanychromosomes/
+
+Genes on chromosome eleven and what they help make
+MedlinePlus Genetics, HBB and INS
+https://medlineplus.gov/genetics/gene/hbb/
+https://medlineplus.gov/genetics/gene/ins/
+
+The human chromosome count, determined in 1955 and published in 1956
+National Human Genome Research Institute, 1955: 46 Human Chromosomes
+https://www.genome.gov/25520285/online-education-kit-1955-a-46-human-chromosomes
+“The discovery of the human chromosome number in Lund, 1955–1956”
+https://pubmed.ncbi.nlm.nih.gov/16463025/
+
+Cell proliferation during axolotl tail regrowth
+“Amputation-induced reactive oxygen species signaling is required for axolotl tail regeneration”
+https://pubmed.ncbi.nlm.nih.gov/30569660/

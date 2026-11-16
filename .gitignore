@@ -3,3 +3,11 @@ DerivedData/
 build/
 xcuserdata/
 *.xcuserstate
+Tools/audio/
+Tools/.kokoro-bootstrap/
+Tools/.kokoro-venv/
+Tools/.kokoro-models/
+Tools/.kokoro-cache/
+Tools/.kokoro-python/
+Tools/__pycache__/
+/mitosis-opening.wav

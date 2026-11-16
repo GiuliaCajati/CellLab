@@ -20,6 +20,18 @@ import SwiftUI
                 VStack(alignment: .leading, spacing: 18) {
                     HStack(alignment: .center, spacing: 12) {
                         VStack(alignment: .leading, spacing: 8) {
+                            //CentralDogmaGameView
+                            NavigationLink {
+                                CentralDogmaGameView()
+                            } label: {
+                                Label("Play", systemImage: "play.fill")
+                                    .font(.system(.headline, design: .rounded))
+                                    .padding(.horizontal, 17)
+                                    .frame(minHeight: 50)
+                                    .background(DNAReplicationTheme.teal, in: Capsule())
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityLabel("Play the DNA dogma game")
                             Text("Central Dogma")
                                 .font(.system(.largeTitle, design: .serif, weight: .bold))
                                 .fixedSize(horizontal: false, vertical: true)

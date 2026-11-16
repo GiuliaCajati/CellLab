@@ -291,4 +291,3 @@ struct DNATechnologyView: View {
     }
 }
 
-#Preview("DNA Technology") { NavigationStack { DNATechnologyView() } }

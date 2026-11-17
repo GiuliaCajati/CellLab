@@ -3,11 +3,18 @@ import Foundation
 import Observation
 
 @MainActor @Observable final class CentralDogmaSession {
-    var step: CentralDogmaStep = .overview
-    var progress: Double = 1
+    // Match the shared lesson sessions on iOS 26.2.
+    nonisolated deinit {}
+    @ObservationIgnored private var clockID: UUID?
+    var step: CentralDogmaStep
+    var progress: Double = 0
     var isPlaying = false
     var autoAdvance = false
     private var completionHold: Double = 0
+
+    init(step: CentralDogmaStep = .transcriptionStart) {
+        self.step = step
+    }
 
     func select(_ newStep: CentralDogmaStep, play: Bool) {
         completionHold = 0
@@ -46,12 +53,15 @@ import Observation
     }
 
     func run() async {
+        let request = UUID()
+        clockID = request
+        defer { if clockID == request { clockID = nil } }
         let clock = ContinuousClock()
         var previous = clock.now
-        while isPlaying && !Task.isCancelled {
+        while isPlaying && !Task.isCancelled && clockID == request {
             do { try await Task.sleep(for: .milliseconds(40)) }
             catch { return }
-            guard !Task.isCancelled else { return }
+            guard !Task.isCancelled, clockID == request else { return }
             let now = clock.now
             let parts = previous.duration(to: now).components
             previous = now

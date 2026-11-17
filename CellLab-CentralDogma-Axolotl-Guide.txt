@@ -1,0 +1,32 @@
+CellLab · Central Dogma axolotl narration
+
+RECORDING PLAN | Unspoken
+
+Generate with the existing free local Kokoro setup:
+Tools/.kokoro-venv/bin/python Tools/generate_central_dogma_audio.py
+
+Use af_heart, matching the warm, relaxed, playful delivery of the other lessons.
+Pause after the opening question. Give “That’s gene expression!” a smile.
+
+Tools/export_central_dogma_narration.swift exports the actual Swift lesson,
+key-player definitions, and all three game missions. Each process clip starts
+with one introduction sentence and then reads the exact description bullets.
+CentralDogmaNarration.swift contains the spoken introductions and stable cue IDs.
+Never read Markdown emphasis or the headings in this document aloud.
+
+Tap the axolotl: overview, then the selected process step, then wait for a swipe.
+Stop cancels speech and pending clips. Leaving the page, starting the game,
+opening a reference sheet, or backgrounding the app stops lesson audio.
+Vocabulary speakers read the displayed definitions. Game guidance is opt-in;
+once enabled, it follows the current instruction and checkpoints.
+
+Say DNA as dee-en-AY and RNA as ar-en-AY, with every letter audible.
+Spell mRNA, tRNA, and rRNA clearly. Spell codons and anticodons one letter at a
+time. Read 3′ as three prime and 5′ → 3′ as five prime to three prime.
+Use the existing nucleotide/nucleotides, copied/copies, and nuclei overrides.
+Pronunciation changes belong only in synthesis; the transcripts keep the
+same biology wording and spelling as the app.
+
+All recordings and the transcript manifest are bundled in:
+CellLab/Resources/Audio/CentralDogma
+No API key, paid service, cloud speech, or runtime network connection is used.

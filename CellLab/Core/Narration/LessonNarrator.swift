@@ -172,6 +172,25 @@ final class LessonNarrator: ObservableObject {
                               }))
     }
 
+    static func centralDogma() -> LessonNarrator {
+        let library = (try? NarrationLibrary.load(resource: "central-dogma-narration"))
+            ?? NarrationLibrary(lessonTitle: "Central Dogma", recordings: [])
+        return LessonNarrator(library: library,
+                              initialPhaseID: CentralDogmaStep.transcriptionStart.narrationID,
+                              phaseNames: Dictionary(uniqueKeysWithValues: CentralDogmaStep.carouselCases.map {
+                                  ($0.narrationID, $0.content.title)
+                              }))
+    }
+
+    static func cellStructures() -> LessonNarrator {
+        let library = (try? NarrationLibrary.load(resource: "cell-structures-narration"))
+            ?? NarrationLibrary(lessonTitle: "Cell Structures", recordings: [])
+        return LessonNarrator(library: library, initialPhaseID: CSPart.nucleus.narrationID,
+                              phaseNames: Dictionary(uniqueKeysWithValues: CSPart.allCases.map {
+                                  ($0.narrationID, $0.content.title)
+                              }))
+    }
+
     var phaseName: String {
         phaseNames[visiblePhase]
             ?? visiblePhase.split(separator: ".").last.map { String($0).capitalized }

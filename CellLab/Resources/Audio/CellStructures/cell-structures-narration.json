@@ -1,0 +1,278 @@
+{
+  "lessonTitle": "Cell Structures",
+  "recordings": [
+    {
+      "id": "lesson.overview",
+      "text": "What keeps a tiny cell running? A whole team of little structures! The membrane controls what comes and goes, the nucleus holds most of the DNA instructions, and other parts build, deliver, recycle, and help the cell move. This is a simplified animal-cell model. Some features, such as cilia and a flagellum, are found only in certain cell types. Tap a part in the picture, choose its name, or explore the list of structures. I’ll explain its job and what the animation shows. Open Look closer whenever you’d like more detail. Let’s start with the nucleus!",
+      "title": "Opening · Listen",
+      "resource": "cell-structures.lesson.overview.wav",
+      "event": "lesson.overview"
+    },
+    {
+      "id": "structure.membrane",
+      "text": "Plasma membrane. A selective front door. Controls what enters and leaves, receives signals, and separates the cell from its surroundings. O₂ crosses the bilayer; an ion moves through a transport protein.",
+      "title": "Plasma membrane",
+      "resource": "cell-structures.structure.membrane.wav",
+      "event": "structure.membrane"
+    },
+    {
+      "id": "detail.membrane",
+      "text": "Plasma membrane.\n\nPhospholipids form two layers: water-loving heads face water; water-fearing fatty-acid tails face inward. Small nonpolar molecules such as O₂ and CO₂ pass through the bilayer. Ions and many polar molecules, including glucose, need transport proteins. Proteins drift within this fluid mosaic, anchor the cell, and receive signals. Cholesterol helps regulate animal membrane fluidity.",
+      "title": "Look closer · Plasma membrane",
+      "resource": "cell-structures.detail.membrane.wav",
+      "event": "detail.membrane"
+    },
+    {
+      "id": "structure.cytoplasm",
+      "text": "Cytoplasm & cytosol. The inside story. Cytoplasm is the cell’s interior outside the nucleus. Cytosol is its watery fluid, where many reactions happen. Dissolved molecules move through the cytosol around organelles.",
+      "title": "Cytoplasm & cytosol",
+      "resource": "cell-structures.structure.cytoplasm.wav",
+      "event": "structure.cytoplasm"
+    },
+    {
+      "id": "detail.cytoplasm",
+      "text": "Cytoplasm & cytosol.\n\nCytoplasm includes cytosol, organelles, and other structures between the plasma membrane and nucleus. Cytosol is the watery fluid surrounding the organelles; the nucleus is not part of the cytoplasm. Cytosol contains water, ions, enzymes, RNA, and nutrients. It supports chemical reactions and movement within cells.",
+      "title": "Look closer · Cytoplasm & cytosol",
+      "resource": "cell-structures.detail.cytoplasm.wav",
+      "event": "detail.cytoplasm"
+    },
+    {
+      "id": "structure.nucleus",
+      "text": "Nucleus. Recipes live here. Stores most of the cell’s DNA. DNA instructions are transcribed into mRNA for protein production. An mRNA copy travels from DNA through a nuclear pore.",
+      "title": "Nucleus",
+      "resource": "cell-structures.structure.nucleus.wav",
+      "event": "structure.nucleus"
+    },
+    {
+      "id": "detail.nucleus",
+      "text": "Nucleus.\n\nA double-membrane nuclear envelope surrounds the nucleus. Protein-lined nuclear pores regulate traffic. DNA remains in the nucleus while an mRNA copy can leave for translation. The nucleus contains chromatin and a dense nucleolus. Mitochondria also contain their own DNA.",
+      "title": "Look closer · Nucleus",
+      "resource": "cell-structures.detail.nucleus.wav",
+      "event": "detail.nucleus"
+    },
+    {
+      "id": "structure.nucleolus",
+      "text": "Nucleolus. Ribosome assembly station. Makes ribosomal RNA and assembles it with proteins into ribosomal subunits. Two ribosomal subunits assemble and leave through a nuclear pore.",
+      "title": "Nucleolus",
+      "resource": "cell-structures.structure.nucleolus.wav",
+      "event": "structure.nucleolus"
+    },
+    {
+      "id": "detail.nucleolus",
+      "text": "Nucleolus.\n\nThis dense region sits inside the nucleus and has no surrounding membrane. Ribosomal RNA (rRNA) joins with imported proteins to form large and small subunits. The subunits leave through nuclear pores and later join on mRNA in the cytoplasm.",
+      "title": "Look closer · Nucleolus",
+      "resource": "cell-structures.detail.nucleolus.wav",
+      "event": "detail.nucleolus"
+    },
+    {
+      "id": "structure.ribosomes",
+      "text": "Ribosomes. Tiny protein builders. Read mRNA and join amino acids into proteins. Ribosomes can be free in cytosol or bound to rough ER. A ribosome reads mRNA while an amino-acid chain grows.",
+      "title": "Ribosomes",
+      "resource": "cell-structures.structure.ribosomes.wav",
+      "event": "structure.ribosomes"
+    },
+    {
+      "id": "detail.ribosomes",
+      "text": "Ribosomes.\n\nEach ribosome has two subunits made of rRNA and proteins, without a surrounding membrane. Free ribosomes make proteins for the cytosol and many internal organelles. ER-bound ribosomes make proteins entering the secretory pathway, including exported, membrane, and lysosomal proteins.",
+      "title": "Look closer · Ribosomes",
+      "resource": "cell-structures.detail.ribosomes.wav",
+      "event": "detail.ribosomes"
+    },
+    {
+      "id": "structure.roughER",
+      "text": "Rough ER. Build, fold, send. Its attached ribosomes make proteins that enter the ER to fold and begin processing. A new protein enters the ER, folds, and leaves in a vesicle.",
+      "title": "Rough ER",
+      "resource": "cell-structures.structure.roughER.wav",
+      "event": "structure.roughER"
+    },
+    {
+      "id": "detail.roughER",
+      "text": "Rough ER.\n\nFlattened membrane sacs and tubes connect with the nuclear envelope. Ribosomes give the cytoplasmic surface its rough appearance. Proteins enter the ER as they are made; many fold and receive initial modifications there. Cargo for secretion, membranes, and parts of the endomembrane system leaves for the Golgi in transport vesicles.",
+      "title": "Look closer · Rough ER",
+      "resource": "cell-structures.detail.roughER.wav",
+      "event": "detail.roughER"
+    },
+    {
+      "id": "structure.smoothER",
+      "text": "Smooth ER. Lipids, calcium & cleanup. Makes lipids, helps detoxify chemicals, and stores calcium ions. Lipids form along smooth tubules; stored Ca²⁺ is released.",
+      "title": "Smooth ER",
+      "resource": "cell-structures.structure.smoothER.wav",
+      "event": "structure.smoothER"
+    },
+    {
+      "id": "detail.smoothER",
+      "text": "Smooth ER.\n\nA branching membrane-tube network connects to the rough ER but lacks attached ribosomes. Its roles include making membrane lipids and detoxifying drugs and poisons, especially in certain cell types. In muscle, specialized smooth ER stores and releases Ca²⁺ to help trigger contraction.",
+      "title": "Look closer · Smooth ER",
+      "resource": "cell-structures.detail.smoothER.wav",
+      "event": "detail.smoothER"
+    },
+    {
+      "id": "structure.golgi",
+      "text": "Golgi apparatus. The cellular sorting office. Modifies, labels, and sorts proteins and lipids, then packages them for delivery. Cargo arrives from the ER, gains a tag, and leaves in a vesicle.",
+      "title": "Golgi apparatus",
+      "resource": "cell-structures.structure.golgi.wav",
+      "event": "structure.golgi"
+    },
+    {
+      "id": "detail.golgi",
+      "text": "Golgi apparatus.\n\nThe Golgi is a stack of flattened membrane sacs. Its receiving (cis) face accepts ER cargo; its shipping (trans) face sends cargo onward. It modifies proteins and lipids, often adding sugar groups. A protein with attached carbohydrates is a glycoprotein. Outgoing vesicles deliver cargo to the plasma membrane, outside the cell, or to destinations such as lysosomes. Most initial protein folding happens in the ER.",
+      "title": "Look closer · Golgi apparatus",
+      "resource": "cell-structures.detail.golgi.wav",
+      "event": "detail.golgi"
+    },
+    {
+      "id": "structure.vesicles",
+      "text": "Transport vesicles. Bubble-wrapped deliveries. Small membrane bubbles carry proteins, lipids, and other cargo between destinations. A vesicle carries cargo from ER to Golgi, then toward the membrane.",
+      "title": "Transport vesicles",
+      "resource": "cell-structures.structure.vesicles.wav",
+      "event": "structure.vesicles"
+    },
+    {
+      "id": "detail.vesicles",
+      "text": "Transport vesicles.\n\nVesicles pinch off from a donor membrane, carry cargo, and fuse with an appropriate target membrane. They connect the ER, Golgi, lysosomes, and plasma membrane in the endomembrane system. During exocytosis, a vesicle fuses with the plasma membrane and releases cargo outside.",
+      "title": "Look closer · Transport vesicles",
+      "resource": "cell-structures.detail.vesicles.wav",
+      "event": "detail.vesicles"
+    },
+    {
+      "id": "structure.lysosomes",
+      "text": "Lysosomes. Break it down. Use it again. Acidic enzyme-filled sacs digest debris, captured microbes, and worn-out cell parts for reuse. A large cargo piece breaks into smaller reusable building blocks.",
+      "title": "Lysosomes",
+      "resource": "cell-structures.structure.lysosomes.wav",
+      "event": "structure.lysosomes"
+    },
+    {
+      "id": "detail.lysosomes",
+      "text": "Lysosomes.\n\nA single membrane encloses digestive enzymes in an acidic interior, around pH 4.8. Hydrolysis breaks large molecules into reusable monomers. They digest captured microbes, damaged organelles, and other debris so the cell can reuse their building blocks.",
+      "title": "Look closer · Lysosomes",
+      "resource": "cell-structures.detail.lysosomes.wav",
+      "event": "detail.lysosomes"
+    },
+    {
+      "id": "structure.peroxisomes",
+      "text": "Peroxisomes. Careful chemical cleanup. Break down fatty acids and help detoxify chemicals. Enzymes safely remove hydrogen peroxide. Catalase converts hydrogen peroxide into water and oxygen.",
+      "title": "Peroxisomes",
+      "resource": "cell-structures.structure.peroxisomes.wav",
+      "event": "structure.peroxisomes"
+    },
+    {
+      "id": "detail.peroxisomes",
+      "text": "Peroxisomes.\n\nA single membrane surrounds concentrated enzymes; some peroxisomes show a dense crystalline enzyme core. Fatty-acid breakdown and other reactions can generate hydrogen peroxide (H₂O₂). Catalase converts it into H₂O and O₂. Peroxisomes also contribute to lipid synthesis; exact jobs vary with cell type. They are distinct from lysosomes.",
+      "title": "Look closer · Peroxisomes",
+      "resource": "cell-structures.detail.peroxisomes.wav",
+      "event": "detail.peroxisomes"
+    },
+    {
+      "id": "structure.mitochondria",
+      "text": "Mitochondria. Fuel in. ATP out. Use energy from food during cellular respiration to make ATP that powers cell work. ATP appears near the folded inner membrane during respiration.",
+      "title": "Mitochondria",
+      "resource": "cell-structures.structure.mitochondria.wav",
+      "event": "structure.mitochondria"
+    },
+    {
+      "id": "detail.mitochondria",
+      "text": "Mitochondria.\n\nTwo membranes enclose each mitochondrion. The inner one folds into cristae, increasing surface area for energy conversion. The matrix is the inner fluid space and contains mitochondrial DNA and ribosomes. ATP production depends on coordinated reactions, many at the inner membrane.",
+      "title": "Look closer · Mitochondria",
+      "resource": "cell-structures.detail.mitochondria.wav",
+      "event": "detail.mitochondria"
+    },
+    {
+      "id": "structure.cytoskeleton",
+      "text": "Cytoskeleton. Support with a transport network. A protein-fiber network supports cell shape, anchors organelles, and helps move cargo and chromosomes. A motor protein moves a vesicle along a cytoskeletal track.",
+      "title": "Cytoskeleton",
+      "resource": "cell-structures.structure.cytoskeleton.wav",
+      "event": "structure.cytoskeleton"
+    },
+    {
+      "id": "detail.cytoskeleton",
+      "text": "Cytoskeleton.\n\nThree major classes are actin microfilaments, intermediate filaments, and tubulin microtubules. Their abundance varies by cell type. Fibers support shape, position organelles, and provide tracks for motor proteins. The network also helps separate chromosomes in division. Actin and myosin work together in contraction.",
+      "title": "Look closer · Cytoskeleton",
+      "resource": "cell-structures.detail.cytoskeleton.wav",
+      "event": "detail.cytoskeleton"
+    },
+    {
+      "id": "structure.microfilaments",
+      "text": "Microfilaments. Actin in action. Thin actin fibers support the cell cortex and work with myosin to produce movement and contraction. Myosin slides actin fibers, shortening a contractile arrangement.",
+      "title": "Microfilaments",
+      "resource": "cell-structures.structure.microfilaments.wav",
+      "event": "structure.microfilaments"
+    },
+    {
+      "id": "detail.microfilaments",
+      "text": "Microfilaments.\n\nAbout 7 nm wide, each filament consists of two twisted chains of actin subunits. Actin helps shape the cell surface and supports movement. Actin and myosin form the contractile ring that pinches an animal cell during cytokinesis.",
+      "title": "Look closer · Microfilaments",
+      "resource": "cell-structures.detail.microfilaments.wav",
+      "event": "detail.microfilaments"
+    },
+    {
+      "id": "structure.intermediateFilaments",
+      "text": "Intermediate filaments. Ropes that resist a stretch. Tough, rope-like fibers give mechanical strength and help anchor cell structures. A braided fiber remains connected as outward forces pull on it.",
+      "title": "Intermediate filaments",
+      "resource": "cell-structures.structure.intermediateFilaments.wav",
+      "event": "structure.intermediateFilaments"
+    },
+    {
+      "id": "detail.intermediateFilaments",
+      "text": "Intermediate filaments.\n\nAbout 10 nm wide, these fibers are built from different proteins, depending on cell type. They help resist pulling forces and stabilize organelles and cell architecture. Nuclear lamins form a supporting mesh beneath the nuclear envelope. Cytoplasmic intermediate filaments are especially characteristic of animal cells.",
+      "title": "Look closer · Intermediate filaments",
+      "resource": "cell-structures.detail.intermediateFilaments.wav",
+      "event": "detail.intermediateFilaments"
+    },
+    {
+      "id": "structure.microtubules",
+      "text": "Microtubules. Hollow tracks. Heavy lifting. Tubulin tubes guide motor-driven transport, form the spindle, and support eukaryotic cilia and flagella. A motor protein walks a vesicle along a microtubule.",
+      "title": "Microtubules",
+      "resource": "cell-structures.structure.microtubules.wav",
+      "event": "structure.microtubules"
+    },
+    {
+      "id": "detail.microtubules",
+      "text": "Microtubules.\n\nAbout 25 nm across, microtubules are hollow tubes assembled from tubulin subunits. Motor proteins use them as tracks to move organelles and vesicles. They form the mitotic spindle and the internal framework of eukaryotic cilia and flagella.",
+      "title": "Look closer · Microtubules",
+      "resource": "cell-structures.detail.microtubules.wav",
+      "event": "detail.microtubules"
+    },
+    {
+      "id": "structure.centrosome",
+      "text": "Centrosome & centrioles. The microtubule organizer. An animal-cell organizing center that helps assemble microtubules, including the mitotic spindle. Microtubules grow outward from material around a centriole pair.",
+      "title": "Centrosome & centrioles",
+      "resource": "cell-structures.structure.centrosome.wav",
+      "event": "structure.centrosome"
+    },
+    {
+      "id": "detail.centrosome",
+      "text": "Centrosome & centrioles.\n\nNear the nucleus, a typical centrosome contains two barrel-shaped centrioles oriented roughly at right angles. Surrounding pericentriolar material organizes microtubules; centrioles are not the spindle fibers themselves. Centrioles can become basal bodies that anchor cilia or flagella.",
+      "title": "Look closer · Centrosome & centrioles",
+      "resource": "cell-structures.detail.centrosome.wav",
+      "event": "detail.centrosome"
+    },
+    {
+      "id": "structure.cilia",
+      "text": "Cilia. A coordinated surface sweep. Short projections can beat together to move a cell or sweep material across its surface. Coordinated ciliary bends sweep particles across a surface.",
+      "title": "Cilia",
+      "resource": "cell-structures.structure.cilia.wav",
+      "event": "structure.cilia"
+    },
+    {
+      "id": "detail.cilia",
+      "text": "Cilia.\n\nMotile eukaryotic cilia usually contain a 9 + 2 microtubule array: nine outer doublets and a central pair. Dynein-powered microtubule sliding produces bending. Basal bodies anchor cilia. Not all animal cells have cilia. Many primary cilia mainly sense signals and usually have a 9 + 0 arrangement.",
+      "title": "Look closer · Cilia",
+      "resource": "cell-structures.detail.cilia.wav",
+      "event": "detail.cilia"
+    },
+    {
+      "id": "structure.flagellum",
+      "text": "Flagellum. A long-distance mover. A long projection that bends to propel certain animal cells, such as sperm. Dynein-driven microtubule sliding bends the tail to move the cell.",
+      "title": "Flagellum",
+      "resource": "cell-structures.structure.flagellum.wav",
+      "event": "structure.flagellum"
+    },
+    {
+      "id": "detail.flagellum",
+      "text": "Flagellum.\n\nA eukaryotic flagellum usually has a 9 + 2 microtubule framework: nine outer doublets and one central pair. Dynein motors cause neighboring microtubules to slide; links between them turn this sliding into bending. A basal body anchors the flagellum. This is a specialized feature, not a structure found on every animal cell.",
+      "title": "Look closer · Flagellum",
+      "resource": "cell-structures.detail.flagellum.wav",
+      "event": "detail.flagellum"
+    }
+  ]
+}

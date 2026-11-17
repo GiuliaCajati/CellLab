@@ -1,6 +1,7 @@
 import SwiftUI
 
 @MainActor struct CentralDogmaGameView: View {
+    @EnvironmentObject private var narration: LessonNarrator
     @State private var session = CentralDogmaGameSession()
     @State private var started = false
     @State private var guide = false
@@ -8,6 +9,14 @@ import SwiftUI
     @AppStorage("CellLab.RNARelay.bestScore.v1") private var bestScore = 0
     @Environment(\.dismiss) private var dismiss
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.scenePhase) private var scenePhase
+
+    private var activeNarrationEvent: String? {
+        guard !guide else { return nil }
+        if !started { return "game.introduction" }
+        if let checkpoint = session.pending { return checkpoint.narrationID }
+        return session.isComplete ? "game.complete" : session.step?.narrationID
+    }
 
     var body: some View {
         GeometryReader { geometry in
@@ -21,7 +30,8 @@ import SwiftUI
                         VStack(alignment: .leading, spacing: 6) {
                             Text(step.group.uppercased()).font(.system(.caption, design: .rounded, weight: .bold)).foregroundStyle(CentralDogmaGameTheme.teal)
                             Text(step.title).font(.system(.title2, design: .serif, weight: .bold)).accessibilityAddTraits(.isHeader)
-                            Text(step.instruction).font(.system(.body, design: .rounded)).fixedSize(horizontal: false, vertical: true)
+                            gameGuide(cueID: step.narrationID, instruction: Text(step.instruction)
+                                .font(.system(.body, design: .rounded)), controlID: "central-dogma-game-listen")
                         }
                         CentralDogmaGameBoard(session: session, step: step)
                         feedback
@@ -56,10 +66,10 @@ import SwiftUI
             }
         }
         .confirmationDialog("Start a new round?", isPresented: $restart, titleVisibility: .visible) {
-            Button("New round") { session.restart() }
+            Button("New round") { restartRound() }
             Button("Keep playing", role: .cancel) {}
         } message: { Text("This round’s progress will reset. Your best completed score is kept.") }
-        .sheet(isPresented: $guide) { fieldGuide }
+        .sheet(isPresented: $guide, onDismiss: narration.stop) { fieldGuide }
         .overlay {
             if let checkpoint = session.pending { checkpointView(checkpoint) }
         }
@@ -68,6 +78,35 @@ import SwiftUI
         .onChange(of: session.isComplete) { _, completed in
             if completed { bestScore = max(bestScore, session.score) }
         }
+        .onChange(of: activeNarrationEvent) { _, event in narration.gameEventChanged(event) }
+        .onChange(of: guide) { _, _ in narration.stop() }
+        .onChange(of: restart) { _, showing in if showing { narration.stop() } }
+        .onChange(of: scenePhase) { _, phase in if phase != .active { narration.stop() } }
+        .onAppear { narration.stop(); narration.resetGameGuidance() }
+        .onDisappear { narration.stop() }
+        .alert("Audio unavailable", isPresented: Binding(
+            get: { narration.errorMessage != nil }, set: { if !$0 { narration.errorMessage = nil } }
+        )) { Button("OK", role: .cancel) { narration.errorMessage = nil } }
+        message: { Text(narration.errorMessage ?? "Please try again.") }
+    }
+
+    private func gameGuide(cueID: String, instruction: Text? = nil,
+                           controlID: String = "central-dogma-game-introduction-listen") -> some View {
+        LessonGuide(narrator: narration, title: narration.isPlaying ? "Stop" : "Hear instruction",
+                    cueID: cueID, action: {
+                        if narration.isPlaying { narration.stop() }
+                        else { narration.startGameGuidance(cueID) }
+                    }, showsStopBetweenClips: narration.mode == .game,
+                    controlID: controlID, instruction: instruction,
+                    instructionID: "central-dogma-game-instruction", compactInstruction: instruction != nil)
+    }
+
+    private func restartRound() {
+        let guided = narration.mode == .game
+        narration.stop()
+        narration.resetGameGuidance()
+        session.restart()
+        if guided, let event = activeNarrationEvent { narration.startGameGuidance(event) }
     }
     private var header: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -78,6 +117,7 @@ import SwiftUI
     private var introduction: some View {
         VStack(spacing: 17) {
             CentralDogmaGameArt(name: "CentralRNAWriter", height: 152)
+            gameGuide(cueID: "game.introduction")
             Text("Small molecules. Big mission.").font(.system(.title2, design: .serif, weight: .bold))
             Text("Copy a protein-coding gene’s RNA, edit the message, and build an amino acid chain. Then explore folding and two finishing examples.")
                 .font(.system(.body, design: .rounded)).multilineTextAlignment(.center)
@@ -119,7 +159,9 @@ import SwiftUI
             VStack(spacing: 15) {
                 CentralDogmaGameCheckpointArt(badge: checkpoint.badge)
                 Text(checkpoint.title).font(.system(.title2, design: .serif, weight: .bold))
-                Text(checkpoint.body).font(.system(.body, design: .rounded)).fixedSize(horizontal: false, vertical: true)
+                gameGuide(cueID: checkpoint.narrationID,
+                          instruction: Text(checkpoint.body).font(.system(.body, design: .rounded)),
+                          controlID: "central-dogma-checkpoint-listen")
                 Text(checkpoint.badge).font(.system(.caption, design: .rounded, weight: .bold)).padding(9).background(CentralDogmaGameTheme.butter, in: Capsule())
                 Button(session.isComplete ? "See my results" : "Keep going") { session.continueAfterCheckpoint() }
                     .buttonStyle(CentralDogmaGamePrimaryStyle())
@@ -135,6 +177,7 @@ import SwiftUI
         VStack(spacing: 17) {
             Image(systemName: "trophy.fill").font(.system(size: 56)).foregroundStyle(CentralDogmaGameTheme.teal)
             Text("Message delivered!").font(.system(.title, design: .serif, weight: .bold))
+            gameGuide(cueID: "game.complete", controlID: "central-dogma-results-listen")
             Text("\(session.score) points").font(.system(size: 34, weight: .bold, design: .rounded))
             Text("\(session.accuracy)% accuracy · best streak \(session.bestStreak)")
                 .font(.system(.subheadline, design: .rounded))
@@ -142,7 +185,7 @@ import SwiftUI
             Text("You practiced transcription, processing, translation, folding, and protein finishing.")
                 .font(.system(.body, design: .rounded)).multilineTextAlignment(.center)
             Text("Best completed score: \(bestScore)").font(.system(.caption, design: .rounded)).foregroundStyle(CentralDogmaGameTheme.muted)
-            Button("New round · new stop codon") { session.restart() }.buttonStyle(CentralDogmaGamePrimaryStyle())
+            Button("New round · new stop codon") { restartRound() }.buttonStyle(CentralDogmaGamePrimaryStyle())
             Button("Done") { dismiss() }.frame(minHeight: 44)
         }.centralDogmaGamePanel(CentralDogmaGameTheme.butter)
     }
@@ -174,4 +217,4 @@ import SwiftUI
     }
 }
 
-#Preview("RNA Relay") { NavigationStack { CentralDogmaGameView() } }
+#Preview("RNA Relay") { NavigationStack { CentralDogmaGameView().environmentObject(LessonNarrator.centralDogma()) } }

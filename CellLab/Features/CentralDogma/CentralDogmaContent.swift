@@ -6,8 +6,16 @@ enum CentralDogmaStep: String, CaseIterable, Identifiable, Sendable {
     var id: String { rawValue }
     var content: CentralDogmaStepContent { CentralDogmaLesson.steps.first { $0.id == rawValue }! }
     var index: Int { Self.allCases.firstIndex(of: self)! }
-    var next: Self? { index + 1 < Self.allCases.count ? Self.allCases[index + 1] : nil }
-    var previous: Self? { index > 0 ? Self.allCases[index - 1] : nil }
+    static var carouselCases: [Self] { allCases.filter { $0 != .overview } }
+    var carouselIndex: Int? { Self.carouselCases.firstIndex(of: self) }
+    var next: Self? {
+        guard let index = carouselIndex, index + 1 < Self.carouselCases.count else { return nil }
+        return Self.carouselCases[index + 1]
+    }
+    var previous: Self? {
+        guard let index = carouselIndex, index > 0 else { return nil }
+        return Self.carouselCases[index - 1]
+    }
 }
 
 struct CentralDogmaStepContent: Sendable {

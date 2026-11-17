@@ -1,0 +1,418 @@
+{
+  "lessonTitle": "Central Dogma",
+  "recordings": [
+    {
+      "id": "lesson.overview",
+      "text": "How does a cell turn the instructions in DNA into something it can use? First, it copies a gene into RNA. Then a ribosome reads that message to build a protein. That’s gene expression! The Central Dogma follows this flow of information: DNA to RNA to protein. Tap me whenever you’d like a hand. We’ll start by finding the gene, and you can swipe when you’re ready for the next step.",
+      "title": "Opening · Listen",
+      "resource": "central-dogma.lesson.overview.wav",
+      "event": "lesson.overview"
+    },
+    {
+      "id": "reference.players",
+      "text": "Let’s meet the protein-making crew! Swipe through the cards to explore each molecule’s job. Tap a speaker to hear its definition.",
+      "title": "Meet the key players",
+      "resource": "central-dogma.reference.players.wav",
+      "event": "reference.players"
+    },
+    {
+      "id": "game.introduction",
+      "text": "Welcome to RNA Relay! Copy a protein-coding gene’s RNA, edit the message, and build an amino acid chain. Then explore folding and two finishing examples. Choose a tool, then tap its target, or drag the tool into place. Correct matches earn points. Mistakes leave the molecule unchanged, and hints are free. Tap me during the game to hear the current instruction and follow along.",
+      "title": "How to play RNA Relay",
+      "resource": "central-dogma.game.introduction.wav",
+      "event": "game.introduction"
+    },
+    {
+      "id": "game.complete",
+      "text": "Message delivered! You practiced transcription, processing, translation, folding, and protein finishing. You can start a new round with a different stop codon, or tap Done to return to the lesson.",
+      "title": "Message delivered!",
+      "resource": "central-dogma.game.complete.wav",
+      "event": "game.complete"
+    },
+    {
+      "id": "reference.big-picture",
+      "text": "Let’s put the whole journey together.\n\nProtein synthesis is a core mechanism of gene expression: DNA → RNA → Protein. Transcription copies a specific gene’s DNA sequence into complementary RNA. Translation decodes mRNA to assemble amino acids into a polypeptide. Folding and processing help produce a functional protein.",
+      "title": "The big picture",
+      "resource": "central-dogma.reference.big-picture.wav",
+      "event": "reference.big-picture"
+    },
+    {
+      "id": "lesson.transcriptionStart",
+      "text": "First, let’s find the start of a gene.\n\nTranscription occurs in the nucleus of eukaryotes; in the cytoplasm of prokaryotes. In eukaryotes, transcription factors bind promoters or distant enhancers, helping attract RNA polymerase. TATA-binding protein is one example of a transcription factor. RNA polymerase attaches at the promoter and unzips DNA, exposing the template strand.",
+      "title": "Find the gene",
+      "resource": "central-dogma.lesson.transcriptionStart.wav",
+      "event": "lesson.transcriptionStart"
+    },
+    {
+      "id": "lesson.transcriptionBuild",
+      "text": "Now the cell writes an RNA copy of the gene.\n\nRNA polymerase reads the DNA template 3′ → 5′. It adds complementary RNA nucleotides only to the growing 3′ end, so RNA is built 5′ → 3′. DNA → RNA pairing: A → U (uracil), T → A, G → C, C → G.",
+      "title": "Write the RNA",
+      "resource": "central-dogma.lesson.transcriptionBuild.wav",
+      "event": "lesson.transcriptionBuild"
+    },
+    {
+      "id": "lesson.transcriptionEnd",
+      "text": "The RNA message is ready to be released.\n\nRNA polymerase reaches a DNA terminator sequence. The enzyme detaches and releases the completed RNA transcript. The DNA rewinds into its double helix.",
+      "title": "Release the message",
+      "resource": "central-dogma.lesson.transcriptionEnd.wav",
+      "event": "lesson.transcriptionEnd"
+    },
+    {
+      "id": "lesson.processing",
+      "text": "Before this message leaves the nucleus, it gets a little editing.\n\nBefore pre-mRNA leaves the nucleus, a modified-nucleotide 5′ cap protects it from cytoplasmic degradation and helps ribosome binding. A poly A tail adds 100–200 adenine nucleotides at the 3′ end, improving stability and translation efficiency. Splicing: small catalytic RNAs and proteins remove non-coding introns and join retained exons. The resulting mature mRNA exits the nucleus and carries its genetic recipe to the cytoplasm.",
+      "title": "Edit the message",
+      "resource": "central-dogma.lesson.processing.wav",
+      "event": "lesson.processing"
+    },
+    {
+      "id": "lesson.translationStart",
+      "text": "Next, the message meets the ribosome.\n\nTranslation occurs at ribosomes in the cytoplasm: free or attached to the rough endoplasmic reticulum. In the eukaryotic sequence shown, the small ribosomal subunit binds the mRNA’s 5′ cap. An initiator tRNA brings methionine (Met). Its anticodon UAC pairs with the start codon AUG. The large ribosomal subunit joins to complete the ribosome.",
+      "title": "Meet the ribosome",
+      "resource": "central-dogma.lesson.translationStart.wav",
+      "event": "lesson.translationStart"
+    },
+    {
+      "id": "lesson.translationBuild",
+      "text": "Now the ribosome links amino acids into a growing chain.\n\nA second tRNA matches the adjacent mRNA codon, delivering its specific amino acid. The ribosome forms a covalent peptide bond between amino acids and moves one codon along mRNA, 5′ → 3′. The first, now empty tRNA leaves to pick up another amino acid in the cytosol. Elongation factors help repeat delivery and movement, lengthening the polypeptide one codon at a time.",
+      "title": "Link the amino acids",
+      "resource": "central-dogma.lesson.translationBuild.wav",
+      "event": "lesson.translationBuild"
+    },
+    {
+      "id": "lesson.translationEnd",
+      "text": "A stop signal tells the ribosome when the chain is finished.\n\nThe ribosome reaches a stop codon: UGA, UAA, or UAG. No tRNA corresponds to a stop codon. A release factor protein binds instead. The polypeptide is released; the ribosomal subunits, tRNA, and mRNA separate.",
+      "title": "Stop and release",
+      "resource": "central-dogma.lesson.translationEnd.wav",
+      "event": "lesson.translationEnd"
+    },
+    {
+      "id": "lesson.folding",
+      "text": "The new chain needs to fold into a useful shape.\n\nThe polypeptide folds into its functional 3D shape. Chaperone proteins help and stabilize the folding process.",
+      "title": "Find the final shape",
+      "resource": "central-dogma.lesson.folding.wav",
+      "event": "lesson.folding"
+    },
+    {
+      "id": "lesson.finishing",
+      "text": "Some proteins need a few finishing touches.\n\nCleavage: enzymes cut some proteins into smaller functional pieces. Example: proinsulin → insulin, a 51-amino-acid product. Assembly: some proteins combine several polypeptide chains. Hemoglobin has four subunits.",
+      "title": "The finishing touches",
+      "resource": "central-dogma.lesson.finishing.wav",
+      "event": "lesson.finishing"
+    },
+    {
+      "id": "player.dna",
+      "text": "Genome, chromosome & gene. Genome: all the genetic material within a cell. Chromosome: a discrete package of DNA wrapped around specialized histone proteins in the nucleus. Gene: a DNA segment encoding a specific protein or functional RNA.",
+      "title": "Genome, chromosome & gene",
+      "resource": "central-dogma.player.dna.wav",
+      "event": "player.dna"
+    },
+    {
+      "id": "player.template",
+      "text": "The template strand. The template strand is the DNA strand actually transcribed into RNA. RNA polymerase reads it 3′ → 5′ and builds RNA 5′ → 3′, adding to the 3′ end. Pairing: DNA A → RNA U, T → A, G → C, C → G. U means uracil.",
+      "title": "The template strand",
+      "resource": "central-dogma.player.template.wav",
+      "event": "player.template"
+    },
+    {
+      "id": "player.polymerase",
+      "text": "RNA polymerase. Attaches to DNA at a promoter, unzips the double helix, and builds complementary RNA. At termination, it detaches and releases the RNA transcript; the DNA rewinds.",
+      "title": "RNA polymerase",
+      "resource": "central-dogma.player.polymerase.wav",
+      "event": "player.polymerase"
+    },
+    {
+      "id": "player.signals",
+      "text": "Promoter & terminator. Promoter: a DNA sequence marking where transcription begins. Terminator: a DNA sequence signaling the end of transcription.",
+      "title": "Promoter & terminator",
+      "resource": "central-dogma.player.signals.wav",
+      "event": "player.signals"
+    },
+    {
+      "id": "player.factors",
+      "text": "Transcription factors. In eukaryotes, transcription factors bind promoters or distant enhancers, attracting RNA polymerase. TATA-binding protein is one example of a transcription factor.",
+      "title": "Transcription factors",
+      "resource": "central-dogma.player.factors.wav",
+      "event": "player.factors"
+    },
+    {
+      "id": "player.mrna",
+      "text": "mRNA & codons. Messenger RNA (mRNA) carries the genetic recipe from the nucleus to the cytoplasm. A codon is three consecutive mRNA bases specifying one amino acid or a stop signal. The genetic code matches 64 triplet codons to 20 amino acids or stop signals.",
+      "title": "mRNA & codons",
+      "resource": "central-dogma.player.mrna.wav",
+      "event": "player.mrna"
+    },
+    {
+      "id": "player.trna",
+      "text": "tRNA & anticodon. Transfer RNA (tRNA) carries a specific amino acid at one end and a three-base anticodon loop at the other. The anticodon binds its complementary mRNA codon. At initiation, 5′-AUG-3′ pairs with 3′-UAC-5′. The initiator tRNA carries methionine (Met). Empty tRNA leaves to pick up another amino acid in the cytosol.",
+      "title": "tRNA & anticodon",
+      "resource": "central-dogma.player.trna.wav",
+      "event": "player.trna"
+    },
+    {
+      "id": "player.ribosome",
+      "text": "rRNA & ribosome. Ribosomal RNA (rRNA) and proteins form the ribosome’s small and large subunits. Ribosomes are the site of translation, free in the cytoplasm or attached to the rough endoplasmic reticulum. The small subunit binds first; the large subunit joins after the initiator tRNA matches AUG.",
+      "title": "rRNA & ribosome",
+      "resource": "central-dogma.player.ribosome.wav",
+      "event": "player.ribosome"
+    },
+    {
+      "id": "player.processing",
+      "text": "The mRNA editing crew. The 5′ cap is a modified nucleotide: protection from degradation and help with ribosome binding. The 3′ poly A tail adds 100–200 adenines for stability and translation efficiency. Small catalytic RNAs and proteins remove non-coding introns and join retained exons. Mature mRNA then leaves the nucleus.",
+      "title": "The mRNA editing crew",
+      "resource": "central-dogma.player.processing.wav",
+      "event": "player.processing"
+    },
+    {
+      "id": "player.elongation",
+      "text": "Peptide bonds & elongation factors. The ribosome makes covalent peptide bonds between amino acids. Elongation factors help tRNAs deliver amino acids as the ribosome advances 5′ → 3′, one codon at a time. The growing amino acid chain is a polypeptide.",
+      "title": "Peptide bonds & elongation factors",
+      "resource": "central-dogma.player.elongation.wav",
+      "event": "player.elongation"
+    },
+    {
+      "id": "player.release",
+      "text": "Stop codons & release factors. The three stop codons are UGA, UAA, and UAG. Stop codons have no matching tRNA. Release factor proteins bind instead. Release factors trigger polypeptide release and separation of ribosomal subunits, tRNA, and mRNA.",
+      "title": "Stop codons & release factors",
+      "resource": "central-dogma.player.release.wav",
+      "event": "player.release"
+    },
+    {
+      "id": "player.chaperones",
+      "text": "Chaperone proteins. A polypeptide folds into its functional 3D protein shape. Chaperone proteins aid and stabilize folding.",
+      "title": "Chaperone proteins",
+      "resource": "central-dogma.player.chaperones.wav",
+      "event": "player.chaperones"
+    },
+    {
+      "id": "player.finishing",
+      "text": "Cleavage & assembly. Cleavage enzymes cut some proteins into functional pieces: proinsulin → 51-amino-acid insulin. Assembly brings separate polypeptide chains together: hemoglobin has four subunits.",
+      "title": "Cleavage & assembly",
+      "resource": "central-dogma.player.finishing.wav",
+      "event": "player.finishing"
+    },
+    {
+      "id": "game.instruction.34fb582efba911d3",
+      "text": "Bring transcription factors to the promoter.",
+      "title": "Recruit the crew",
+      "resource": "central-dogma.game.instruction.34fb582efba911d3.wav",
+      "event": "game.instruction.34fb582efba911d3"
+    },
+    {
+      "id": "game.instruction.b5be5c7b35f026b1",
+      "text": "Bring RNA polymerase to the promoter.",
+      "title": "Park the RNA writer",
+      "resource": "central-dogma.game.instruction.b5be5c7b35f026b1.wav",
+      "event": "game.instruction.b5be5c7b35f026b1"
+    },
+    {
+      "id": "game.instruction.78eb77e5a311d276",
+      "text": "Tap RNA polymerase to expose the template strand.",
+      "title": "Open the DNA",
+      "resource": "central-dogma.game.instruction.78eb77e5a311d276.wav",
+      "event": "game.instruction.78eb77e5a311d276"
+    },
+    {
+      "id": "game.instruction.4a2f8e3d7418c7aa",
+      "text": "DNA T is next. Add its RNA partner at the growing 3′ end.",
+      "title": "Build the RNA",
+      "resource": "central-dogma.game.instruction.4a2f8e3d7418c7aa.wav",
+      "event": "game.instruction.4a2f8e3d7418c7aa"
+    },
+    {
+      "id": "game.instruction.2f952cb69375cbad",
+      "text": "DNA A is next. Add its RNA partner at the growing 3′ end.",
+      "title": "Build the RNA",
+      "resource": "central-dogma.game.instruction.2f952cb69375cbad.wav",
+      "event": "game.instruction.2f952cb69375cbad"
+    },
+    {
+      "id": "game.instruction.33ce496868bbf3f7",
+      "text": "DNA C is next. Add its RNA partner at the growing 3′ end.",
+      "title": "Build the RNA",
+      "resource": "central-dogma.game.instruction.33ce496868bbf3f7.wav",
+      "event": "game.instruction.33ce496868bbf3f7"
+    },
+    {
+      "id": "game.instruction.cf226e78053e12d3",
+      "text": "DNA G is next. Add its RNA partner at the growing 3′ end.",
+      "title": "Build the RNA",
+      "resource": "central-dogma.game.instruction.cf226e78053e12d3.wav",
+      "event": "game.instruction.cf226e78053e12d3"
+    },
+    {
+      "id": "game.result.5391aedb287a7a48",
+      "text": "RNA written!\n\nYou copied both exon and intron windows, adding only at the RNA’s 3′ end.",
+      "title": "RNA written!",
+      "resource": "central-dogma.game.result.5391aedb287a7a48.wav",
+      "event": "game.result.5391aedb287a7a48"
+    },
+    {
+      "id": "game.instruction.e1cd93d6f3bccb15",
+      "text": "Tap the DNA terminator to finish transcription.",
+      "title": "Release the message",
+      "resource": "central-dogma.game.instruction.e1cd93d6f3bccb15.wav",
+      "event": "game.instruction.e1cd93d6f3bccb15"
+    },
+    {
+      "id": "game.instruction.4ee697db303258cd",
+      "text": "Attach the modified-nucleotide cap at the 5′ end.",
+      "title": "Protect the front",
+      "resource": "central-dogma.game.instruction.4ee697db303258cd.wav",
+      "event": "game.instruction.4ee697db303258cd"
+    },
+    {
+      "id": "game.instruction.8c026a586f2ecfdc",
+      "text": "Attach a poly A tail at the 3′ end.",
+      "title": "Tail the message",
+      "resource": "central-dogma.game.instruction.8c026a586f2ecfdc.wav",
+      "event": "game.instruction.8c026a586f2ecfdc"
+    },
+    {
+      "id": "game.instruction.be0e428a40ce652c",
+      "text": "Use the splicing crew on the lavender intron region.",
+      "title": "Remove the intron",
+      "resource": "central-dogma.game.instruction.be0e428a40ce652c.wav",
+      "event": "game.instruction.be0e428a40ce652c"
+    },
+    {
+      "id": "game.instruction.754d23f67f301da2",
+      "text": "Tap the exon connectors to complete splicing.",
+      "title": "Join the exons",
+      "resource": "central-dogma.game.instruction.754d23f67f301da2.wav",
+      "event": "game.instruction.754d23f67f301da2"
+    },
+    {
+      "id": "game.result.adf85576a6d79f1e",
+      "text": "Message upgraded!\n\nThe cap, tail, and splicing are complete. Mature mRNA can now leave the nucleus.",
+      "title": "Message upgraded!",
+      "resource": "central-dogma.game.result.adf85576a6d79f1e.wav",
+      "event": "game.result.adf85576a6d79f1e"
+    },
+    {
+      "id": "game.instruction.ece42bb50b9ffae3",
+      "text": "Move mature mRNA through the nucleus exit.",
+      "title": "Send the message",
+      "resource": "central-dogma.game.instruction.ece42bb50b9ffae3.wav",
+      "event": "game.instruction.ece42bb50b9ffae3"
+    },
+    {
+      "id": "game.instruction.8a1171bfd7f51e08",
+      "text": "Bring the small ribosomal subunit to the 5′ cap.",
+      "title": "Build the reading station",
+      "resource": "central-dogma.game.instruction.8a1171bfd7f51e08.wav",
+      "event": "game.instruction.8a1171bfd7f51e08"
+    },
+    {
+      "id": "game.instruction.e645e0862012315b",
+      "text": "Match an initiator tRNA to the AUG start codon.",
+      "title": "AUG says start",
+      "resource": "central-dogma.game.instruction.e645e0862012315b.wav",
+      "event": "game.instruction.e645e0862012315b"
+    },
+    {
+      "id": "game.instruction.f9ec5c8c64987330",
+      "text": "Add the large ribosomal subunit.",
+      "title": "Complete the ribosome",
+      "resource": "central-dogma.game.instruction.f9ec5c8c64987330.wav",
+      "event": "game.instruction.f9ec5c8c64987330"
+    },
+    {
+      "id": "game.result.12e1ef909a6193c8",
+      "text": "Reading station ready!\n\nThe small subunit, initiator tRNA carrying Met, and large subunit are in position.",
+      "title": "Reading station ready!",
+      "resource": "central-dogma.game.result.12e1ef909a6193c8.wav",
+      "event": "game.result.12e1ef909a6193c8"
+    },
+    {
+      "id": "game.instruction.9f4cc594a14676da",
+      "text": "Match a tRNA anticodon to the next AUG codon.",
+      "title": "Deliver the next amino acid",
+      "resource": "central-dogma.game.instruction.9f4cc594a14676da.wav",
+      "event": "game.instruction.9f4cc594a14676da"
+    },
+    {
+      "id": "game.instruction.648e150d9c9e0803",
+      "text": "Tap between the amino acids to form a peptide bond.",
+      "title": "Make the connection",
+      "resource": "central-dogma.game.instruction.648e150d9c9e0803.wav",
+      "event": "game.instruction.648e150d9c9e0803"
+    },
+    {
+      "id": "game.instruction.bc7f845a3d8ec1e3",
+      "text": "Move the ribosome one codon in the 5′ → 3′ direction.",
+      "title": "Move one codon",
+      "resource": "central-dogma.game.instruction.bc7f845a3d8ec1e3.wav",
+      "event": "game.instruction.bc7f845a3d8ec1e3"
+    },
+    {
+      "id": "game.instruction.6ad7fc9b2de9ac31",
+      "text": "Send the empty tRNA back into the cytosol.",
+      "title": "Recycle the connector",
+      "resource": "central-dogma.game.instruction.6ad7fc9b2de9ac31.wav",
+      "event": "game.instruction.6ad7fc9b2de9ac31"
+    },
+    {
+      "id": "game.instruction.89ca7a3e22feb37",
+      "text": "UAA is a stop codon. Choose what binds here.",
+      "title": "Stop means release",
+      "resource": "central-dogma.game.instruction.89ca7a3e22feb37.wav",
+      "event": "game.instruction.89ca7a3e22feb37"
+    },
+    {
+      "id": "game.result.423d4ac31ee2a4f7",
+      "text": "Message decoded!\n\nYour short practice fragment made three Met residues. Now zoom out to a separate, full-length polypeptide for folding.",
+      "title": "Message decoded!",
+      "resource": "central-dogma.game.result.423d4ac31ee2a4f7.wav",
+      "event": "game.result.423d4ac31ee2a4f7"
+    },
+    {
+      "id": "game.instruction.a395da906391dda3",
+      "text": "Bring a chaperone to this full-length polypeptide.",
+      "title": "Help the full chain fold",
+      "resource": "central-dogma.game.instruction.a395da906391dda3.wav",
+      "event": "game.instruction.a395da906391dda3"
+    },
+    {
+      "id": "game.result.c45c5ee7211746b2",
+      "text": "Shape unlocked!\n\nNext, explore two different finishing examples. Proteins do not all use the same finishing steps.",
+      "title": "Shape unlocked!",
+      "resource": "central-dogma.game.result.c45c5ee7211746b2.wav",
+      "event": "game.result.c45c5ee7211746b2"
+    },
+    {
+      "id": "game.instruction.134f659daa725a80",
+      "text": "Use cleavage enzymes on the proinsulin example.",
+      "title": "Insulin example: cut to finish",
+      "resource": "central-dogma.game.instruction.134f659daa725a80.wav",
+      "event": "game.instruction.134f659daa725a80"
+    },
+    {
+      "id": "game.instruction.eefbba186c241bee",
+      "text": "Bring four separate subunits into the assembly.",
+      "title": "Hemoglobin example: team up",
+      "resource": "central-dogma.game.instruction.eefbba186c241bee.wav",
+      "event": "game.instruction.eefbba186c241bee"
+    },
+    {
+      "id": "game.result.104d8fe5aa567887",
+      "text": "Central Dogma champion!\n\nYou practiced transcription, mRNA processing, translation, folding, and two different finishing examples.",
+      "title": "Central Dogma champion!",
+      "resource": "central-dogma.game.result.104d8fe5aa567887.wav",
+      "event": "game.result.104d8fe5aa567887"
+    },
+    {
+      "id": "game.instruction.8e827e2a3ecb83a1",
+      "text": "UGA is a stop codon. Choose what binds here.",
+      "title": "Stop means release",
+      "resource": "central-dogma.game.instruction.8e827e2a3ecb83a1.wav",
+      "event": "game.instruction.8e827e2a3ecb83a1"
+    },
+    {
+      "id": "game.instruction.26c240efed975251",
+      "text": "UAG is a stop codon. Choose what binds here.",
+      "title": "Stop means release",
+      "resource": "central-dogma.game.instruction.26c240efed975251.wav",
+      "event": "game.instruction.26c240efed975251"
+    }
+  ]
+}

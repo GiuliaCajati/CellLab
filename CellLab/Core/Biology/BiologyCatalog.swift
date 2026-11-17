@@ -1,11 +1,11 @@
 import Foundation
 
-nonisolated struct BiologyCatalog: Decodable {
+nonisolated struct BiologyCatalog: Decodable, Sendable {
     let contentVersion: String
     let entries: [Entry]
     let sources: [Source]
 
-    struct Entry: Decodable, Identifiable {
+    struct Entry: Decodable, Identifiable, Sendable {
         let id: String
         let title: String
         let kind: Kind
@@ -21,11 +21,11 @@ nonisolated struct BiologyCatalog: Decodable {
         let links: [Link]
     }
 
-    enum Kind: String, Decodable { case process, structure, complex }
-    enum ReviewStatus: String, Decodable { case draft, sourceChecked, expertReviewed }
-    enum EvidenceStatus: String, Decodable { case pending, sourceChecked }
+    enum Kind: String, Decodable, Sendable { case process, structure, complex }
+    enum ReviewStatus: String, Decodable, Sendable { case draft, sourceChecked, expertReviewed }
+    enum EvidenceStatus: String, Decodable, Sendable { case pending, sourceChecked }
 
-    struct Evidence: Decodable, Identifiable {
+    struct Evidence: Decodable, Identifiable, Sendable {
         let claimID: String
         let statement: String
         let sourceIDs: [String]
@@ -33,12 +33,12 @@ nonisolated struct BiologyCatalog: Decodable {
         var id: String { claimID }
     }
 
-    struct Link: Decodable, Hashable {
+    struct Link: Decodable, Hashable, Sendable {
         let label: String
         let targetID: String
     }
 
-    struct Source: Decodable, Identifiable {
+    struct Source: Decodable, Identifiable, Sendable {
         let id: String
         let title: String
         let note: String?

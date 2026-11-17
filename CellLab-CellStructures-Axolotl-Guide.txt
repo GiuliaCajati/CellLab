@@ -1,0 +1,34 @@
+CellLab · Cell Structures axolotl narration
+
+RECORDING PLAN | Unspoken
+
+Generate with free local Kokoro:
+Tools/.kokoro-venv/bin/python Tools/generate_cell_structures_audio.py
+
+Use the same af_heart voice, warm and playful, as the other CellLab lessons.
+Pause after the opening question. The overview introduces the model and how
+to explore it, then hands off to the selected structure (initially Nucleus).
+After each explanation, wait for the learner to choose another structure.
+
+CellStructuresNarration.swift contains the opening and builds every clip
+from the existing CellStructuresContent.swift text. The main explanation
+reads the structure title, nickname, summary, and animation caption.
+“Look closer” audio reads the same detailed bullet points shown on screen.
+No duplicate organelle descriptions are maintained in this document.
+
+Say DNA, RNA, mRNA, rRNA, ATP, and ER clearly. Keep the existing copied,
+copies, nuclei, nucleotide, and RNA pronunciation fixes. Expand chemical
+notation for speech: O₂ as oxygen, CO₂ as carbon dioxide, H₂O as water,
+H₂O₂ as hydrogen peroxide, and Ca²⁺ as calcium. Read pH 4.8 as
+“P H four point eight,” nm as nanometers, and + as plus. The displayed
+transcripts retain the original scientific notation.
+
+The guide is quiet until tapped. Its mouth moves while speaking, with
+Reduce Motion respected. Tapping Stop cancels speech and pending clips.
+Choosing a structure follows the selection while guided narration is on;
+opening the structure browser, leaving, or backgrounding stops the audio.
+
+39 clips and their transcript manifest are saved in:
+CellLab/Resources/Audio/CellStructures
+All synthesis runs on the Mac using the installed model. No paid API or
+runtime network connection is required.

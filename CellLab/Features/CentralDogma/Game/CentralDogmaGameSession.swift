@@ -9,6 +9,8 @@ struct CentralDogmaGameFeedback: Sendable {
 }
 
 @MainActor @Observable final class CentralDogmaGameSession {
+    // Avoid the iOS 26.2 isolated-deinit runtime crash, as in the other games.
+    nonisolated deinit {}
     private(set) var missionIndex = 0
     private(set) var index = 0
     private(set) var score = 0

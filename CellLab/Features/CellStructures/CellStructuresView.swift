@@ -4,6 +4,7 @@ import SwiftUI
 
 struct CellStructuresView: View {
     private let kind: CSCellKind = .animal
+    @StateObject private var narration = LessonNarrator.cellStructures()
     @State private var selected: CSPart = .nucleus
     @State private var playing = true
     @State private var browserOpen = false
@@ -12,7 +13,7 @@ struct CellStructuresView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.scenePhase) private var scenePhase
 
-    private var shouldAnimate: Bool { playing && !reduceMotion && scenePhase == .active }
+    private var shouldAnimate: Bool { playing && !reduceMotion && scenePhase == .active && !browserOpen }
 
     var body: some View {
         ScrollView {
@@ -61,16 +62,33 @@ struct CellStructuresView: View {
         .tint(CSPalette.teal)
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear { clock.setRunning(shouldAnimate) }
-        .onDisappear { clock.setRunning(false) }
+        .environmentObject(narration)
+        .onAppear {
+            clock.setRunning(shouldAnimate)
+            narration.stop()
+            narration.selectPhase(selected.narrationID)
+        }
+        .onDisappear { clock.setRunning(false); narration.stop() }
         .onChange(of: shouldAnimate) { _, value in clock.setRunning(value) }
-        .sheet(isPresented: $browserOpen) {
+        .onChange(of: selected) { _, part in narration.selectPhase(part.narrationID) }
+        .onChange(of: narration.isPlaying) { _, speaking in
+            if speaking && narration.mode == .lesson && narration.currentCueID == selected.narrationID {
+                replay()
+            }
+        }
+        .onChange(of: browserOpen) { _, _ in narration.stop() }
+        .onChange(of: scenePhase) { _, phase in if phase != .active { narration.stop() } }
+        .sheet(isPresented: $browserOpen, onDismiss: narration.stop) {
             CSStructureBrowser(selected: selected) { part in
                 select(part)
                 browserOpen = false
             }
             .presentationDragIndicator(.visible)
         }
+        .alert("Audio unavailable", isPresented: Binding(
+            get: { narration.errorMessage != nil }, set: { if !$0 { narration.errorMessage = nil } }
+        )) { Button("OK", role: .cancel) { narration.errorMessage = nil } }
+        message: { Text(narration.errorMessage ?? "Please try again.") }
     }
 
     private var header: some View {
@@ -81,6 +99,14 @@ struct CellStructuresView: View {
             Text("Small parts. Busy lives.")
                 .font(.system(.subheadline, design: .rounded))
                 .foregroundStyle(CSPalette.muted)
+            LessonGuide(narrator: narration, title: narration.lessonButtonTitle,
+                        cueID: narration.isPlaying ? (narration.currentCueID ?? narration.overviewCueID)
+                            : (narration.hasBegunLesson ? selected.narrationID : narration.overviewCueID),
+                        action: narration.toggleLesson,
+                        showsStopBetweenClips: narration.mode == .lesson,
+                        replayOverview: narration.playOverview,
+                        controlID: "structures-listen", layoutTitle: "Hear overview")
+                .padding(.top, 3)
         }
     }
 
@@ -185,6 +211,7 @@ private struct CSStructureCard: View {
                         .accessibilityIdentifier("structure-title")
                 }
                 Spacer(minLength: 5)
+                NarrationSpeakerButton(cueID: part.narrationID, title: part.content.title)
                 Button(action: replay) {
                     Image(systemName: "arrow.counterclockwise")
                         .font(.subheadline.weight(.semibold))
@@ -219,6 +246,12 @@ private struct CSStructureCard: View {
 
             DisclosureGroup("Look closer", isExpanded: $expanded) {
                 VStack(alignment: .leading, spacing: 11) {
+                    HStack {
+                        Text("Hear more detail")
+                        Spacer(minLength: 4)
+                        NarrationSpeakerButton(cueID: part.detailNarrationID,
+                                               title: "more about \(part.content.title)")
+                    }
                     ForEach(Array(part.content.details.enumerated()), id: \.offset) { _, detail in
                         HStack(alignment: .firstTextBaseline, spacing: 8) {
                             Text("•").fontWeight(.bold).accessibilityHidden(true)
@@ -242,6 +275,7 @@ private struct CSStructureCard: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color(csHex: part.content.hex).opacity(0.65), in: RoundedRectangle(cornerRadius: 27))
         .overlay(RoundedRectangle(cornerRadius: 27).strokeBorder(CSPalette.ink.opacity(0.65), lineWidth: 1.4))
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("structure-detail")
     }
 
@@ -300,8 +334,10 @@ private struct CSStructureBrowser: View {
                                     }
                                     .foregroundStyle(CSPalette.ink)
                                     .frame(minHeight: 48)
+                                    .contentShape(Rectangle())
                                 }
                                 .buttonStyle(.plain)
+                                .accessibilityIdentifier("structure-browser-\(part.id)")
                                 .listRowBackground(CSPalette.paper)
                             }
                         }
@@ -314,7 +350,11 @@ private struct CSStructureBrowser: View {
             .navigationTitle("Meet the cell crew")
             .navigationBarTitleDisplayMode(.inline)
             .searchable(text: $query, prompt: "Find a structure or function")
-            .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { dismiss() } } }
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done") { dismiss() }.accessibilityIdentifier("structures-browser-done")
+                }
+            }
             .tint(CSPalette.teal)
         }
     }

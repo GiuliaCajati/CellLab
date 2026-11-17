@@ -1,5 +1,4 @@
-// CentralDogmaScene.swift — precise diagrams shared with the offline preview.
-// Mnemonic raster characters are separate from the base labels and strand geometry.
+// CentralDogmaScene.swift — live molecular process diagrams and reference artwork.
 import SwiftUI
 import UIKit
 
@@ -10,8 +9,18 @@ import UIKit
     var illustrationID: String? = nil
 
     var body: some View {
-        let timeline = CentralDogmaTimelineStore.shared.timeline(for: step, illustrationID: illustrationID)
+        let timeline = illustrationID == nil ? nil
+            : CentralDogmaTimelineStore.shared.timeline(for: step, illustrationID: illustrationID)
         Canvas { context, size in
+            if illustrationID == nil {
+                let scale = max(0, min(size.width / 360, size.height / 420))
+                var drawing = context
+                drawing.translateBy(x: (size.width - 360 * scale) / 2, y: (size.height - 420 * scale) / 2)
+                drawing.scaleBy(x: scale, y: scale)
+                CentralDogmaProcessPainter(context: drawing, step: step,
+                    p: CGFloat(min(max(progress.isFinite ? progress : 1, 0), 1))).draw()
+                return
+            }
             guard let timeline, !timeline.frames.isEmpty else { return }
             let p = min(max(progress.isFinite ? progress : 1, 0), 1)
             let index = Int((p * Double(timeline.frames.count - 1)).rounded())
@@ -26,12 +35,13 @@ import UIKit
         }
         .background(background)
         .overlay {
-            if timeline == nil {
+            if illustrationID != nil && timeline == nil {
                 ContentUnavailableView("Diagram unavailable", systemImage: "photo")
             }
         }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(step.content.accessibility)
+        .accessibilityValue("\(Int(min(max(progress.isFinite ? progress : 1, 0), 1) * 100)) percent of this teaching animation")
         .accessibilityIdentifier("central-dogma-diagram")
     }
 }

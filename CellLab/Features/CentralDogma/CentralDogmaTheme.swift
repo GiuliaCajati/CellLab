@@ -4,10 +4,10 @@ import SwiftUI
 enum CentralDogmaTheme {
     static let cream = color(0xFBF4EA)
     static let paper = color(0xFFFDF8)
-    static let ink = color(0x184C46)
+    static let ink = MeiPalette.ink
     static let edge = color(0x54796B)
     static let muted = color(0x5E786F)
-    static let teal = color(0x118782)
+    static let teal = MeiPalette.teal
     static let parental = color(0x6589A4)
     static let newDNA = color(0xCF7595)
     static let rna = color(0xD39D2F)

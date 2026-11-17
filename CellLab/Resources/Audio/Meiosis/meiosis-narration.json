@@ -4,7 +4,7 @@
     {
       "id": "lesson.overview",
       "title": "Opening · Listen",
-      "text": "Why can siblings with the same parents look so different? A chromosome shuffle!\n\nMost of your body’s cells have two chromosome sets: one from mom and one from dad. Matching chromosomes form homologous pairs. They carry the same genes in the same places, but may have different versions, called alleles.\n\nIn cells that make eggs or sperm, DNA is copied once, then the cell divides twice. The first division separates homologous chromosomes. The second separates sister chromatids. That leaves haploid products with one chromosome set. In humans, that’s twenty-three chromosomes instead of forty-six. Mixing DNA and halving the sets? That’s meiosis! Swipe through the eight steps with me!",
+      "text": "Why can siblings with the same parents look so different? A chromosome shuffle!\n\nMost of your body’s cells have two chromosome sets: one from mom and one from dad. Matching chromosomes form homologous pairs. They carry the same genes in the same places, but may have different versions, called alleles.\n\nIn cells that make eggs or sperm, DNA is copied once, then the cell divides twice. The first division separates homologous chromosomes. The second separates sister chromatids. That leaves haploid products with one chromosome set. In humans, that’s twenty-three chromosomes instead of forty-six chromosomes. Mixing DNA and halving the sets? That’s meiosis! Swipe through the eight steps with me!",
       "resource": "meiosis.lesson.overview.wav",
       "event": "lesson.overview"
     },

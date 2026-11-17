@@ -1,0 +1,129 @@
+CellLab · S phase axolotl narration
+
+SCRIPT AND RECORDING PLAN | Unspoken
+
+Generate missing or changed recordings with the existing local setup:
+Tools/.kokoro-venv/bin/python Tools/generate_sphase_audio.py
+
+The generator exports the real Swift lesson descriptions, vocabulary, and
+game instructions using Tools/export_sphase_narration.swift. It bundles the
+resulting clips and transcript in CellLab/Resources/Audio/SPhase.
+
+Use the existing axolotl and the same free local Kokoro af_heart voice as
+Mitosis and Meiosis. Keep the delivery relaxed, warm, and playful, like a
+friend explaining biology. Give the opening question a short pause before
+the answer. Say “That’s DNA replication!” with the same smiling excitement
+as the approved “That’s mitosis!” recording.
+
+RECORD lines identify separate clips and are not spoken. Each lesson card
+has one introductory sentence, followed by READ_PHASE_DESCRIPTION and the
+card’s slug. That silent directive means: read the exact bullets for that
+step from DNAReplicationStep.content in
+CellLab/Features/DNAReplication/DNAReplicationContent.swift, in display order.
+Do not read Markdown emphasis marks or bullet symbols. Keep the descriptions
+in Swift as the source of truth, as in the Mitosis and Meiosis guides.
+
+For speech, say DNA smoothly as “dee-en-AY” using its pronunciation override,
+and RNA as individual letters; read 3′ as “three prime”
+and 5′ → 3′ as “five prime to three prime.” Read A–T as “A with T” and C–G as
+“C with G,” with clear letter names. Keep these pronunciation adjustments
+separate from the displayed biology text. Reuse the approved pronunciation
+handling for words such as “copied” and “copies.” Check “helicase,” “primase,”
+“polymerase,” “ligase,” “Okazaki,” and “semiconservative” by ear when recording.
+
+The nine cards show a teaching sequence. In a real cell, the enzyme actions
+overlap; proofreading happens as new DNA is being built.
+
+SPOKEN CUES
+
+RECORD lesson.overview | Opening · Listen
+How do you share a whole instruction book without tearing it in half? Make another copy!
+
+That’s what a cell does with its DNA before it divides. Welcome to S phase, the synthesis phase of interphase. This is when the cell makes another complete set of its DNA instructions.
+
+Watch our little zipper: that’s helicase, opening the DNA so each original strand can guide a new one. A whole crew helps build, check, and finish the new strands. The result? Two matching DNA molecules, each with one original strand and one new strand. That’s DNA replication!
+
+We’re getting the DNA ready, before the cell divides. Swipe through the nine steps with me!
+
+RECORD lesson.origins | 1 · Origins of replication | Where copying begins
+First, every copying crew needs somewhere to start.
+
+READ_PHASE_DESCRIPTION origins
+
+RECORD lesson.unzip | 2 · Helicase | Unzip the DNA
+Here comes helicase, our little DNA zipper!
+
+READ_PHASE_DESCRIPTION unzip
+
+RECORD lesson.stabilize | 3 · Binding proteins | Keep the strands apart
+Now let’s keep those two strands from zipping back together.
+
+READ_PHASE_DESCRIPTION stabilize
+
+RECORD lesson.prime | 4 · RNA primer | Start here
+Primase gives the copying crew its starting block.
+
+READ_PHASE_DESCRIPTION prime
+
+RECORD lesson.build | 5 · DNA polymerase | Build the copy
+DNA polymerase is ready to build, one matching piece at a time.
+
+READ_PHASE_DESCRIPTION build
+
+RECORD lesson.proofread | 6 · Proofreading | Check as you go
+Even a busy builder needs to check its work.
+
+READ_PHASE_DESCRIPTION proofread
+
+RECORD lesson.replace | 7 · Primer replacement | Swap RNA for DNA
+Those RNA starting blocks were temporary, so it’s time to swap them out.
+
+READ_PHASE_DESCRIPTION replace
+
+RECORD lesson.seal | 8 · DNA ligase | Seal the backbone
+DNA ligase handles the finishing touches: sealing the backbone.
+
+READ_PHASE_DESCRIPTION seal
+
+RECORD lesson.result | 9 · Semiconservative | One old + one new
+Ta-da, two DNA molecules, each with something old and something new!
+
+READ_PHASE_DESCRIPTION result
+
+RECORD reference.players | Meet the key players
+Meet the DNA copying crew! Pick a player to hear what it does, from our helicase zipper to the enzymes that build, check, and seal the new strands.
+
+RECORD game.origin.start | How to play · Find the starting line
+Your turn to join the copying crew! We’ll build one short section of DNA together. Pick a tool, then tap its glowing target, or drag the tool onto it. When it’s time to build, match each new DNA piece to the template. I’ll explain the next job as you go.
+
+READ_GAME_INSTRUCTION origin
+
+END OF RECORDINGS
+
+REFERENCE AND GAME CUES | Unspoken
+
+For each key player, use the title and bullets from DNAReplicationPlayer.all
+in DNAReplicationContent.swift. Do not maintain a second set of definitions
+here. Preserve the leading and lagging strand explanation, base-pairing
+rules, and the distinction between opening hydrogen bonds and sealing
+covalent bonds in a backbone.
+
+For game instructions, use the current DNACopySession.instruction and its
+actual available action. For completion pop-ups, use the displayed
+DNACopyCelebration title and body. Keep any action-specific cue tied to the
+live game state so the axolotl never asks for a tool or action that is no
+longer available. Do not narrate every repeated nucleotide placement.
+
+PLAYBACK PLAN | Unspoken
+
+Keep the axolotl above the carousel, in his existing position. Start quietly.
+Tapping “Hear overview” plays the overview, then the visible card’s cue,
+then waits for a swipe. Once listening is enabled, changing cards stops
+obsolete speech and plays the settled card’s cue. Stop cancels both audio
+and pending cues. Animate the mouth only during actual speech; use the
+still face with Reduce Motion. Stop on leaving the page or starting the
+game. Keep game guidance beside the instruction, outside the DNA drawing.
+Use bundled recordings for offline playback, as in the other two lessons.
+
+After editing the introductions here or the definitions in Swift, rerun the
+local generator so the bundled audio and transcript match the page.

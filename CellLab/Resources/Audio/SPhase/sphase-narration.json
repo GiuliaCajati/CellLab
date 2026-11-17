@@ -1,0 +1,439 @@
+{
+  "lessonTitle": "S phase",
+  "recordings": [
+    {
+      "id": "lesson.overview",
+      "title": "Opening · Listen",
+      "text": "How do you share a whole instruction book without tearing it in half? Make another copy!\n\nThat’s what a cell does with its DNA before it divides. Welcome to S phase, the synthesis phase of interphase. This is when the cell makes another complete set of its DNA instructions.\n\nWatch our little zipper: that’s helicase, opening the DNA so each original strand can guide a new one. A whole crew helps build, check, and finish the new strands. The result? Two matching DNA molecules, each with one original strand and one new strand. That’s DNA replication!\n\nWe’re getting the DNA ready, before the cell divides. Swipe through the nine steps with me!",
+      "resource": "sphase.lesson.overview.wav",
+      "event": "lesson.overview"
+    },
+    {
+      "id": "lesson.origins",
+      "title": "1 · Origins of replication | Where copying begins",
+      "text": "First, every copying crew needs somewhere to start.\n\nDNA is copied during S phase of interphase, before cell division. The genome is all the cell’s genetic material. An unreplicated chromosome contains one continuous DNA molecule plus associated proteins. Many origins of replication let copying begin at several places along a chromosome.",
+      "resource": "sphase.lesson.origins.wav",
+      "event": "lesson.origins"
+    },
+    {
+      "id": "lesson.unzip",
+      "title": "2 · Helicase | Unzip the DNA",
+      "text": "Here comes helicase, our little DNA zipper!\n\nHelicase unwinds DNA by breaking hydrogen bonds between complementary bases. The separated strands provide templates for copying.",
+      "resource": "sphase.lesson.unzip.wav",
+      "event": "lesson.unzip"
+    },
+    {
+      "id": "lesson.stabilize",
+      "title": "3 · Binding proteins | Keep the strands apart",
+      "text": "Now let’s keep those two strands from zipping back together.\n\nBinding proteins attach to the separated DNA strands. They keep the strands stable and prevent them from rejoining.",
+      "resource": "sphase.lesson.stabilize.wav",
+      "event": "lesson.stabilize"
+    },
+    {
+      "id": "lesson.prime",
+      "title": "4 · RNA primer | Start here",
+      "text": "Primase gives the copying crew its starting block.\n\nBefore priming: copying begins at origins. Helicase unzips DNA; binding proteins keep the strands apart. Primase makes a short RNA primer, providing an exposed 3′ end for DNA polymerase. DNA polymerase cannot start from scratch. Each Okazaki fragment needs its own primer.",
+      "resource": "sphase.lesson.prime.wav",
+      "event": "lesson.prime"
+    },
+    {
+      "id": "lesson.build",
+      "title": "5 · DNA polymerase | Build the copy",
+      "text": "DNA polymerase is ready to build, one matching piece at a time.\n\nDNA polymerase adds complementary DNA nucleotides only to the growing 3′ end: new DNA grows 5′ → 3′. The leading strand grows continuously toward the fork. The lagging strand grows away in Okazaki fragments, each with a primer. Adenine pairs with thymine (A–T); cytosine pairs with guanine (C–G).",
+      "resource": "sphase.lesson.build.wav",
+      "event": "lesson.build"
+    },
+    {
+      "id": "lesson.proofread",
+      "title": "6 · Proofreading | Check as you go",
+      "text": "Even a busy builder needs to check its work.\n\nDuring synthesis, DNA polymerase proofreads its work, removing a mismatched nucleotide from the growing end and adding the correct one. With proofreading and additional repair, the final error rate can be about one mistake per billion nucleotides.",
+      "resource": "sphase.lesson.proofread.wav",
+      "event": "lesson.proofread"
+    },
+    {
+      "id": "lesson.replace",
+      "title": "7 · Primer replacement | Swap RNA for DNA",
+      "text": "Those RNA starting blocks were temporary, so it’s time to swap them out.\n\nRepair enzymes remove temporary RNA primers from the newly made strands. DNA polymerase extends an existing 3′ end, filling the space with DNA. A nick remains between adjacent backbone segments.",
+      "resource": "sphase.lesson.replace.wav",
+      "event": "lesson.replace"
+    },
+    {
+      "id": "lesson.seal",
+      "title": "8 · DNA ligase | Seal the backbone",
+      "text": "DNA ligase handles the finishing touches: sealing the backbone.\n\nDNA ligase seals remaining nicks by forming covalent bonds in the sugar-phosphate backbone. This connects neighboring Okazaki fragments into one continuous strand after primer replacement.",
+      "resource": "sphase.lesson.seal.wav",
+      "event": "lesson.seal"
+    },
+    {
+      "id": "lesson.result",
+      "title": "9 · Semiconservative | One old + one new",
+      "text": "Ta-da, two DNA molecules, each with something old and something new!\n\nOne DNA molecule produces two matching double-stranded DNA molecules. Each contains one parental strand and one new complementary strand: semiconservative replication. An error that escapes repair can become a mutation, a permanent change in DNA sequence.",
+      "resource": "sphase.lesson.result.wav",
+      "event": "lesson.result"
+    },
+    {
+      "id": "reference.players",
+      "title": "Meet the key players",
+      "text": "Meet the DNA copying crew! Pick a player to hear what it does, from our helicase zipper to the enzymes that build, check, and seal the new strands.",
+      "resource": "sphase.reference.players.wav",
+      "event": "reference.players"
+    },
+    {
+      "id": "game.origin.start",
+      "title": "How to play · Find the starting line",
+      "text": "Your turn to join the copying crew! We’ll build one short section of DNA together. Pick a tool, then tap its glowing target, or drag the tool onto it. When it’s time to build, match each new DNA piece to the template. I’ll explain the next job as you go.\n\nTap a glowing origin. We’ll copy one short section.",
+      "resource": "sphase.game.origin.start.wav",
+      "event": "game.origin.start"
+    },
+    {
+      "id": "player.primase",
+      "text": "RNA primer & primase. Primase makes a short RNA primer on the exposed DNA template. The primer provides an exposed 3′ end. DNA polymerase needs this start and cannot begin a strand from scratch. Each Okazaki fragment begins with a primer. The temporary RNA is later replaced with DNA.",
+      "title": "RNA primer & primase",
+      "resource": "sphase.player.primase.wav",
+      "event": "player.primase"
+    },
+    {
+      "id": "player.polymerase",
+      "text": "DNA polymerase. DNA polymerase adds complementary DNA nucleotides to an existing 3′ end, never to the growing strand’s 5′ end. New DNA grows only 5′ → 3′, using the original strand as a template. The builder also proofreads, removing mismatches and adding the correct bases.",
+      "title": "DNA polymerase",
+      "resource": "sphase.player.polymerase.wav",
+      "event": "player.polymerase"
+    },
+    {
+      "id": "player.helicase",
+      "text": "Helicase. Helicase unwinds the DNA double helix. It breaks hydrogen bonds between complementary bases, separating the strands for copying.",
+      "title": "Helicase",
+      "resource": "sphase.player.helicase.wav",
+      "event": "player.helicase"
+    },
+    {
+      "id": "player.ligation",
+      "text": "Primer replacement & DNA ligase. Repair enzymes remove RNA primers; DNA polymerase fills the spaces with DNA by extending a 3′ end. A nick is a break in the backbone with no nucleotide missing at that junction. Ligase forms the missing covalent sugar-phosphate bond, joining adjacent fragments. Glue is the memory cue.",
+      "title": "Primer replacement & DNA ligase",
+      "resource": "sphase.player.ligation.wav",
+      "event": "player.ligation"
+    },
+    {
+      "id": "player.binding",
+      "text": "Binding proteins. Binding proteins attach to separated single strands of DNA. They stabilize the strands and prevent them from rejoining.",
+      "title": "Binding proteins",
+      "resource": "sphase.player.binding.wav",
+      "event": "player.binding"
+    },
+    {
+      "id": "player.strands",
+      "text": "Leading, lagging & Okazaki fragments. The leading strand grows continuously toward the moving replication fork. The lagging strand grows away from the fork in short Okazaki fragments; each begins with an RNA primer. Both are built 5′ → 3′. Priming repeats on the lagging strand as more template is exposed.",
+      "title": "Leading, lagging & Okazaki fragments",
+      "resource": "sphase.player.strands.wav",
+      "event": "player.strands"
+    },
+    {
+      "id": "player.direction",
+      "text": "DNA direction & base pairing. DNA polymerase adds to the growing 3′ end. New DNA is made only 5′ → 3′. Adenine (A) pairs with thymine (T); cytosine (C) pairs with guanine (G). Hydrogen bonds hold paired bases together; covalent bonds join the sugar-phosphate backbone.",
+      "title": "DNA direction & base pairing",
+      "resource": "sphase.player.direction.wav",
+      "event": "player.direction"
+    },
+    {
+      "id": "player.accuracy",
+      "text": "Energy & accuracy. DNA construction requires an energy input (endergonic). ATP powers enzyme activity, including helicase and ligase. DNA polymerase proofreads as it builds, removing mismatches and adding the correct bases. With proofreading and additional repair, the final error rate can be about one mistake per billion nucleotides.",
+      "title": "Energy & accuracy",
+      "resource": "sphase.player.accuracy.wav",
+      "event": "player.accuracy"
+    },
+    {
+      "id": "player.result",
+      "text": "Semiconservative replication & mutations. Each completed DNA molecule keeps one original parental strand and gains one new complementary strand: semiconservative replication. A mutation is a permanent DNA sequence change. Copying errors that escape repair can become mutations. More frequent cell divisions create more opportunities for replication errors, as in rapidly dividing skin cells or bacteria; genes are copied as part of the genome.",
+      "title": "Semiconservative replication & mutations",
+      "resource": "sphase.player.result.wav",
+      "event": "player.result"
+    },
+    {
+      "id": "player.genome",
+      "text": "Genome, chromosomes & origins. The genome is the cell’s complete genetic material. An unreplicated chromosome contains a continuous DNA molecule plus associated proteins. Replication occurs during S phase of interphase, before cell division. Many origins of replication allow parallel copying. The supplied human-cell example copies billions of nucleotides in about 8–10 hours.",
+      "title": "Genome, chromosomes & origins",
+      "resource": "sphase.player.genome.wav",
+      "event": "player.genome"
+    },
+    {
+      "id": "term.timing",
+      "text": "S phase. DNA replication occurs during the S (synthesis) phase of interphase, before the cell divides. The game takes place in the nucleus.",
+      "title": "S phase",
+      "resource": "sphase.term.timing.wav",
+      "event": "term.timing"
+    },
+    {
+      "id": "term.genome",
+      "text": "Genome & chromosome. The genome is a cell’s complete set of genetic material. Before copying, a chromosome contains a continuous DNA molecule with associated proteins. This game uses a short DNA section.",
+      "title": "Genome & chromosome",
+      "resource": "sphase.term.genome.wav",
+      "event": "term.genome"
+    },
+    {
+      "id": "term.origin",
+      "text": "Origins of replication. Replication begins at specific DNA locations. Hundreds of origins help a human cell copy billions of nucleotides in about 8–10 hours.",
+      "title": "Origins of replication",
+      "resource": "sphase.term.origin.wav",
+      "event": "term.origin"
+    },
+    {
+      "id": "term.helicase",
+      "text": "Helicase. Unwinds and unzips DNA by breaking hydrogen bonds between complementary base pairs.",
+      "title": "Helicase",
+      "resource": "sphase.term.helicase.wav",
+      "event": "term.helicase"
+    },
+    {
+      "id": "term.binding",
+      "text": "Binding proteins. Attach to separated DNA strands, stabilizing them and preventing them from rejoining.",
+      "title": "Binding proteins",
+      "resource": "sphase.term.binding.wav",
+      "event": "term.binding"
+    },
+    {
+      "id": "term.primase",
+      "text": "Primase & RNA primer. Primase builds a short complementary RNA primer. Its exposed 3′ end gives DNA polymerase a starting point. Each Okazaki fragment needs its own primer.",
+      "title": "Primase & RNA primer",
+      "resource": "sphase.term.primase.wav",
+      "event": "term.primase"
+    },
+    {
+      "id": "term.polymerase",
+      "text": "DNA polymerase. Adds complementary DNA nucleotides to an exposed 3′ end and checks for mismatches. It cannot start a strand from scratch. New DNA grows only 5′ → 3′.",
+      "title": "DNA polymerase",
+      "resource": "sphase.term.polymerase.wav",
+      "event": "term.polymerase"
+    },
+    {
+      "id": "term.pairing",
+      "text": "Complementary base pairing. Adenine (A) pairs with thymine (T). Cytosine (C) pairs with guanine (G). The template determines which DNA nucleotide is added.",
+      "title": "Complementary base pairing",
+      "resource": "sphase.term.pairing.wav",
+      "event": "term.pairing"
+    },
+    {
+      "id": "term.leading",
+      "text": "Leading strand. New DNA grows continuously 5′ → 3′ toward the unwinding replication fork.",
+      "title": "Leading strand",
+      "resource": "sphase.term.leading.wav",
+      "event": "term.leading"
+    },
+    {
+      "id": "term.lagging",
+      "text": "Lagging strand & Okazaki fragments. New DNA is built discontinuously in short Okazaki fragments. Each has its own RNA primer and grows 5′ → 3′ away from the fork.",
+      "title": "Lagging strand & Okazaki fragments",
+      "resource": "sphase.term.lagging.wav",
+      "event": "term.lagging"
+    },
+    {
+      "id": "term.repair",
+      "text": "Primer removal & replacement. Repair enzymes remove RNA primers from both strands. DNA polymerase fills the gaps with DNA from a neighboring 3′ end. A backbone nick remains to be sealed.",
+      "title": "Primer removal & replacement",
+      "resource": "sphase.term.repair.wav",
+      "event": "term.repair"
+    },
+    {
+      "id": "term.ligase",
+      "text": "Ligase. Seals remaining nicks by forming covalent bonds in the sugar-phosphate backbone. It joins neighboring DNA segments after primer replacement.",
+      "title": "Ligase",
+      "resource": "sphase.term.ligase.wav",
+      "event": "term.ligase"
+    },
+    {
+      "id": "term.accuracy",
+      "text": "Proofreading & mutation. DNA polymerase removes mismatches and inserts correct nucleotides. With additional repair, final errors can be as low as one per billion nucleotides. An uncorrected permanent DNA sequence change is a mutation. More rounds of copying create more opportunities for mutations.",
+      "title": "Proofreading & mutation",
+      "resource": "sphase.term.accuracy.wav",
+      "event": "term.accuracy"
+    },
+    {
+      "id": "term.energy",
+      "text": "ATP & energy. DNA construction requires an energy input. ATP powers enzyme work, including helicase and ligase.",
+      "title": "ATP & energy",
+      "resource": "sphase.term.energy.wav",
+      "event": "term.energy"
+    },
+    {
+      "id": "term.result",
+      "text": "Semiconservative replication. Each resulting DNA molecule contains one original parental strand and one newly made complementary strand.",
+      "title": "Semiconservative replication",
+      "resource": "sphase.term.result.wav",
+      "event": "term.result"
+    },
+    {
+      "id": "game.result.starting-line-found",
+      "text": "Starting line found!\n\nReplication begins at origins of replication. Hundreds of starting sites help a human cell copy billions of nucleotides in about 8–10 hours.",
+      "title": "Starting line found!",
+      "resource": "sphase.game.result.starting-line-found.wav",
+      "event": "game.result.starting-line-found"
+    },
+    {
+      "id": "game.unwind.start",
+      "text": "Choose helicase. Drag it to the glowing target—or tap the target.",
+      "title": "Unzip the DNA · Instruction",
+      "resource": "sphase.game.unwind.start.wav",
+      "event": "game.unwind.start"
+    },
+    {
+      "id": "game.result.unzipped",
+      "text": "Unzipped!\n\nHelicase breaks the hydrogen bonds between complementary base pairs, separating the two DNA strands. ATP powers enzyme work.",
+      "title": "Unzipped!",
+      "resource": "sphase.game.result.unzipped.wav",
+      "event": "game.result.unzipped"
+    },
+    {
+      "id": "game.stabilize.start",
+      "text": "Use binding proteins on the three glowing spots.",
+      "title": "Keep the strands apart · Instruction",
+      "resource": "sphase.game.stabilize.start.wav",
+      "event": "game.stabilize.start"
+    },
+    {
+      "id": "game.result.open-for-copying",
+      "text": "Open for copying!\n\nBinding proteins stabilize the separated strands and keep them from rejoining.",
+      "title": "Open for copying!",
+      "resource": "sphase.game.result.open-for-copying.wav",
+      "event": "game.result.open-for-copying"
+    },
+    {
+      "id": "game.prime.start",
+      "text": "Use primase to lay an RNA primer on the leading template.",
+      "title": "Set the starting block · Instruction",
+      "resource": "sphase.game.prime.start.wav",
+      "event": "game.prime.start"
+    },
+    {
+      "id": "game.result.starting-block-ready",
+      "text": "Starting block ready!\n\nPrimase makes a short RNA primer. Its exposed 3′ end gives DNA polymerase a place to begin; DNA polymerase cannot start from scratch.",
+      "title": "Starting block ready!",
+      "resource": "sphase.game.result.starting-block-ready.wav",
+      "event": "game.result.starting-block-ready"
+    },
+    {
+      "id": "game.leading.load",
+      "text": "Bring DNA polymerase to the primer’s exposed 3′ end.",
+      "title": "Build toward the fork · Instruction",
+      "resource": "sphase.game.leading.load.wav",
+      "event": "game.leading.load"
+    },
+    {
+      "id": "game.leading.build",
+      "text": "Drag a matching nucleotide onto the glowing 3′ end. Build upward, toward the fork.",
+      "title": "Build toward the fork · Instruction",
+      "resource": "sphase.game.leading.build.wav",
+      "event": "game.leading.build"
+    },
+    {
+      "id": "game.result.a-mismatch-slipped-in",
+      "text": "A mismatch slipped in\n\nDNA polymerase proofreads while building. Use the builder on the red mismatch, then add the correct nucleotide.",
+      "title": "A mismatch slipped in",
+      "resource": "sphase.game.result.a-mismatch-slipped-in.wav",
+      "event": "game.result.a-mismatch-slipped-in"
+    },
+    {
+      "id": "game.leading.correct",
+      "text": "Use DNA polymerase on the red mismatch to remove it.",
+      "title": "Build toward the fork · Instruction",
+      "resource": "sphase.game.leading.correct.wav",
+      "event": "game.leading.correct"
+    },
+    {
+      "id": "game.result.caught-and-corrected",
+      "text": "Caught and corrected!\n\nDNA polymerase removes mismatched nucleotides and inserts correct ones. With proofreading and additional repair, the final error rate can be about one mistake per billion nucleotides. A permanent uncorrected change is a mutation.",
+      "title": "Caught and corrected!",
+      "resource": "sphase.game.result.caught-and-corrected.wav",
+      "event": "game.result.caught-and-corrected"
+    },
+    {
+      "id": "game.result.one-continuous-stretch",
+      "text": "One continuous stretch!\n\nThe leading strand grows continuously, 5′ → 3′, toward the unwinding replication fork. New nucleotides always join an exposed 3′ end.",
+      "title": "One continuous stretch!",
+      "resource": "sphase.game.result.one-continuous-stretch.wav",
+      "event": "game.result.one-continuous-stretch"
+    },
+    {
+      "id": "game.lagging.prime",
+      "text": "Use primase: this Okazaki fragment needs its own RNA primer.",
+      "title": "Build in short stretches · Instruction",
+      "resource": "sphase.game.lagging.prime.wav",
+      "event": "game.lagging.prime"
+    },
+    {
+      "id": "game.lagging.load",
+      "text": "Attach DNA polymerase to this primer’s 3′ end.",
+      "title": "Build in short stretches · Instruction",
+      "resource": "sphase.game.lagging.load.wav",
+      "event": "game.lagging.load"
+    },
+    {
+      "id": "game.lagging.build",
+      "text": "Add matching nucleotides downward, away from the fork. Growth is still 5′ → 3′.",
+      "title": "Build in short stretches · Instruction",
+      "resource": "sphase.game.lagging.build.wav",
+      "event": "game.lagging.build"
+    },
+    {
+      "id": "game.result.an-okazaki-fragment",
+      "text": "An Okazaki fragment!\n\nThis short stretch grew 5′ → 3′ away from the fork. The next fragment begins closer to the fork and needs a new RNA primer.",
+      "title": "An Okazaki fragment!",
+      "resource": "sphase.game.result.an-okazaki-fragment.wav",
+      "event": "game.result.an-okazaki-fragment"
+    },
+    {
+      "id": "game.result.fragments-built",
+      "text": "Fragments built!\n\nThe lagging strand is made discontinuously as Okazaki fragments. Each grows 5′ → 3′ away from the fork and begins with its own RNA primer.",
+      "title": "Fragments built!",
+      "resource": "sphase.game.result.fragments-built.wav",
+      "event": "game.result.fragments-built"
+    },
+    {
+      "id": "game.remove.start",
+      "text": "Use repair enzymes to remove each temporary RNA primer.",
+      "title": "Remove the RNA primers · Instruction",
+      "resource": "sphase.game.remove.start.wav",
+      "event": "game.remove.start"
+    },
+    {
+      "id": "game.result.temporary-starts-removed",
+      "text": "Temporary starts removed!\n\nRepair enzymes remove the RNA primers from both strands. DNA polymerase will replace them with DNA nucleotides.",
+      "title": "Temporary starts removed!",
+      "resource": "sphase.game.result.temporary-starts-removed.wav",
+      "event": "game.result.temporary-starts-removed"
+    },
+    {
+      "id": "game.replace.start",
+      "text": "Select DNA polymerase, then add matching DNA bases from the neighboring 3′ end.",
+      "title": "Fill the gaps with DNA · Instruction",
+      "resource": "sphase.game.replace.start.wav",
+      "event": "game.replace.start"
+    },
+    {
+      "id": "game.result.rna-replaced-with-dna",
+      "text": "RNA replaced with DNA!\n\nDNA polymerase fills the gaps using a neighboring 3′ end. A nick remains where the replacement DNA meets the existing strand; ligase will seal that last backbone bond.",
+      "title": "RNA replaced with DNA!",
+      "resource": "sphase.game.result.rna-replaced-with-dna.wav",
+      "event": "game.result.rna-replaced-with-dna"
+    },
+    {
+      "id": "game.seal.start",
+      "text": "Use ligase at each glowing nick to join the backbone.",
+      "title": "Seal the backbone · Instruction",
+      "resource": "sphase.game.seal.start.wav",
+      "event": "game.seal.start"
+    },
+    {
+      "id": "game.result.all-glued-together",
+      "text": "All glued together!\n\nLigase forms covalent bonds in the sugar-phosphate backbone. After primer replacement, these bonds connect neighboring Okazaki fragments into a continuous strand.",
+      "title": "All glued together!",
+      "resource": "sphase.game.result.all-glued-together.wav",
+      "event": "game.result.all-glued-together"
+    },
+    {
+      "id": "game.complete.start",
+      "text": "Each DNA molecule has one parental strand and one new strand.",
+      "title": "Two copies. Nicely done. · Instruction",
+      "resource": "sphase.game.complete.start.wav",
+      "event": "game.complete.start"
+    }
+  ]
+}

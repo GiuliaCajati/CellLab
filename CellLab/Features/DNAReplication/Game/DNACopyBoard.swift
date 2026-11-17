@@ -30,6 +30,7 @@ import SwiftUI
                 .accessibilityElement(children: .ignore)
                 .accessibilityLabel("DNA strands")
                 .accessibilityValue(session.stage.title)
+                .accessibilityIdentifier("dna-game-drawing")
 
             if [.prime, .leading, .lagging, .replace].contains(session.stage) {
                 floatingPool

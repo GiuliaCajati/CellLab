@@ -11,16 +11,23 @@ final class DNAReplicationUITests: XCTestCase {
         for _ in 0..<8 where !module.isHittable { app.swipeUp() }
         XCTAssertTrue(module.isHittable)
         module.tap()
-        XCTAssertTrue(app.buttons["dna-play-pause"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["sphaseListenButton"].waitForExistence(timeout: 5))
         return app
     }
 
     @MainActor
     private func reveal(_ element: XCUIElement, in app: XCUIApplication, up: Bool = true) {
-        for _ in 0..<8 where !element.isHittable {
-            if up { app.swipeUp() } else { app.swipeDown() }
+        func ready() -> Bool {
+            guard element.isHittable else { return false }
+            if element.elementType == .scrollView { return true }
+            let frame = element.frame
+            return frame.midY >= 70 && frame.midY <= app.frame.maxY - 55
         }
-        XCTAssertTrue(element.isHittable)
+        for _ in 0..<12 where !ready() {
+            let below = element.exists ? element.frame.midY > app.frame.midY : up
+            if below { app.swipeUp() } else { app.swipeDown() }
+        }
+        XCTAssertTrue(ready())
     }
 
     @MainActor
@@ -43,7 +50,7 @@ final class DNAReplicationUITests: XCTestCase {
         let dot = app.buttons["dna-step-\(slug)"]
         reveal(dot, in: app)
         dot.tap()
-        XCTAssertEqual(dot.value as? String, "Selected")
+        waitFor(dot, "value == %@", "Selected", timeout: 3)
     }
 
     @MainActor
@@ -201,5 +208,168 @@ final class DNAReplicationUITests: XCTestCase {
         advance(app)
         XCTAssertTrue(app.buttons["dna-game-tool-polymerase"].exists)
         capture(app, "Small-phone tools still work after helicase, binding, and priming")
+    }
+
+    @MainActor
+    func testNarrationOverviewSwipesTranscriptStopAndReturn() {
+        let app = openLesson()
+        let guide = app.buttons["sphaseListenButton"]
+        XCTAssertEqual(guide.label, "Hear s phase overview")
+        guide.tap()
+        waitFor(guide, "value CONTAINS %@", "Opening")
+        capture(app, "S phase axolotl reads the overview above the carousel")
+        select("unzip", in: app)
+        reveal(guide, in: app, up: false)
+        waitFor(guide, "value CONTAINS %@", "Helicase")
+        select("stabilize", in: app)
+        select("prime", in: app)
+        reveal(guide, in: app, up: false)
+        waitFor(guide, "value CONTAINS %@", "RNA primer")
+        guide.tap()
+        waitFor(guide, "value == %@", "Quiet")
+        select("unzip", in: app)
+        reveal(guide, in: app, up: false)
+        XCTAssertEqual(guide.value as? String, "Quiet")
+        app.buttons["sphaseListenButton-options"].tap()
+        app.buttons["Read transcript"].tap()
+        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "Here comes helicase")).firstMatch.waitForExistence(timeout: 5))
+        app.buttons["narrationTranscriptListenButton"].tap()
+        app.navigationBars["Transcript"].buttons["Done"].tap()
+        waitFor(guide, "value == %@", "Quiet")
+        guide.tap()
+        XCUIDevice.shared.press(.home)
+        app.activate()
+        waitFor(guide, "value == %@", "Quiet")
+    }
+
+    @MainActor
+    func testVocabularyReadsTheSelectedDefinitionAndStopsOnChange() {
+        let app = openLesson()
+        select("unzip", in: app)
+        let players = app.buttons["dna-key-players"]
+        reveal(players, in: app)
+        players.tap()
+        let guide = app.buttons["sphaseVocabularyListenButton"]
+        XCTAssertTrue(guide.waitForExistence(timeout: 5))
+        guide.tap()
+        waitFor(guide, "value CONTAINS %@", "Meet the key players")
+        let speaker = app.buttons["narration-player.helicase"]
+        reveal(speaker, in: app)
+        speaker.tap()
+        waitFor(speaker, "label CONTAINS %@", "Stop")
+        capture(app, "S phase vocabulary has an axolotl introduction and definition speakers")
+        let next = app.buttons["Next key player"]
+        reveal(next, in: app)
+        next.tap()
+        waitFor(guide, "value == %@", "Quiet")
+        let ligase = app.buttons["narration-player.ligation"]
+        reveal(ligase, in: app, up: false)
+        ligase.press(forDuration: 1)
+        app.buttons["Read transcript"].tap()
+        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "A nick is a break in the backbone")).firstMatch.waitForExistence(timeout: 5))
+        app.navigationBars["Transcript"].buttons["Done"].tap()
+        app.buttons["dna-players-done"].tap()
+        let main = app.buttons["sphaseListenButton"]
+        reveal(main, in: app, up: false)
+        XCTAssertEqual(main.value as? String, "Quiet")
+    }
+
+    @MainActor
+    func testGameNarrationFollowsInstructionsPopupsAndFieldGuide() {
+        let app = openLesson()
+        app.buttons["dna-play-game"].tap()
+        let guide = app.buttons["sphaseGameListenButton"]
+        XCTAssertTrue(guide.waitForExistence(timeout: 5))
+        let drawing = app.otherElements["dna-game-drawing"]
+        XCTAssertTrue(drawing.exists)
+        XCTAssertLessThanOrEqual(guide.frame.maxY, drawing.frame.minY)
+        guide.tap()
+        waitFor(guide, "value CONTAINS %@", "How to play")
+        capture(app, "S phase axolotl explains the game outside the DNA drawing")
+        let origin = app.buttons["Origin of replication"].firstMatch
+        reveal(origin, in: app)
+        origin.tap()
+        let popup = app.buttons["sphasePopupListenButton"]
+        XCTAssertTrue(popup.waitForExistence(timeout: 5))
+        waitFor(popup, "value CONTAINS %@", "Starting line found")
+        advance(app)
+        waitFor(guide, "value CONTAINS %@", "Unzip the DNA")
+        chooseTool("helicase", in: app)
+        apply(app)
+        XCTAssertTrue(popup.waitForExistence(timeout: 6))
+        waitFor(popup, "value CONTAINS %@", "Unzipped")
+        advance(app)
+        waitFor(guide, "value CONTAINS %@", "Keep the strands apart")
+        app.buttons["Open the DNA field guide"].tap()
+        let fieldGuide = app.buttons["sphaseFieldGuideListenButton"]
+        XCTAssertTrue(fieldGuide.waitForExistence(timeout: 5))
+        XCTAssertEqual(fieldGuide.value as? String, "Quiet")
+        let term = app.buttons["narration-term.helicase"]
+        reveal(term, in: app)
+        term.tap()
+        waitFor(term, "label CONTAINS %@", "Stop")
+        capture(app, "The in-game vocabulary reads the live term definition")
+        app.navigationBars["DNA field guide"].buttons["Done"].tap()
+        XCTAssertEqual(guide.value as? String, "Quiet")
+        app.buttons["Back to S phase"].tap()
+        XCTAssertEqual(app.buttons["sphaseListenButton"].value as? String, "Quiet")
+        app.buttons["dna-play-game"].tap()
+        XCTAssertTrue(guide.waitForExistence(timeout: 5))
+        guide.tap()
+        let newOrigin = app.buttons["Origin of replication"].firstMatch
+        reveal(newOrigin, in: app)
+        newOrigin.tap()
+        XCTAssertTrue(popup.waitForExistence(timeout: 5))
+        waitFor(popup, "value CONTAINS %@", "Starting line found")
+    }
+
+    @MainActor
+    func testSmallPhoneNarrationWorksWithLargestTextAndReduceMotion() {
+        let app = openLesson()
+        let guide = app.buttons["sphaseListenButton"]
+        reveal(guide, in: app)
+        XCTAssertTrue(guide.isEnabled)
+        XCTAssertGreaterThanOrEqual(guide.frame.height, 44)
+        XCTAssertLessThanOrEqual(guide.frame.maxX, app.frame.maxX)
+        guide.tap()
+        waitFor(guide, "value CONTAINS %@", "Opening")
+        capture(app, "Audio remains available with Reduce Motion and largest text")
+        let play = app.buttons["dna-play-game"]
+        reveal(play, in: app, up: false)
+        play.tap()
+        let gameGuide = app.buttons["sphaseGameListenButton"]
+        reveal(gameGuide, in: app)
+        XCTAssertEqual(gameGuide.value as? String, "Quiet")
+        gameGuide.tap()
+        waitFor(gameGuide, "value CONTAINS %@", "How to play")
+        let drawing = app.otherElements["dna-game-drawing"]
+        XCTAssertLessThanOrEqual(gameGuide.frame.maxY, drawing.frame.minY)
+        let origin = app.buttons["Origin of replication"].firstMatch
+        reveal(origin, in: app)
+        origin.tap()
+        let popup = app.buttons["sphasePopupListenButton"]
+        reveal(popup, in: app)
+        waitFor(popup, "value CONTAINS %@", "Starting line found")
+        capture(app, "Large-text game narration leaves targets and Continue reachable")
+        advance(app)
+        reveal(gameGuide, in: app, up: false)
+        waitFor(gameGuide, "value CONTAINS %@", "Unzip the DNA")
+        gameGuide.tap()
+        let back = app.buttons["Back to S phase"]
+        reveal(back, in: app, up: false)
+        back.tap()
+        let players = app.buttons["dna-key-players"]
+        reveal(players, in: app)
+        players.tap()
+        let vocabularyGuide = app.buttons["sphaseVocabularyListenButton"]
+        reveal(vocabularyGuide, in: app)
+        XCTAssertGreaterThanOrEqual(vocabularyGuide.frame.height, 44)
+        vocabularyGuide.tap()
+        waitFor(vocabularyGuide, "value CONTAINS %@", "Meet the key players")
+        let definition = app.buttons["narration-player.genome"]
+        reveal(definition, in: app)
+        definition.tap()
+        waitFor(definition, "label CONTAINS %@", "Stop")
+        capture(app, "Large-text vocabulary keeps the selected definition and its speaker reachable")
     }
 }

@@ -163,6 +163,15 @@ final class LessonNarrator: ObservableObject {
                               phaseNames: Dictionary(uniqueKeysWithValues: MeiPhase.allCases.map { ($0.narrationID, $0.title) }))
     }
 
+    static func sphase() -> LessonNarrator {
+        let library = (try? NarrationLibrary.load(resource: "sphase-narration"))
+            ?? NarrationLibrary(lessonTitle: "S phase", recordings: [])
+        return LessonNarrator(library: library, initialPhaseID: DNAReplicationStep.origins.narrationID,
+                              phaseNames: Dictionary(uniqueKeysWithValues: DNAReplicationStep.carouselCases.map {
+                                  ($0.narrationID, $0.content.title)
+                              }))
+    }
+
     var phaseName: String {
         phaseNames[visiblePhase]
             ?? visiblePhase.split(separator: ".").last.map { String($0).capitalized }

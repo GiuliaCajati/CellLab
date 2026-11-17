@@ -2,8 +2,9 @@ import SwiftUI
 import UIKit
 
 /// Add to the same app target as the other five game source files. iOS 17+.
-/// Open with NavigationLink { DNAReplicationGameView() } label: { ... }.
+/// Supply the active S phase LessonNarrator when opening this game.
 @MainActor struct DNAReplicationGameView: View {
+    @EnvironmentObject private var narration: LessonNarrator
     var onComplete: (() -> Void)? = nil
     @State private var session = DNACopySession()
     @State private var showsGuide = false
@@ -20,6 +21,12 @@ import UIKit
         session.stage == .unwind && session.unwound && !reduceMotion && !unzipAnimationFinished
     }
     private var celebrationVisible: Bool { session.celebration != nil && !isUnzipping }
+    private var activeNarrationEvent: String? {
+        guard !showsGuide else { return nil }
+        if celebrationVisible { return session.celebration?.narrationID }
+        guard session.celebration == nil else { return nil }
+        return session.instructionNarrationID
+    }
 
     var body: some View {
         GeometryReader { geometry in
@@ -30,7 +37,7 @@ import UIKit
                         .padding(.top, 8).padding(.bottom, 10)
                         .frame(maxWidth: .infinity)
                         .accessibilityHidden(celebrationVisible)
-                        .allowsHitTesting(session.celebration == nil)
+                        .allowsHitTesting(!celebrationVisible)
                 }
                 GeometryReader { viewport in
                     ZStack(alignment: .bottom) {
@@ -73,7 +80,7 @@ import UIKit
                             }
                         }
                         .accessibilityHidden(celebrationVisible)
-                        .allowsHitTesting(session.celebration == nil)
+                        .allowsHitTesting(!celebrationVisible)
 
                         if let card = session.celebration, celebrationVisible {
                             DNACopyStyle.ink.opacity(0.16).ignoresSafeArea()
@@ -99,7 +106,13 @@ import UIKit
             }
         }
         .toolbar(.hidden, for: .navigationBar)
-        .sheet(isPresented: $showsGuide) { DNACopyFieldGuide() }
+        .sheet(isPresented: $showsGuide, onDismiss: narration.stop) {
+            DNACopyFieldGuide().environmentObject(narration)
+        }
+        .onChange(of: activeNarrationEvent) { _, event in narration.gameEventChanged(event) }
+        .onChange(of: showsGuide) { _, _ in narration.stop() }
+        .onAppear { narration.stop(); narration.resetGameGuidance() }
+        .onDisappear { narration.stop() }
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: celebrationVisible)
         .sensoryFeedback(.success, trigger: session.successSerial)
         .sensoryFeedback(.warning, trigger: session.correctionSerial)
@@ -112,7 +125,10 @@ import UIKit
             unzipAnimationFinished = true
         }
         .onChange(of: scenePhase) { _, phase in
-            if phase != .active && session.unwound { unzipAnimationFinished = true }
+            if phase != .active {
+                narration.stop()
+                if session.unwound { unzipAnimationFinished = true }
+            }
         }
         .onChange(of: session.notice) { _, message in
             guard UIAccessibility.isVoiceOverRunning, session.celebration == nil else { return }
@@ -166,9 +182,10 @@ import UIKit
                 Text(session.stage.title)
                     .font(.system(.title2, design: .serif, weight: .bold))
                     .accessibilityAddTraits(.isHeader)
-                Text(isUnzipping ? "Helicase unzips the base pairs. Watch the strands separate." : session.instruction)
-                    .font(.system(.subheadline, design: .rounded, weight: .medium))
-                    .fixedSize(horizontal: false, vertical: true)
+                gameGuide(cueID: session.instructionNarrationID,
+                          instruction: Text(isUnzipping ? "Helicase unzips the base pairs. Watch the strands separate." : session.instruction)
+                            .font(.system(.subheadline, design: .rounded, weight: .medium)))
+                    .disabled(isUnzipping && narration.mode != .game)
             }
             .padding(.horizontal, 18).padding(.top, 18)
             DNACopyBoard(session: session, width: width, motionPaused: showsGuide || scenePhase != .active,
@@ -177,7 +194,6 @@ import UIKit
         }
         .background(DNACopyStyle.butter, in: RoundedRectangle(cornerRadius: 27))
         .overlay(RoundedRectangle(cornerRadius: 27).strokeBorder(DNACopyStyle.edge, lineWidth: 1.5).allowsHitTesting(false))
-        .accessibilityIdentifier("dna-game-workbench")
     }
     private var selectionBar: some View {
         let layout = dynamicTypeSize.isAccessibilitySize
@@ -304,6 +320,7 @@ import UIKit
                                 .accessibilityFocused($celebrationFocused)
                         }
                     }
+                    gameGuide(cueID: card.narrationID, controlID: "sphasePopupListenButton", explanation: true)
                     Text(card.body).font(.system(.body, design: .rounded))
                         .lineSpacing(3).frame(maxWidth: .infinity, alignment: .leading)
                     ScrollView(.horizontal) {
@@ -349,7 +366,12 @@ import UIKit
             Label("Mismatch proofread and corrected", systemImage: "checkmark.circle.fill")
             Label("RNA replaced · backbone sealed", systemImage: "checkmark.circle.fill")
             HStack(spacing: 12) {
-                Button("Play again") { session = DNACopySession() }
+                Button("Play again") {
+                    narration.resetGameGuidance()
+                    session = DNACopySession()
+                    unzipAnimationFinished = false
+                    narration.gameEventChanged(session.instructionNarrationID)
+                }
                     .frame(maxWidth: .infinity, minHeight: 48)
                     .background(DNACopyStyle.paper, in: Capsule())
                 Button("Done") { onComplete?(); dismiss() }
@@ -364,9 +386,25 @@ import UIKit
         .background(DNACopyStyle.sage, in: RoundedRectangle(cornerRadius: 25))
         .overlay(RoundedRectangle(cornerRadius: 25).strokeBorder(DNACopyStyle.edge, lineWidth: 1.5).allowsHitTesting(false))
     }
+
+    private func gameGuide(cueID: String, controlID: String = "sphaseGameListenButton",
+                           instruction: Text? = nil, explanation: Bool = false) -> some View {
+        let subject = explanation ? "explanation" : "instruction"
+        return LessonGuide(narrator: narration,
+                           title: narration.isPlaying || (isUnzipping && narration.mode == .game) ? "Stop" : "\(narration.completedCues.contains(cueID) ? "Replay" : "Hear") \(subject)",
+                           cueID: cueID,
+                           action: {
+                               if narration.isPlaying || isUnzipping { narration.stop() }
+                               else { narration.startGameGuidance(cueID) }
+                           },
+                           showsStopBetweenClips: narration.mode == .game,
+                           controlID: controlID, layoutTitle: "Replay \(subject)",
+                           instruction: instruction, instructionID: "sphase-instruction")
+    }
 }
 
 @MainActor private struct DNACopyFieldGuide: View {
+    @EnvironmentObject private var narration: LessonNarrator
     @Environment(\.dismiss) private var dismiss
     var body: some View {
         NavigationStack {
@@ -376,6 +414,11 @@ import UIKit
                         .font(.system(.largeTitle, design: .serif, weight: .bold))
                     Text("A quick reference while you build.")
                         .font(.system(.subheadline, design: .rounded)).foregroundStyle(DNACopyStyle.muted)
+                    LessonGuide(narrator: narration,
+                                title: narration.isPlaying ? "Stop" : "Hear introduction",
+                                cueID: "reference.players",
+                                action: { narration.toggleStandalone("reference.players") },
+                                controlID: "sphaseFieldGuideListenButton")
                     ForEach(DNACopyTerm.all) { term in
                         VStack(alignment: .leading, spacing: 9) {
                             HStack {
@@ -385,6 +428,7 @@ import UIKit
                                 }
                                 Spacer(minLength: 4)
                                 if let tool = term.tool { DNACopyToolImage(tool: tool).frame(width: 49, height: 49) }
+                                NarrationSpeakerButton(cueID: term.narrationID, title: term.title)
                             }
                             Text(term.body).font(.system(.subheadline, design: .rounded)).lineSpacing(3)
                         }
@@ -401,9 +445,10 @@ import UIKit
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { dismiss() } } }
         }
         .tint(DNACopyStyle.ink)
+        .onDisappear { narration.stop() }
     }
 }
 
 #Preview {
-    NavigationStack { DNAReplicationGameView() }
+    NavigationStack { DNAReplicationGameView().environmentObject(LessonNarrator.sphase()) }
 }

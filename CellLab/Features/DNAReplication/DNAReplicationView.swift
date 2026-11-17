@@ -4,6 +4,7 @@ import UIKit
 
 @MainActor struct DNAReplicationView: View {
     @State private var session = DNAReplicationSession()
+    @StateObject private var narration = LessonNarrator.sphase()
     @State private var sheet: DNAReplicationSheet?
     @State private var cardHeights: [Int: CGFloat] = [:]
     @State private var expandedStep: DNAReplicationStep?
@@ -27,7 +28,13 @@ import UIKit
                 VStack(spacing: 14) {
                     VStack(spacing: 0) {
                         header
-                        animationControl
+                        LessonGuide(narrator: narration, title: narration.lessonButtonTitle,
+                                    cueID: narration.isPlaying ? (narration.currentCueID ?? narration.overviewCueID)
+                                        : (narration.hasBegunLesson ? session.step.narrationID : narration.overviewCueID),
+                                    action: narration.toggleLesson,
+                                    showsStopBetweenClips: narration.mode == .lesson,
+                                    replayOverview: narration.playOverview, controlID: "sphaseListenButton",
+                                    layoutTitle: "Hear overview")
                             .padding(.top, 8).padding(.bottom, 10)
                         TabView(selection: Binding(get: { session.step }, set: selectCard)) {
                             ForEach(DNAReplicationStep.carouselCases) { step in
@@ -47,6 +54,7 @@ import UIKit
                         .padding(12).frame(maxWidth: .infinity)
                         .background(DNAReplicationTheme.paper, in: RoundedRectangle(cornerRadius: 18))
                     Button {
+                        narration.stop()
                         session.isPlaying = false
                         session.autoAdvance = false
                         sheet = .players
@@ -76,14 +84,16 @@ import UIKit
         .background(MeiPalette.paper.ignoresSafeArea())
         .navigationTitle("").navigationBarTitleDisplayMode(.inline)
         .tint(MeiPalette.teal)
-        .navigationDestination(isPresented: $showingGame) { DNAReplicationGameView() }
-        .sheet(item: $sheet) { route in
+        .environmentObject(narration)
+        .navigationDestination(isPresented: $showingGame) { DNAReplicationGameView().environmentObject(narration) }
+        .sheet(item: $sheet, onDismiss: narration.stop) { route in
             Group {
                 switch route {
                 case .diagram: DNAReplicationExpandedView(session: session)
                 case .players: DNAReplicationKeyPlayersView(initialPlayerID: session.step.content.playerID)
                 }
             }
+            .environmentObject(narration)
             .presentationDetents([.large]).presentationDragIndicator(.visible).presentationCornerRadius(30)
         }
         .task(id: DNAReplicationClockKey(playing: session.isPlaying, reduced: reduceMotion, active: clockActive)) {
@@ -91,18 +101,35 @@ import UIKit
             await session.run()
         }
         .onAppear {
+            narration.stop()
+            narration.selectPhase(session.step.narrationID)
             if reduceMotion { session.isPlaying = false; session.progress = 1 }
         }
         .onDisappear {
+            narration.stop()
             if sheet == nil { session.isPlaying = false; session.autoAdvance = false }
+        }
+        .onChange(of: session.step) { _, step in narration.selectPhase(step.narrationID) }
+        .onChange(of: sheet) { _, _ in narration.stop() }
+        .onChange(of: narration.mode) { _, mode in
+            if mode == .lesson { session.autoAdvance = false }
+        }
+        .onChange(of: narration.isPlaying) { _, playing in
+            if playing && narration.currentCueID == session.step.narrationID && narration.mode == .lesson {
+                session.replay(play: !reduceMotion)
+            }
         }
         .onChange(of: reduceMotion) { _, reduced in
             if reduced { session.isPlaying = false; session.progress = 1 }
         }
         .onChange(of: scenePhase) { _, phase in
-            if phase != .active { session.isPlaying = false }
+            if phase != .active { session.isPlaying = false; narration.stop() }
         }
         .sensoryFeedback(.selection, trigger: session.step)
+        .alert("Audio unavailable", isPresented: Binding(
+            get: { narration.errorMessage != nil }, set: { if !$0 { narration.errorMessage = nil } }
+        )) { Button("OK", role: .cancel) { narration.errorMessage = nil } }
+        message: { Text(narration.errorMessage ?? "Please try again.") }
     }
 
     private var headerTitle: some View {
@@ -133,6 +160,7 @@ import UIKit
 
     private var gameButton: some View {
         Button {
+            narration.stop()
             session.isPlaying = false
             session.autoAdvance = false
             showingGame = true
@@ -154,8 +182,6 @@ import UIKit
                 session.togglePlayback()
             } label: {
                 HStack(spacing: 8) {
-                    MitosisAxolotl(isSpeaking: false, fittedToArtwork: true)
-                        .frame(width: 48 * 160 / 136, height: 48)
                     Image(systemName: session.isPlaying ? "pause.fill" : "play.fill")
                         .font(.system(size: 14, weight: .semibold)).frame(width: 18)
                     Text(animationTitle)
@@ -176,6 +202,7 @@ import UIKit
                 }
                 .disabled(reduceMotion)
                 Button("Play all steps", systemImage: "play.rectangle.on.rectangle") {
+                    narration.stop()
                     session.autoAdvance = true
                     if session.step == .result && session.progress >= 1 { session.select(.origins, play: true) }
                     else if session.progress >= 1 { session.replay(play: true) }
@@ -255,6 +282,7 @@ import UIKit
                                 background: cardColor(step))
                 .frame(height: step == .origins ? width * 220 / 360 : min(width, 360))
                 .frame(maxWidth: .infinity)
+            if step == session.step { animationControl }
             DisclosureGroup(isExpanded: Binding(
                 get: { expandedStep == step },
                 set: { expandedStep = $0 ? step : nil }

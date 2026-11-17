@@ -2,6 +2,7 @@
 import SwiftUI
 
 struct DNAReplicationKeyPlayersView: View {
+    @EnvironmentObject private var narration: LessonNarrator
     @Environment(\.dismiss) private var dismiss
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var selectedID: String?
@@ -15,7 +16,7 @@ struct DNAReplicationKeyPlayersView: View {
     var body: some View {
         NavigationStack {
             GeometryReader { proxy in
-                let width = min(proxy.size.width, 680)
+                let width = max(1, min(proxy.size.width, 680))
                 ScrollView {
                     VStack(alignment: .leading, spacing: 21) {
                         VStack(alignment: .leading, spacing: 8) {
@@ -29,17 +30,22 @@ struct DNAReplicationKeyPlayersView: View {
                         }
                         .padding(.horizontal, 20)
 
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(alignment: .top, spacing: 14) {
-                                ForEach(DNAReplicationPlayer.all) { player in
-                                    card(player, width: width - 40).id(player.id)
-                                }
-                            }
-                            .scrollTargetLayout()
+                        LessonGuide(narrator: narration,
+                                    title: narration.isPlaying ? "Stop" : "Hear introduction",
+                                    cueID: "reference.players",
+                                    action: { narration.toggleStandalone("reference.players") },
+                                    controlID: "sphaseVocabularyListenButton")
                             .padding(.horizontal, 20)
+
+                        TabView(selection: Binding(
+                            get: { selectedID ?? DNAReplicationPlayer.all[0].id },
+                            set: { selectedID = $0 }
+                        )) {
+                            ForEach(DNAReplicationPlayer.all) { player in
+                                card(player, width: max(1, width - 40)).tag(player.id)
+                            }
                         }
-                        .scrollTargetBehavior(.viewAligned)
-                        .scrollPosition(id: $selectedID, anchor: .center)
+                        .tabViewStyle(.page(indexDisplayMode: .never))
                         .frame(height: cardHeights[selectedID ?? ""] ?? 650, alignment: .top)
                         .onPreferenceChange(DNAReplicationCardHeights.self) { heights in
                             cardHeights.merge(heights, uniquingKeysWith: { _, new in new })
@@ -69,6 +75,8 @@ struct DNAReplicationKeyPlayersView: View {
             }
             .tint(DNAReplicationTheme.ink)
         }
+        .onChange(of: selectedID) { _, _ in narration.stop() }
+        .onDisappear { narration.stop() }
     }
 
     private func card(_ player: DNAReplicationPlayer, width: CGFloat) -> some View {
@@ -93,11 +101,15 @@ struct DNAReplicationKeyPlayersView: View {
                 .font(.system(.caption, design: .rounded, weight: .semibold))
                 .foregroundStyle(DNAReplicationTheme.muted)
                 .fixedSize(horizontal: false, vertical: true)
-            Text(player.title)
-                .font(.system(.title2, design: .rounded, weight: .bold))
-                .foregroundStyle(DNAReplicationTheme.ink)
-                .fixedSize(horizontal: false, vertical: true)
-                .accessibilityAddTraits(.isHeader)
+            HStack(alignment: .top) {
+                Text(player.title)
+                    .font(.system(.title2, design: .rounded, weight: .bold))
+                    .foregroundStyle(DNAReplicationTheme.ink)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .accessibilityAddTraits(.isHeader)
+                Spacer(minLength: 4)
+                NarrationSpeakerButton(cueID: player.narrationID, title: player.narrationTitle)
+            }
             DNAReplicationBullets(items: player.bullets)
         }
         .padding(18).frame(width: width, alignment: .topLeading)
@@ -110,7 +122,6 @@ struct DNAReplicationKeyPlayersView: View {
             }
         }
         .accessibilityElement(children: .contain)
-        .accessibilityIdentifier("dna-player-\(player.id)")
     }
 
     private var index: Int { DNAReplicationPlayer.all.firstIndex { $0.id == selectedID } ?? 0 }
@@ -186,5 +197,5 @@ private struct DNAReplicationCardHeights: PreferenceKey {
 }
 
 #Preview("DNA copying crew") {
-    DNAReplicationKeyPlayersView()
+    DNAReplicationKeyPlayersView().environmentObject(LessonNarrator.sphase())
 }

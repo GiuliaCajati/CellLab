@@ -5,7 +5,7 @@ struct DNAReplicationKeyPlayersView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var selectedID: String?
-    @State private var carouselHeight: CGFloat = 650
+    @State private var cardHeights: [String: CGFloat] = [:]
 
     init(initialPlayerID: String? = nil) {
         let id = DNAReplicationPlayer.all.first { $0.id == initialPlayerID }?.id
@@ -15,7 +15,7 @@ struct DNAReplicationKeyPlayersView: View {
     var body: some View {
         NavigationStack {
             GeometryReader { proxy in
-                let width = min(proxy.size.width, 580)
+                let width = min(proxy.size.width, 680)
                 ScrollView {
                     VStack(alignment: .leading, spacing: 21) {
                         VStack(alignment: .leading, spacing: 8) {
@@ -40,11 +40,9 @@ struct DNAReplicationKeyPlayersView: View {
                         }
                         .scrollTargetBehavior(.viewAligned)
                         .scrollPosition(id: $selectedID, anchor: .center)
-                        .frame(height: carouselHeight, alignment: .top)
+                        .frame(height: cardHeights[selectedID ?? ""] ?? 650, alignment: .top)
                         .onPreferenceChange(DNAReplicationCardHeights.self) { heights in
-                            if let height = heights.values.max(), abs(height - carouselHeight) > 1 {
-                                carouselHeight = height
-                            }
+                            cardHeights.merge(heights, uniquingKeysWith: { _, new in new })
                         }
 
                         controls.padding(.horizontal, 20)
@@ -77,7 +75,10 @@ struct DNAReplicationKeyPlayersView: View {
         VStack(alignment: .leading, spacing: 18) {
             ZStack {
                 RoundedRectangle(cornerRadius: 24).fill(player.tint.color.opacity(0.5))
-                if let asset = player.asset {
+                if player.scene == .unzip {
+                    DNAReplicationPlayerAnimation(step: .unzip, selected: selectedID == player.id)
+                        .padding(8)
+                } else if let asset = player.asset {
                     Image(asset).resizable().scaledToFit().padding(16)
                 } else {
                     DNAReplicationScene(step: player.scene, progress: 1, showsLabels: false)
@@ -151,6 +152,29 @@ struct DNAReplicationKeyPlayersView: View {
         withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.25)) {
             selectedID = DNAReplicationPlayer.all[next].id
         }
+    }
+}
+
+private struct DNAReplicationPlayerAnimation: View {
+    let step: DNAReplicationStep
+    let selected: Bool
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.scenePhase) private var scenePhase
+    @State private var appeared = false
+    @State private var started = Date()
+    private var animated: Bool { appeared && selected && !reduceMotion && scenePhase == .active }
+
+    var body: some View {
+        TimelineView(.animation(minimumInterval: 1.0 / 30.0, paused: !animated)) { timeline in
+            let elapsed = max(0, timeline.date.timeIntervalSince(started))
+            let progress = animated ? min(1, elapsed.truncatingRemainder(dividingBy: step.content.duration + 1.3) / step.content.duration) : 1
+            DNAReplicationScene(step: step, progress: progress, showsLabels: false,
+                                background: .clear)
+        }
+        .onAppear { started = Date(); appeared = true }
+        .onDisappear { appeared = false }
+        .onChange(of: selected) { _, selected in if selected { started = Date() } }
+        .onChange(of: reduceMotion) { _, reduced in if !reduced { started = Date() } }
     }
 }
 

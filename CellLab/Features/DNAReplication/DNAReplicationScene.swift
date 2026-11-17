@@ -1,5 +1,6 @@
 // DNAReplicationScene.swift — original deterministic molecular animation.
-// View coordinates are 360 × 420. All new DNA grows 5′ → 3′.
+// View coordinates are 360 × 420; the horizontal origins view crops unused space.
+// All new DNA grows 5′ → 3′.
 // Raster assets are mnemonic actors; strands, bases, ends and bonds are drawn precisely.
 import SwiftUI
 
@@ -11,19 +12,21 @@ struct DNAReplicationScene: View {
 
     var body: some View {
         Canvas { context, size in
-            let scale = min(size.width / 360, size.height / 420)
+            let height: CGFloat = step == .origins ? 220 : 420
+            let scale = min(size.width / 360, size.height / height)
             var drawing = context
-            drawing.translateBy(x: (size.width - 360 * scale) / 2, y: (size.height - 420 * scale) / 2)
+            drawing.translateBy(x: (size.width - 360 * scale) / 2, y: (size.height - height * scale) / 2)
             drawing.scaleBy(x: scale, y: scale)
+            if step == .origins { drawing.translateBy(x: 0, y: -95) }
             DNAReplicationPainter(context: drawing, step: step,
                                   p: CGFloat(min(max(progress, 0), 1)), labels: showsLabels).draw()
         }
-        .aspectRatio(360.0 / 420.0, contentMode: .fit)
+        .aspectRatio(step == .origins ? 360.0 / 220.0 : 360.0 / 420.0, contentMode: .fit)
         .background(background)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(step.content.accessibility)
         .accessibilityValue("\(Int(min(max(progress, 0), 1) * 100)) percent of this teaching animation")
-        .accessibilityIdentifier("dna-replication-diagram")
+        .accessibilityIdentifier("dna-replication-diagram-\(step.content.slug)")
     }
 }
 
@@ -44,6 +47,7 @@ private struct DNAReplicationPainter {
     func draw() {
         switch step {
         case .origins: drawOrigins()
+        case .unzip: drawUnzipping()
         case .proofread: drawProofreading()
         case .replace, .seal: drawJunction()
         case .result: drawResult()
@@ -174,15 +178,16 @@ private struct DNAReplicationPainter {
         text("5′", 30, 174, 13, 750, old); text("3′", 330, 174, 13, 750, old)
         text("3′", 30, 251, 13, 750, old); text("5′", 330, 251, 13, 750, old)
         pill("Origins of replication", 180, 119, butter)
-        for x in [CGFloat(72), 168, 264] {
-            circle(x, 212, 5, butter, edge, 0.8)
+        for (index, x) in [CGFloat(72), 168, 264].enumerated() {
+            let activated = smooth(clamp(p * 3 - CGFloat(index)))
+            circle(x, 212, 5 + 4 * activated, butter, edge, 0.8)
             line(180, 132, x, 204, edge, 1, dash: [3, 3])
         }
         text("Starting locations along DNA", 180, 292, 12, 650)
     }
 
     private func drawFork() {
-        let forkY = step == .unzip ? mix(296, 160, smooth(p)) : 160
+        let forkY: CGFloat = 160
         let showNew = step.rawValue >= DNAReplicationStep.prime.rawValue
         let branches: [(CGFloat, CGFloat)] = [(164, 75), (196, 285)]
         for (start, end) in branches {
@@ -244,13 +249,6 @@ private struct DNAReplicationPainter {
             }
         }
         icon("DNAHelicaseZipper", 180, forkY + 3, 53)
-        if step == .unzip {
-            pill("Hydrogen bonds", 77, forkY - 31, DNAReplicationTint.blue.color)
-            line(135, forkY - 25, 180, row - 18, edge, 1, dash: [2, 2])
-            pill("Helicase", 276, forkY + 10, DNAReplicationTint.peach.color)
-            line(234, forkY + 10, 191, forkY + 3, edge, 1)
-            arrow(314, 325, 314, 281); text("Fork ↑", 314, 345, 10, 650, teal)
-        }
         if step == .stabilize {
             pill("Binding proteins", 180, 280, DNAReplicationTint.lavender.color)
             line(129, 280, 72, 274, edge, 1); line(231, 280, 290, 286, edge, 1)
@@ -298,6 +296,49 @@ private struct DNAReplicationPainter {
         } else {
             text("Parental template", 91, 391, 10, 600, old)
             text("Parental template", 270, 391, 10, 600, old)
+        }
+    }
+
+    private func drawUnzipping() {
+        let geometry = DNAUnzipGeometry(progress: Double(p), startY: 330)
+        // Sample one continuous backbone on each side of the moving fork.
+        for left in [true, false] {
+            var backbone = Path()
+            for y in stride(from: CGFloat(38), through: 352, by: 2) {
+                let point = CGPoint(x: geometry.strandX(left: left, at: y), y: y)
+                if y == 38 { backbone.move(to: point) } else { backbone.addLine(to: point) }
+            }
+            context.stroke(backbone, with: .color(old), style: StrokeStyle(lineWidth: 3, lineCap: .round))
+        }
+        for index in 0..<12 {
+            let row = CGFloat(61 + index * 24)
+            let leftX = geometry.strandX(left: true, at: row)
+            let rightX = geometry.strandX(left: false, at: row)
+            let separated = geometry.separation(at: row)
+            sugar(leftX, row, old, 3.5); sugar(rightX, row, old, 3.5)
+            line(leftX, row, leftX + 14, row, old)
+            line(rightX, row, rightX - 14, row, old)
+            base(leftX + 14, row, sequence[index], size: 12)
+            base(rightX - 14, row, DNAReplicationDiagram.complement(sequence[index]), size: 12)
+            if separated < 0.35 {
+                var bonds = self
+                bonds.context.opacity *= Double(1 - separated / 0.35)
+                bonds.line(leftX + 21, row, rightX - 21, row, edge, 1, dash: [2, 2])
+            }
+            circle(leftX, row + 8, 2, butter, edge, 0.6)
+            circle(rightX, row + 8, 2, butter, edge, 0.6)
+        }
+        let actor = geometry.helicase
+        icon("DNAHelicaseZipper", actor.x, actor.y, 96)
+        pill("Helicase", 278, max(73, actor.y - 8), DNAReplicationTint.peach.color)
+        line(246, max(73, actor.y - 8), actor.x + 23, actor.y + 4, edge, 1)
+        if labels {
+            arrow(330, 96, 330, 60)
+            text("Unzip ↑", 317, 44, 10, 650, teal)
+            text("5′", 145, 25, 12, 750, old); text("3′", 215, 25, 12, 750, old)
+            text("3′", geometry.strandX(left: true, at: 352), 369, 12, 750, old)
+            text("5′", geometry.strandX(left: false, at: 352), 369, 12, 750, old)
+            pill("Hydrogen bonds open; backbones stay intact", 180, 407, butter, ink, 10)
         }
     }
 

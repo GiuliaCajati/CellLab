@@ -19,7 +19,7 @@ struct DNAReplicationStepContent: Sendable {
 enum DNAReplicationStep: Int, CaseIterable, Identifiable, Hashable, Sendable {
     case origins, unzip, stabilize, prime, build, proofread, replace, seal, result
     var id: Int { rawValue }
-    static let carouselCases: [Self] = [.prime, .build, .proofread, .replace, .seal, .result]
+    static let carouselCases: [Self] = allCases
     var next: Self? {
         guard let index = Self.carouselCases.firstIndex(of: self), index + 1 < Self.carouselCases.count else { return nil }
         return Self.carouselCases[index + 1]

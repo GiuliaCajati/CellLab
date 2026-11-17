@@ -3,8 +3,11 @@ import Foundation
 import Observation
 
 @MainActor @Observable final class DNAReplicationSession {
-    var step: DNAReplicationStep = .prime
-    var progress: Double = 1
+    // Match LessonNarrator's workaround for the iOS 26.2 isolated-deinit crash.
+    nonisolated deinit {}
+    @ObservationIgnored private var clockID: UUID?
+    var step: DNAReplicationStep = .origins
+    var progress: Double = 0
     var isPlaying = false
     var autoAdvance = false
 
@@ -37,18 +40,52 @@ import Observation
     }
 
     func run() async {
+        // Sheet dismissal can briefly overlap view lifetimes. The newest owner
+        // takes the clock, and an older task must never advance this session.
+        let request = UUID()
+        clockID = request
+        defer { if clockID == request { clockID = nil } }
         let clock = ContinuousClock()
         var previous = clock.now
-        while isPlaying && !Task.isCancelled {
+        while isPlaying && !Task.isCancelled && clockID == request {
             do { try await Task.sleep(for: .milliseconds(40)) }
             catch { return }
-            guard !Task.isCancelled else { return }
+            guard !Task.isCancelled, clockID == request else { return }
             let now = clock.now
             let parts = previous.duration(to: now).components
             previous = now
             let elapsed = Double(parts.seconds) + Double(parts.attoseconds) / 1e18
             advance(by: min(elapsed, 0.15))
         }
+    }
+}
+
+/// Shared fork geometry keeps helicase, base separation, and continuous
+/// parental backbones together in the lesson and the interactive game.
+nonisolated struct DNAUnzipGeometry {
+    let progress: Double
+    var closedLeft: CGFloat = 156
+    var closedRight: CGFloat = 204
+    var openLeft: CGFloat = 75
+    var openRight: CGFloat = 285
+    var startY: CGFloat = 350
+    var endY: CGFloat = 110
+    var spread: CGFloat = 72
+
+    private func smooth(_ value: CGFloat) -> CGFloat {
+        let p = min(max(value, 0), 1)
+        return p * p * (3 - 2 * p)
+    }
+
+    var forkY: CGFloat { startY + (endY - startY) * smooth(CGFloat(progress)) }
+    var helicase: CGPoint { CGPoint(x: (closedLeft + closedRight) / 2, y: forkY + 12) }
+
+    func separation(at y: CGFloat) -> CGFloat { smooth((y - forkY) / spread) }
+
+    func strandX(left: Bool, at y: CGFloat) -> CGFloat {
+        let closed = left ? closedLeft : closedRight
+        let open = left ? openLeft : openRight
+        return closed + (open - closed) * separation(at: y)
     }
 }
 

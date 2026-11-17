@@ -1,141 +1,100 @@
-// DNAReplicationView.swift — CellLab's primer-first, swipeable lesson.
+// DNAReplicationView.swift — S phase in the shared CellLab lesson style.
 import SwiftUI
 import UIKit
 
 @MainActor struct DNAReplicationView: View {
     @State private var session = DNAReplicationSession()
     @State private var sheet: DNAReplicationSheet?
-    @State private var measuredCardHeight: CGFloat = 0
-    @State private var expandedStep: DNAReplicationStep? = nil
+    @State private var cardHeights: [Int: CGFloat] = [:]
+    @State private var expandedStep: DNAReplicationStep?
+    @State private var showingGame = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.scenePhase) private var scenePhase
 
+    private var clockActive: Bool { scenePhase == .active && sheet != .diagram && !showingGame }
+    private var animationTitle: String {
+        if reduceMotion { return "Still illustrations" }
+        if session.isPlaying { return "Pause animation" }
+        if session.progress >= 1 { return "Replay animation" }
+        return session.progress > 0 ? "Resume animation" : "Watch animation"
+    }
+
     var body: some View {
         GeometryReader { proxy in
-            let contentWidth = min(proxy.size.width, 580)
-            let cardWidth = contentWidth - 40
+            let contentWidth = min(proxy.size.width, 680)
+            let cardWidth = max(1, contentWidth - 36)
             ScrollView {
-                VStack(alignment: .leading, spacing: 18) {
-                    HStack(alignment: .center, spacing: 14) {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("DNA Replication")
-                                .font(.system(.largeTitle, design: .serif, weight: .bold))
-                                .fixedSize(horizontal: false, vertical: true)
-                                .accessibilityAddTraits(.isHeader)
-                            Text("One DNA molecule → two copies")
-                                .font(.system(.subheadline, design: .rounded))
-                                .foregroundStyle(DNAReplicationTheme.muted)
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        NavigationLink {
-                            DNAReplicationGameView()
-                        } label: {
-                            Label("Play", systemImage: "play.fill")
-                                .font(.system(.headline, design: .rounded))
-                                .padding(.horizontal, 17)
-                                .frame(minHeight: 50)
-                                .background(DNAReplicationTheme.teal, in: Capsule())
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityLabel("Play the DNA replication game")
-                    }
-
-                    TabView(selection: Binding(
-                        get: { session.step },
-                        set: { step in
-                            guard step != session.step else { return }
-                            selectCard(step)
-                        }
-                    )) {
-                        ForEach(DNAReplicationStep.carouselCases) { step in
-                            phaseCard(step, width: cardWidth)
-                                .tag(step)
-                        }
-                    }
-                    .tabViewStyle(.page(indexDisplayMode: .never))
-                    .frame(height: measuredCardHeight > 0 ? measuredCardHeight : min(cardWidth * 1.07, 410) + 145)
-                    .onPreferenceChange(DNAReplicationLessonHeights.self) { heights in
-                        if let height = heights.values.max(), abs(height - measuredCardHeight) > 1 {
-                            measuredCardHeight = height
-                        }
-                    }
-                    .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: session.step)
-                    .accessibilityIdentifier("dna-carousel")
-
-                    HStack(spacing: 4) {
-                        ForEach(DNAReplicationStep.carouselCases) { step in
-                            Button { selectCard(step) } label: {
-                                Capsule()
-                                    .fill(session.step == step ? DNAReplicationTheme.teal : DNAReplicationTheme.edge.opacity(0.2))
-                                    .frame(width: session.step == step ? 22 : 6, height: 6)
-                                    .frame(width: 34, height: 36)
+                VStack(spacing: 14) {
+                    VStack(spacing: 0) {
+                        header
+                        animationControl
+                            .padding(.top, 8).padding(.bottom, 10)
+                        TabView(selection: Binding(get: { session.step }, set: selectCard)) {
+                            ForEach(DNAReplicationStep.carouselCases) { step in
+                                phaseCard(step, width: cardWidth).tag(step)
                             }
-                            .buttonStyle(.plain)
-                            .accessibilityLabel(step.content.title)
-                            .accessibilityValue(session.step == step ? "Selected" : "")
                         }
+                        .tabViewStyle(.page(indexDisplayMode: .never))
+                        .frame(height: cardHeights[session.step.id] ?? min(cardWidth, 360) + 155)
+                        .onPreferenceChange(DNAReplicationLessonHeights.self) { heights in
+                            cardHeights.merge(heights, uniquingKeysWith: { _, new in new })
+                        }
+                        .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: session.step)
+                        .accessibilityIdentifier("dna-carousel")
+                        phaseDots.padding(.top, 8)
                     }
-                    .frame(maxWidth: .infinity)
-                    Button(action: toggleLesson) {
-                        Label(session.isPlaying ? "Pause" : "Play", systemImage: session.isPlaying ? "pause.fill" : "play.fill")
-                            .font(.system(.headline, design: .rounded))
-                            .padding(.horizontal, 17).frame(minHeight: 50)
-                            .background(DNAReplicationTheme.teal, in: Capsule())
-                    }
-                    .buttonStyle(.plain)
-                    .disabled(reduceMotion)
-                    .accessibilityIdentifier("dna-play-pause")
-                    .frame(maxWidth: .infinity, alignment: .center)
-
-
-                    DNAReplicationLegend().frame(maxWidth: .infinity)
-
-
+                    DNAReplicationLegend()
+                        .padding(12).frame(maxWidth: .infinity)
+                        .background(DNAReplicationTheme.paper, in: RoundedRectangle(cornerRadius: 18))
                     Button {
                         session.isPlaying = false
+                        session.autoAdvance = false
                         sheet = .players
                     } label: {
-                        HStack(spacing: 12) {
-                            Image(systemName: "books.vertical").font(.title3)
-                            Text("Meet the key players").font(.system(.headline, design: .rounded))
-                            Spacer(minLength: 0)
-                            Image(systemName: "chevron.right").font(.system(.body, weight: .bold))
+                        HStack {
+                            Label("Meet the key players", systemImage: "text.book.closed.fill")
+                            Spacer(minLength: 4)
+                            Image(systemName: "chevron.right")
                         }
-                        .padding(20).frame(maxWidth: .infinity, minHeight: 64)
-                        .background(DNAReplicationTint.sage.color, in: RoundedRectangle(cornerRadius: 23))
-                        .overlay(RoundedRectangle(cornerRadius: 23).strokeBorder(DNAReplicationTheme.edge, lineWidth: 1.5))
+                        .font(.system(.headline, design: .rounded))
+                        .padding(18).frame(maxWidth: .infinity, minHeight: 44)
+                        .foregroundStyle(MeiPalette.ink)
+                        .background(MeiPalette.mint, in: RoundedRectangle(cornerRadius: 22))
+                        .overlay(RoundedRectangle(cornerRadius: 22).stroke(MeiPalette.ink.opacity(0.7), lineWidth: 1.5))
                     }
                     .buttonStyle(.plain)
                     .accessibilityIdentifier("dna-key-players")
-
                     Text("Simplified, not to scale. Enzyme actions overlap in cells.")
                         .font(.system(.caption2, design: .rounded))
-                        .foregroundStyle(DNAReplicationTheme.muted)
-                        .frame(maxWidth: .infinity)
+                        .foregroundStyle(.secondary)
                 }
-                .foregroundStyle(DNAReplicationTheme.ink)
-                .padding(.horizontal, 20).padding(.top, 12).padding(.bottom, 28)
+                .foregroundStyle(MeiPalette.text)
+                .padding(.horizontal, 18).padding(.top, 6).padding(.bottom, 18)
                 .frame(width: contentWidth).frame(maxWidth: .infinity)
             }
         }
-        .background(DNAReplicationTheme.cream.ignoresSafeArea())
-        .navigationTitle("")
-        .navigationBarTitleDisplayMode(.inline)
-        .tint(DNAReplicationTheme.ink)
+        .background(MeiPalette.paper.ignoresSafeArea())
+        .navigationTitle("").navigationBarTitleDisplayMode(.inline)
+        .tint(MeiPalette.teal)
+        .navigationDestination(isPresented: $showingGame) { DNAReplicationGameView() }
         .sheet(item: $sheet) { route in
             Group {
                 switch route {
                 case .diagram: DNAReplicationExpandedView(session: session)
-                case .players: DNAReplicationKeyPlayersView(initialPlayerID: "primase")
+                case .players: DNAReplicationKeyPlayersView(initialPlayerID: session.step.content.playerID)
                 }
             }
-            .presentationDetents([.large])
-            .presentationDragIndicator(.visible)
-            .presentationCornerRadius(30)
+            .presentationDetents([.large]).presentationDragIndicator(.visible).presentationCornerRadius(30)
         }
-        .task(id: DNAReplicationClockKey(playing: session.isPlaying, reduced: reduceMotion, active: scenePhase == .active)) {
-            guard session.isPlaying, !reduceMotion, scenePhase == .active else { return }
+        .task(id: DNAReplicationClockKey(playing: session.isPlaying, reduced: reduceMotion, active: clockActive)) {
+            guard session.isPlaying, !reduceMotion, clockActive else { return }
             await session.run()
+        }
+        .onAppear {
+            if reduceMotion { session.isPlaying = false; session.progress = 1 }
+        }
+        .onDisappear {
+            if sheet == nil { session.isPlaying = false; session.autoAdvance = false }
         }
         .onChange(of: reduceMotion) { _, reduced in
             if reduced { session.isPlaying = false; session.progress = 1 }
@@ -146,82 +105,187 @@ import UIKit
         .sensoryFeedback(.selection, trigger: session.step)
     }
 
+    private var headerTitle: some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text("S phase")
+                .font(.system(.largeTitle, design: .serif, weight: .bold))
+                .accessibilityAddTraits(.isHeader)
+            Text("One DNA molecule → two copies")
+                .font(.system(.caption, design: .rounded, weight: .medium))
+                .foregroundStyle(.secondary)
+        }
+        .fixedSize(horizontal: false, vertical: true)
+    }
+
+    private var header: some View {
+        ViewThatFits(in: .horizontal) {
+            HStack(alignment: .top) {
+                headerTitle.fixedSize(horizontal: true, vertical: true)
+                Spacer(minLength: 12)
+                gameButton
+            }
+            VStack(alignment: .leading, spacing: 8) {
+                headerTitle
+                HStack { Spacer(); gameButton }
+            }
+        }
+    }
+
+    private var gameButton: some View {
+        Button {
+            session.isPlaying = false
+            session.autoAdvance = false
+            showingGame = true
+        } label: {
+            Label("Play game", systemImage: "play.fill")
+                .font(.system(.headline, design: .rounded)).frame(minHeight: 36)
+                .foregroundStyle(.white)
+        }
+        .buttonStyle(.borderedProminent).buttonBorderShape(.capsule)
+        .fixedSize(horizontal: true, vertical: false)
+        .accessibilityLabel("Play the DNA replication game")
+        .accessibilityIdentifier("dna-play-game")
+    }
+
+    private var animationControl: some View {
+        HStack(spacing: 4) {
+            Button {
+                session.autoAdvance = false
+                session.togglePlayback()
+            } label: {
+                HStack(spacing: 8) {
+                    MitosisAxolotl(isSpeaking: false, fittedToArtwork: true)
+                        .frame(width: 48 * 160 / 136, height: 48)
+                    Image(systemName: session.isPlaying ? "pause.fill" : "play.fill")
+                        .font(.system(size: 14, weight: .semibold)).frame(width: 18)
+                    Text(animationTitle)
+                        .font(.system(.subheadline, design: .rounded, weight: .semibold))
+                    Spacer(minLength: 0)
+                }
+                .frame(maxWidth: .infinity, minHeight: 48, alignment: .leading)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain).disabled(reduceMotion)
+            .accessibilityLabel(animationTitle)
+            .accessibilityValue("\(Int(session.progress * 100)) percent")
+            .accessibilityIdentifier("dna-play-pause")
+            Menu {
+                Button("Replay this step", systemImage: "arrow.counterclockwise") {
+                    session.autoAdvance = false
+                    session.replay(play: true)
+                }
+                .disabled(reduceMotion)
+                Button("Play all steps", systemImage: "play.rectangle.on.rectangle") {
+                    session.autoAdvance = true
+                    if session.step == .result && session.progress >= 1 { session.select(.origins, play: true) }
+                    else if session.progress >= 1 { session.replay(play: true) }
+                    else { session.isPlaying = true }
+                }
+                .disabled(reduceMotion)
+            } label: {
+                Image(systemName: "ellipsis.circle").frame(width: 44, height: 44)
+            }
+            .accessibilityLabel("Animation options")
+            .accessibilityIdentifier("dna-animation-options")
+        }
+    }
+
+    private var phaseDots: some View {
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: 0) { dots(DNAReplicationStep.carouselCases) }.fixedSize()
+            VStack(spacing: 0) {
+                HStack(spacing: 0) { dots(Array(DNAReplicationStep.carouselCases.prefix(5))) }
+                HStack(spacing: 0) { dots(Array(DNAReplicationStep.carouselCases.suffix(4))) }
+            }
+        }
+        .frame(maxWidth: .infinity)
+    }
+
+    private func dots(_ steps: [DNAReplicationStep]) -> some View {
+        ForEach(steps) { step in
+            Button { selectCard(step) } label: {
+                Capsule()
+                    .fill(session.step == step ? MeiPalette.teal : MeiPalette.text.opacity(0.18))
+                    .frame(width: session.step == step ? 22 : 7, height: 7)
+                    .frame(width: 44, height: 44).contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(step.content.title)
+            .accessibilityValue(session.step == step ? "Selected" : "")
+            .accessibilityIdentifier("dna-step-\(step.content.slug)")
+        }
+    }
+
+    private func cardColor(_ step: DNAReplicationStep) -> Color {
+        switch step {
+        case .origins, .build, .result: MeiPalette.mint
+        case .unzip, .prime: MeiPalette.butter
+        case .stabilize, .replace: MeiPalette.lilac
+        case .proofread: MeiPalette.blush
+        case .seal: DNAReplicationTint.blue.color
+        }
+    }
+
     private func phaseCard(_ step: DNAReplicationStep, width: CGFloat) -> some View {
-        VStack(spacing: 0) {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Text("DNA REPLICATION")
+                Spacer(minLength: 4)
+                Text("\(step.rawValue + 1) / \(DNAReplicationStep.carouselCases.count)")
+            }
+            .font(.system(.caption, design: .rounded, weight: .bold))
+            .foregroundStyle(MeiPalette.ink.opacity(0.72))
             HStack(alignment: .top, spacing: 8) {
                 Text(step.content.title)
                     .font(.system(.title, design: .serif, weight: .bold))
                     .fixedSize(horizontal: false, vertical: true)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .accessibilityAddTraits(.isHeader)
-                Button { sheet = .diagram } label: {
-                    Image(systemName: "arrow.up.left.and.arrow.down.right")
-                        .font(.system(.body, weight: .semibold))
-                        .frame(width: 40, height: 40)
+                Button {
+                    session.autoAdvance = false
+                    sheet = .diagram
+                } label: {
+                    Image(systemName: "arrow.up.left.and.arrow.down.right").frame(width: 44, height: 44)
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel("Enlarge diagram")
+                .accessibilityIdentifier("dna-enlarge-\(step.content.slug)")
             }
-            .padding(.horizontal, 18).padding(.top, 18)
-
             DNAReplicationScene(step: step, progress: step == session.step && !reduceMotion ? session.progress : 1,
-                                background: DNAReplicationTint.butter.color)
-                .frame(height: min(width * 1.07, 410))
+                                background: cardColor(step))
+                .frame(height: step == .origins ? width * 220 / 360 : min(width, 360))
                 .frame(maxWidth: .infinity)
-
-            Button {
-                withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.2)) {
-                    expandedStep = expandedStep == step ? nil : step
-                }
-            } label: {
-                HStack {
-                    Text(step.content.mnemonic)
-                        .font(.system(.headline, design: .rounded))
-
-                    Spacer(minLength: 0)
-
-                    Image(systemName: expandedStep == step ? "chevron.down" : "chevron.right")
-                        .font(.system(.body, weight: .bold))
-                }
-                .frame(maxWidth: .infinity, minHeight: 44)
-                .padding(.horizontal, 20)
-                .padding(.bottom, 12)
-                .contentShape(Rectangle())
-            }
-            .buttonStyle(.plain)
-            .accessibilityValue(expandedStep == step ? "Expanded" : "Collapsed")
-
-            if expandedStep == step && session.step == step {
+            DisclosureGroup(isExpanded: Binding(
+                get: { expandedStep == step },
+                set: { expandedStep = $0 ? step : nil }
+            )) {
                 DNAReplicationBullets(items: step.content.bullets)
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 20)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(12)
+                    .background(.white.opacity(0.35), in: RoundedRectangle(cornerRadius: 12))
+                    .padding(.top, 4)
+            } label: {
+                Text(step.content.mnemonic)
+                    .font(.system(.subheadline, design: .rounded, weight: .medium))
+                    .fixedSize(horizontal: false, vertical: true)
             }
+            .tint(MeiPalette.ink)
         }
-        .foregroundStyle(DNAReplicationTheme.ink)
-        .frame(width: width)
-        .fixedSize(horizontal: false, vertical: true)
-        .background(DNAReplicationTint.butter.color, in: RoundedRectangle(cornerRadius: 27))
-        .overlay(RoundedRectangle(cornerRadius: 27).strokeBorder(DNAReplicationTheme.edge, lineWidth: 1.5))
+        .padding(16).foregroundStyle(MeiPalette.ink)
+        .frame(width: width).fixedSize(horizontal: false, vertical: true)
+        .background(cardColor(step), in: RoundedRectangle(cornerRadius: 26))
+        .overlay(RoundedRectangle(cornerRadius: 26).stroke(MeiPalette.ink.opacity(0.75), lineWidth: 1.5))
         .background {
             GeometryReader { proxy in
                 Color.clear.preference(key: DNAReplicationLessonHeights.self, value: [step.id: proxy.size.height])
             }
         }
-        .accessibilityIdentifier("dna-card-\(step.content.slug)")
     }
 
     private func selectCard(_ step: DNAReplicationStep) {
+        guard step != session.step else { return }
+        expandedStep = nil
         session.autoAdvance = false
         session.select(step, play: !reduceMotion)
-    }
-
-    private func toggleLesson() {
-        if session.isPlaying { session.isPlaying = false; return }
-        session.autoAdvance = true
-        if session.step == .result && session.progress >= 1 { session.select(.prime, play: true) }
-        else if session.progress >= 1 { session.replay(play: true) }
-        else { session.isPlaying = true }
     }
 }
 
@@ -234,7 +298,7 @@ import UIKit
                 if let previous = session.step.previous { session.autoAdvance = false; session.select(previous, play: !reduceMotion) }
             } label: { Image(systemName: "chevron.left").frame(width: 44, height: 44) }
             .disabled(session.step.previous == nil).accessibilityLabel("Previous card")
-            Button { session.togglePlayback() } label: {
+            Button { session.autoAdvance = false; session.togglePlayback() } label: {
                 Label(session.isPlaying ? "Pause" : "Play", systemImage: session.isPlaying ? "pause.fill" : "play.fill")
                     .frame(maxWidth: .infinity, minHeight: 44)
             }
@@ -258,6 +322,7 @@ import UIKit
     @State private var zoom: Double = 1.25
     @Environment(\.dismiss) private var dismiss
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.scenePhase) private var scenePhase
     var body: some View {
         NavigationStack {
             GeometryReader { proxy in
@@ -269,7 +334,7 @@ import UIKit
                     ScrollView([.horizontal, .vertical]) {
                         DNAReplicationScene(step: session.step, progress: reduceMotion ? 1 : session.progress)
                             .frame(width: max(320, proxy.size.width - 24) * CGFloat(zoom),
-                                   height: max(320, proxy.size.width - 24) * CGFloat(zoom) * 420 / 360)
+                                   height: max(320, proxy.size.width - 24) * CGFloat(zoom) * (session.step == .origins ? 220 : 420) / 360)
                             .padding(12)
                     }
                     .background(DNAReplicationTheme.paper)
@@ -289,6 +354,18 @@ import UIKit
             .navigationTitle("Replication close-up").navigationBarTitleDisplayMode(.inline)
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { dismiss() } } }
             .tint(DNAReplicationTheme.ink)
+        }
+        // The page yields its clock while this sheet owns the same session.
+        .task(id: DNAReplicationClockKey(playing: session.isPlaying, reduced: reduceMotion,
+                                        active: scenePhase == .active)) {
+            guard session.isPlaying, !reduceMotion, scenePhase == .active else { return }
+            await session.run()
+        }
+        .onChange(of: reduceMotion) { _, reduced in
+            if reduced { session.isPlaying = false; session.progress = 1 }
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase != .active { session.isPlaying = false }
         }
     }
 }

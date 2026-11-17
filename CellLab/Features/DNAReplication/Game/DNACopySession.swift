@@ -2,6 +2,8 @@ import Foundation
 import Observation
 
 @MainActor @Observable final class DNACopySession {
+    // Match LessonNarrator's workaround for the iOS 26.2 isolated-deinit crash.
+    nonisolated deinit {}
     private(set) var stage: DNACopyStage = .origin
     private(set) var selectedTool: DNACopyTool?
     private(set) var selectedBase: DNACopyBase?

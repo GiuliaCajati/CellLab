@@ -25,17 +25,21 @@ import SwiftUI
             // Only the drawing scales. Touch controls are placed independently
             // in actual view coordinates and retain a 56-point hit area.
             DNACopyMolecularCanvas(state: state, openFraction: session.unwound ? 1 : 0)
-                .animation(reduceMotion ? nil : .easeInOut(duration: 0.7), value: session.unwound)
+                .animation(reduceMotion ? nil : .easeInOut(duration: 1.4), value: session.unwound)
                 .allowsHitTesting(false)
-                .accessibilityHidden(true)
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("DNA strands")
+                .accessibilityValue(session.stage.title)
 
             if [.prime, .leading, .lagging, .replace].contains(session.stage) {
                 floatingPool
             }
             ForEach(targets, id: \.self) { target in
                 targetButton(target)
+                    .frame(width: 56, height: 56)
+                    .offset(x: screen(DNACopyBoardLayout.point(target)).x - 28,
+                            y: screen(DNACopyBoardLayout.point(target)).y - 28)
                     .id(target)
-                    .position(screen(DNACopyBoardLayout.point(target)))
                     .zIndex(3)
             }
             if let target = session.lastSuccessTarget, session.successSerial > 0 {
@@ -69,7 +73,6 @@ import SwiftUI
         .onChange(of: session.celebration?.id) { _, value in if value != nil { drag = nil; onDraggingChanged(false) } }
         .onDisappear { onDraggingChanged(false) }
         .accessibilityElement(children: .contain)
-        .accessibilityLabel("DNA replication workbench in the nucleus")
     }
 
     private var floatingPool: some View {
@@ -214,7 +217,7 @@ enum DNACopyBoardLayout {
     static func point(_ target: DNACopyTarget) -> CGPoint {
         switch target {
         case let .origin(index): return CGPoint(x: 100 + index * 80, y: 270)
-        case .helicase: return CGPoint(x: 180, y: 142)
+        case .helicase: return CGPoint(x: 180, y: 396)
         case let .binding(index): return [CGPoint(x: 80, y: 222), CGPoint(x: 280, y: 293), CGPoint(x: 80, y: 355)][index]
         case let .primer(lane, fragment):
             let start = lane == .leading ? 0 : fragment * 4
@@ -350,15 +353,16 @@ private struct DNACopyPainter {
         }
         p.closeSubpath(); context.fill(p, with: .color(color)); context.stroke(p, with: .color(ink), lineWidth: 0.8)
     }
-    private func base(_ value: DNACopyBase?, _ x: CGFloat, _ y: CGFloat, isRNA: Bool = false, error: Bool = false) {
-        let rect = Path(roundedRect: CGRect(x: x - 10, y: y - 10, width: 20, height: 20), cornerRadius: 5)
+    private func base(_ value: DNACopyBase?, _ x: CGFloat, _ y: CGFloat, isRNA: Bool = false,
+                      error: Bool = false, size: CGFloat = 20) {
+        let rect = Path(roundedRect: CGRect(x: x - size / 2, y: y - size / 2, width: size, height: size), cornerRadius: 5)
         let fill = isRNA ? DNACopyStyle.butter : value.map(DNACopyStyle.base) ?? DNACopyStyle.paper.opacity(0.2)
         context.fill(rect, with: .color(error ? DNACopyStyle.error.opacity(0.18) : fill))
         context.stroke(rect, with: .color(error ? DNACopyStyle.error : edge.opacity(value == nil && !isRNA ? 0.3 : 1)),
                        style: StrokeStyle(lineWidth: error ? 2 : 0.9, dash: value == nil && !isRNA ? [2, 3] : []))
         if isRNA {
             segment(x - 5, y, x + 5, y, rna, 3)
-        } else if let value { text(value.rawValue, x, y, 12, color: error ? DNACopyStyle.error : ink, weight: .heavy) }
+        } else if let value { text(value.rawValue, x, y, min(12, size * 0.6), color: error ? DNACopyStyle.error : ink, weight: .heavy) }
     }
     private func arrow(_ x1: CGFloat, _ y1: CGFloat, _ x2: CGFloat, _ y2: CGFloat, _ color: Color) {
         segment(x1, y1, x2, y2, color, 2)
@@ -392,6 +396,7 @@ private struct DNACopyPainter {
         text("Many starting sites. One mission here.", 180, 430, 11, weight: .medium)
     }
     private func fork() {
+        if state.stage == .unwind { unzip(); return }
         let fraction = min(max(open, 0), 1)
         let left = 168 - 74 * fraction, right = 192 + 74 * fraction
         for (start, end) in [(CGFloat(168), left), (CGFloat(192), right)] {
@@ -444,6 +449,44 @@ private struct DNACopyPainter {
             pill("RNA primer = starting block", 180, 454, DNACopyStyle.butter, 10)
         } else { pill("Separated DNA templates", 180, 454, DNACopyStyle.paper) }
         if state.stage == .leading || state.stage == .lagging { text("New DNA always grows 5′ → 3′", 180, 437, 10, color: DNACopyStyle.muted) }
+    }
+
+    private func unzip() {
+        let geometry = DNAUnzipGeometry(progress: Double(open), openLeft: 94, openRight: 266,
+                                        startY: 390, endY: 110, spread: 64)
+        for left in [true, false] {
+            var backbone = Path()
+            for y in stride(from: CGFloat(63), through: 408, by: 2) {
+                let point = CGPoint(x: geometry.strandX(left: left, at: y), y: y)
+                if y == 63 { backbone.move(to: point) } else { backbone.addLine(to: point) }
+            }
+            context.stroke(backbone, with: .color(old), style: StrokeStyle(lineWidth: 3.5, lineCap: .round))
+        }
+        for row in 0..<8 {
+            let y = DNACopyBoardLayout.rowY(row)
+            let left = geometry.strandX(left: true, at: y)
+            let right = geometry.strandX(left: false, at: y)
+            let separated = geometry.separation(at: y)
+            let size = 12 + separated * 8
+            let value = DNACopySequence.parentalBase(atRow: row)
+            sugar(left, y, old); sugar(right, y, old)
+            segment(left, y, left + 15, y, old, 1)
+            segment(right, y, right - 15, y, old, 1)
+            base(value, left + 15, y, size: size)
+            base(value.complement, right - 15, y, size: size)
+            if separated < 0.35 {
+                segment(left + 22, y, right - 22, y,
+                        edge.opacity(Double(1 - separated / 0.35)), 1, dash: [2, 2])
+            }
+            circle(left, y + 15.5, 2.7, DNACopyStyle.butter)
+            circle(right, y + 15.5, 2.7, DNACopyStyle.butter)
+        }
+        let actor = geometry.helicase
+        icon("DNAHelicaseZipper", actor.x, actor.y, 80)
+        text("5′", 145, 54, 12, color: old); text("3′", 215, 54, 12, color: old)
+        text("3′", geometry.strandX(left: true, at: 408), 430, 12, color: old)
+        text("5′", geometry.strandX(left: false, at: 408), 430, 12, color: old)
+        pill("Helicase opens the base pairs", 180, 454, DNACopyStyle.paper, 10)
     }
     private func newStrand(_ lane: DNACopyLane) {
         let chainX: CGFloat = lane == .leading ? 160 : 200

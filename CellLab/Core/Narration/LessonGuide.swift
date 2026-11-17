@@ -13,6 +13,7 @@ struct LessonGuide: View {
     var layoutTitle = "Replay instruction"
     var instruction: Text? = nil
     var instructionID = "mitosis-instruction"
+    var compactInstruction = false
     @State private var transcript: NarrationRecording?
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -21,20 +22,31 @@ struct LessonGuide: View {
             if let instruction {
                 HStack(alignment: .top, spacing: 8) {
                     primaryButton(artOnly: true)
+                        .overlay(alignment: .bottomTrailing) {
+                            if compactInstruction {
+                                Image(systemName: title == "Stop" ? "stop.fill" : "speaker.wave.2.fill")
+                                    .font(.system(size: 10, weight: .bold))
+                                    .padding(4).background(.background, in: Circle())
+                                    .allowsHitTesting(false).accessibilityHidden(true)
+                            }
+                        }
                     VStack(alignment: .leading, spacing: 4) {
                         instruction
                             .multilineTextAlignment(.leading)
                             .fixedSize(horizontal: false, vertical: true)
                             .accessibilityIdentifier(instructionID)
-                        HStack(spacing: 4) {
-                            Button(action: action) { playbackLabel }
-                                .buttonStyle(.plain)
-                                .frame(minHeight: 44, alignment: .leading)
-                                .accessibilityHidden(true) // The mascot exposes the same action.
-                            Spacer(minLength: 0)
-                            trailingControls
+                        if !compactInstruction {
+                            HStack(spacing: 4) {
+                                Button(action: action) { playbackLabel }
+                                    .buttonStyle(.plain)
+                                    .frame(minHeight: 44, alignment: .leading)
+                                    .accessibilityHidden(true) // The mascot exposes the same action.
+                                Spacer(minLength: 0)
+                                trailingControls
+                            }
                         }
                     }
+                    if compactInstruction { trailingControls }
                 }
             } else {
                 HStack(spacing: 4) {
@@ -101,7 +113,7 @@ struct LessonGuide: View {
 
     @ViewBuilder
     private var trailingControls: some View {
-        if showsStopBetweenClips && !narrator.isPlaying {
+        if showsStopBetweenClips && !narrator.isPlaying && !compactInstruction {
             Button { narrator.stop() } label: {
                 Image(systemName: "stop.fill").frame(width: 44, height: 44)
             }
@@ -111,6 +123,9 @@ struct LessonGuide: View {
         }
         if replayOverview != nil || showsTranscriptOption {
             Menu {
+                if compactInstruction && showsStopBetweenClips {
+                    Button("Stop narration", systemImage: "stop.fill") { narrator.stop() }
+                }
                 if let replayOverview {
                     Button("Replay overview", systemImage: "arrow.counterclockwise", action: replayOverview)
                 }

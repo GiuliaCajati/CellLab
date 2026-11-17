@@ -36,6 +36,11 @@ struct MeiosisView: View {
                         .padding(.bottom, 10)
                     MeiPhaseCarousel(selection: $currentPhase)
                 }
+                Text("*For simplicity, this model starts with 4 chromosomes (2 pairs); human cells begin meiosis with 46 (23 pairs).")
+                    .font(.system(.caption, design: .rounded))
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 MeiHomologsCard()
                 MeiCountJourney { detail = .counts }
 

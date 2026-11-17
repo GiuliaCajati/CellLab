@@ -52,6 +52,11 @@ private struct MitosisOverview: View {
                         .padding(.bottom, 10)
                     phaseCarousel
                 }
+                Text("*For simplicity, this model starts with 3 chromosomes; most human body cells have 46.")
+                    .font(.system(.caption, design: .rounded))
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 ChromosomeJourneyCard()
                 Button {
                     narration.stop()

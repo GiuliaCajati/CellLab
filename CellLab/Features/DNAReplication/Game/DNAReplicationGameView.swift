@@ -31,80 +31,28 @@ import UIKit
     var body: some View {
         GeometryReader { geometry in
             let width = max(1, min(geometry.size.width - 32, 520))
-            VStack(spacing: 0) {
-                if !dynamicTypeSize.isAccessibilitySize {
-                    header.frame(width: width)
-                        .padding(.top, 8).padding(.bottom, 10)
-                        .frame(maxWidth: .infinity)
-                        .accessibilityHidden(celebrationVisible)
-                        .allowsHitTesting(!celebrationVisible)
-                }
-                GeometryReader { viewport in
-                    ZStack(alignment: .bottom) {
-                        ScrollViewReader { reader in
-                            ScrollView {
-                                VStack(alignment: .leading, spacing: 16) {
-                                    // At accessibility text sizes, the header and toolkit
-                                    // scroll too, leaving the molecular targets reachable.
-                                    if dynamicTypeSize.isAccessibilitySize { header }
-                                    progress
-                                    workbench(width: width).id("workbench")
-                                    if dynamicTypeSize.isAccessibilitySize && session.stage != .complete && session.celebration == nil {
-                                        selectionBar
-                                        toolTray
-                                    }
-                                    DNACopyLegend().frame(maxWidth: .infinity)
-                                    if session.stage == .complete { summary }
-                                    Text("Shortened DNA, not to scale. Enzyme actions overlap in cells.")
-                                        .font(.system(.caption2, design: .rounded))
-                                        .foregroundStyle(DNACopyStyle.muted)
-                                        .frame(maxWidth: .infinity)
-                                }
-                                .frame(width: width)
-                                .padding(.top, 4).padding(.bottom, 20)
-                                .frame(maxWidth: .infinity)
-                            }
-                            .scrollIndicators(.hidden)
-                            .scrollDisabled(isDraggingNucleotide)
-                            .onChange(of: session.stage) { _, _ in
-                                withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.25)) { reader.scrollTo("workbench", anchor: .top) }
-                            }
-                            .onChange(of: session.selectedBase) { _, base in
-                                guard base != nil, !isDraggingNucleotide, let target = session.activeTarget else { return }
-                                withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.2)) { reader.scrollTo(target, anchor: .center) }
-                            }
-                            .onChange(of: session.selectedTool) { _, tool in
-                                guard tool != nil, !isDraggingNucleotide, session.celebration == nil,
-                                      let target = session.activeTarget else { return }
-                                withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.2)) { reader.scrollTo(target, anchor: .center) }
-                            }
-                        }
-                        .accessibilityHidden(celebrationVisible)
-                        .allowsHitTesting(!celebrationVisible)
-
-                        if let card = session.celebration, celebrationVisible {
-                            DNACopyStyle.ink.opacity(0.16).ignoresSafeArea()
-                            celebration(card, availableHeight: viewport.size.height)
-                                .frame(maxWidth: 490)
-                                .padding(12)
-                                .transition(.move(edge: .bottom).combined(with: .opacity))
-                                .zIndex(2)
-                        }
+            ZStack(alignment: .bottom) {
+                Group {
+                    if dynamicTypeSize.isAccessibilitySize || session.stage == .complete {
+                        scrollableGame(width: width)
+                    } else {
+                        fittedGame(size: geometry.size)
                     }
+                }
+                .accessibilityHidden(celebrationVisible)
+                .allowsHitTesting(!celebrationVisible)
+                if let card = session.celebration, celebrationVisible {
+                    DNACopyStyle.ink.opacity(0.16).ignoresSafeArea()
+                    celebration(card, availableHeight: geometry.size.height)
+                        .frame(maxWidth: 490)
+                        .padding(12)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                        .zIndex(2)
                 }
             }
         }
         .background(DNACopyStyle.cream.ignoresSafeArea())
         .foregroundStyle(DNACopyStyle.ink)
-        .safeAreaInset(edge: .bottom, spacing: 0) {
-            if !dynamicTypeSize.isAccessibilitySize && session.stage != .complete && session.celebration == nil {
-                VStack(spacing: 0) {
-                    selectionBar
-                    toolTray
-                }
-                .background(DNACopyStyle.cream.shadow(color: DNACopyStyle.ink.opacity(0.1), radius: 12, y: -4))
-            }
-        }
         .toolbar(.hidden, for: .navigationBar)
         .sheet(isPresented: $showsGuide, onDismiss: narration.stop) {
             DNACopyFieldGuide().environmentObject(narration)
@@ -136,6 +84,91 @@ import UIKit
         }
     }
 
+    private func fittedGame(size: CGSize) -> some View {
+        let landscape = size.width > size.height * 1.2
+        let compact = size.height < 700
+        return VStack(spacing: 6) {
+            header.padding(.horizontal, 16)
+            if landscape {
+                HStack(spacing: 12) {
+                    fittedBoard
+                    VStack(spacing: 6) {
+                        instruction(compact: true)
+                        selectionBar
+                        toolTray
+                    }
+                    .frame(width: min(350, size.width * 0.46))
+                }
+                .padding(.horizontal, 12)
+            } else {
+                if !compact { progress.padding(.horizontal, 16) }
+                VStack(spacing: 0) {
+                    instruction(compact: compact).padding(.horizontal, 12).padding(.top, 8)
+                    fittedBoard
+                }
+                .background(DNACopyStyle.butter, in: RoundedRectangle(cornerRadius: 24))
+                .overlay(RoundedRectangle(cornerRadius: 24).strokeBorder(DNACopyStyle.edge, lineWidth: 1.5).allowsHitTesting(false))
+                .padding(.horizontal, 16)
+                VStack(spacing: 0) {
+                    selectionBar
+                    toolTray
+                }
+                .fixedSize(horizontal: false, vertical: true)
+                .background(DNACopyStyle.cream)
+            }
+        }
+        .padding(.top, 4).padding(.bottom, 4)
+        .frame(maxWidth: 1100).frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    private var fittedBoard: some View {
+        VStack(spacing: 0) {
+            GeometryReader { area in
+                // Fit the complete drawing. DNACopyBoard keeps its buttons at 56 pt;
+                // only the molecular illustration and positions scale with width.
+                let width = max(1, min(520, min(area.size.width - 12, area.size.height * 360 / 460)))
+                DNACopyBoard(session: session, width: width, motionPaused: showsGuide || scenePhase != .active)
+                    .frame(width: area.size.width, height: area.size.height)
+            }
+            DNACopyLegend().fixedSize(horizontal: false, vertical: true)
+                .padding(.horizontal, 8).padding(.bottom, 6)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(DNACopyStyle.butter, in: RoundedRectangle(cornerRadius: 24))
+    }
+
+    private func instruction(compact: Bool) -> some View {
+        gameGuide(cueID: session.instructionNarrationID,
+                  instruction: Text(isUnzipping ? "Helicase unzips the base pairs. Watch the strands separate." : session.instruction)
+                    .font(.system(compact ? .caption : .subheadline, design: .rounded, weight: .medium)),
+                  compact: true)
+            .disabled(isUnzipping && narration.mode != .game)
+    }
+
+    private func scrollableGame(width: CGFloat) -> some View {
+        // Large text and the final summary can scroll under the learner's control.
+        // Selecting a tool or base never changes that scroll position.
+        ScrollView {
+            VStack(spacing: 16) {
+                header
+                progress
+                workbench(width: width)
+                if session.stage != .complete {
+                    selectionBar
+                    toolTray
+                }
+                DNACopyLegend().frame(maxWidth: .infinity)
+                if session.stage == .complete { summary }
+                Text("Shortened DNA, not to scale. Enzyme actions overlap in cells.")
+                    .font(.system(.caption2, design: .rounded)).foregroundStyle(DNACopyStyle.muted)
+            }
+            .frame(width: width).padding(.top, 4).padding(.bottom, 20)
+            .frame(maxWidth: .infinity)
+        }
+        .scrollIndicators(.hidden)
+        .scrollDisabled(isDraggingNucleotide)
+    }
+
     private var header: some View {
         HStack(spacing: 12) {
             Button { dismiss() } label: {
@@ -145,8 +178,10 @@ import UIKit
             .accessibilityLabel("Back to S phase")
             Spacer(minLength: 0)
             VStack(spacing: 3) {
-                Text("DNA Replication").font(.system(.title3, design: .serif, weight: .bold))
-                Text("Copy the code · S phase")
+                Text(dynamicTypeSize.isAccessibilitySize ? "DNA Replication" : session.stage.title)
+                    .font(.system(.title3, design: .serif, weight: .bold))
+                    .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 1).minimumScaleFactor(0.75)
+                Text("DNA replication · \(["Prepare", "Copy", "Finish"][session.stage.group])")
                     .font(.system(.caption2, design: .rounded, weight: .bold))
                     .foregroundStyle(DNACopyStyle.muted)
             }
@@ -202,7 +237,8 @@ import UIKit
         return VStack(alignment: .leading, spacing: 7) {
             Text(session.notice)
                 .font(.system(.caption, design: .rounded, weight: .medium))
-                .fixedSize(horizontal: false, vertical: true)
+                .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 2)
+                .frame(height: dynamicTypeSize.isAccessibilitySize ? nil : 30, alignment: .leading)
                 .foregroundStyle(DNACopyStyle.muted)
             layout {
                 VStack(alignment: .leading, spacing: 3) {
@@ -231,40 +267,48 @@ import UIKit
                 .accessibilityIdentifier("dna-game-apply-selection")
             }
         }
-        .padding(.horizontal, 18).padding(.top, 10).padding(.bottom, 2)
+        .padding(.horizontal, 18).padding(.top, dynamicTypeSize.isAccessibilitySize ? 10 : 0).padding(.bottom, 2)
         .frame(maxWidth: 556)
         .frame(maxWidth: .infinity)
     }
     private var toolTray: some View {
-        let layout = dynamicTypeSize.isAccessibilitySize
-            ? AnyLayout(VStackLayout(alignment: .leading, spacing: 3))
-            : AnyLayout(HStackLayout())
-        return VStack(alignment: .leading, spacing: 3) {
-            layout {
-                Text("YOUR TOOLKIT").font(.system(.caption2, design: .rounded, weight: .bold))
-                if !dynamicTypeSize.isAccessibilitySize { Spacer() }
-                Text("Swipe for tools").font(.system(.caption2, design: .rounded))
-                Button { session.hint() } label: {
-                    Image(systemName: "lightbulb").frame(width: 44, height: 32)
-                }
-                .buttonStyle(.plain).accessibilityLabel("A little hint")
-            }
-            .foregroundStyle(DNACopyStyle.muted)
-            .padding(.horizontal, 18).padding(.top, 10)
-            ScrollViewReader { reader in
-                ScrollView(.horizontal) {
-                    HStack(alignment: .top, spacing: 7) {
-                        ForEach(DNACopyTool.allCases) { tool in
-                            toolButton(tool).id(tool.id)
-                        }
+        VStack(alignment: .leading, spacing: 3) {
+            if dynamicTypeSize.isAccessibilitySize {
+                VStack(alignment: .leading, spacing: 3) {
+                    Text("YOUR TOOLKIT").font(.system(.caption2, design: .rounded, weight: .bold))
+                    Text("Swipe for tools").font(.system(.caption2, design: .rounded))
+                    Button { session.hint() } label: {
+                        Image(systemName: "lightbulb").frame(width: 44, height: 44)
                     }
-                    .padding(.horizontal, 14).padding(.vertical, 7)
+                    .buttonStyle(.plain).accessibilityLabel("A little hint")
                 }
-                .scrollIndicators(.hidden)
-                .accessibilityIdentifier("dna-game-tools")
-                .onChange(of: session.neededTool) { _, tool in
-                    guard let tool else { return }
-                    withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.25)) { reader.scrollTo(tool.id, anchor: .center) }
+                .foregroundStyle(DNACopyStyle.muted)
+                .padding(.horizontal, 18).padding(.top, 10)
+            }
+            HStack(spacing: 0) {
+                ScrollViewReader { reader in
+                    ScrollView(.horizontal) {
+                        HStack(alignment: .top, spacing: 7) {
+                            ForEach(DNACopyTool.allCases) { tool in
+                                toolButton(tool).id(tool.id)
+                            }
+                        }
+                        .padding(.horizontal, 14).padding(.vertical, dynamicTypeSize.isAccessibilitySize ? 7 : 4)
+                    }
+                    .scrollIndicators(.hidden)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .accessibilityIdentifier("dna-game-tools")
+                    .onChange(of: session.neededTool) { _, tool in
+                        guard let tool else { return }
+                        withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.25)) { reader.scrollTo(tool.id, anchor: .center) }
+                    }
+                }
+                if !dynamicTypeSize.isAccessibilitySize {
+                    Button { session.hint() } label: {
+                        Image(systemName: "lightbulb").frame(width: 44, height: 44)
+                    }
+                    .buttonStyle(.plain).accessibilityLabel("A little hint")
+                    .padding(.trailing, 6)
                 }
             }
         }
@@ -272,13 +316,16 @@ import UIKit
     private func toolButton(_ tool: DNACopyTool) -> some View {
         Button { session.choose(tool: tool) } label: {
             VStack(spacing: 3) {
-                DNACopyToolImage(tool: tool).frame(width: 47, height: 47)
+                DNACopyToolImage(tool: tool)
+                    .frame(width: dynamicTypeSize.isAccessibilitySize ? 47 : 34,
+                           height: dynamicTypeSize.isAccessibilitySize ? 47 : 34)
                 Text(tool.title).font(.system(.caption2, design: .rounded, weight: .semibold))
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
-                    .frame(minHeight: 28, alignment: .top)
+                    .frame(minHeight: dynamicTypeSize.isAccessibilitySize ? 28 : 24, alignment: .top)
             }
-            .frame(width: toolWidth).padding(.vertical, 7)
+            .frame(width: dynamicTypeSize.isAccessibilitySize ? toolWidth : 68)
+            .padding(.vertical, dynamicTypeSize.isAccessibilitySize ? 7 : 4)
             .background(session.selectedTool == tool ? DNACopyStyle.sage : DNACopyStyle.paper, in: RoundedRectangle(cornerRadius: 17))
             .overlay(RoundedRectangle(cornerRadius: 17).strokeBorder(session.selectedTool == tool ? DNACopyStyle.teal : DNACopyStyle.edge.opacity(0.25), lineWidth: session.selectedTool == tool ? 2 : 1).allowsHitTesting(false))
             .contentShape(RoundedRectangle(cornerRadius: 17))
@@ -388,7 +435,7 @@ import UIKit
     }
 
     private func gameGuide(cueID: String, controlID: String = "sphaseGameListenButton",
-                           instruction: Text? = nil, explanation: Bool = false) -> some View {
+                           instruction: Text? = nil, explanation: Bool = false, compact: Bool = false) -> some View {
         let subject = explanation ? "explanation" : "instruction"
         return LessonGuide(narrator: narration,
                            title: narration.isPlaying || (isUnzipping && narration.mode == .game) ? "Stop" : "\(narration.completedCues.contains(cueID) ? "Replay" : "Hear") \(subject)",
@@ -399,7 +446,7 @@ import UIKit
                            },
                            showsStopBetweenClips: narration.mode == .game,
                            controlID: controlID, layoutTitle: "Replay \(subject)",
-                           instruction: instruction, instructionID: "sphase-instruction")
+                           instruction: instruction, instructionID: "sphase-instruction", compactInstruction: compact)
     }
 }
 

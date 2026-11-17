@@ -1,4 +1,5 @@
 import XCTest
+import UIKit
 
 final class DNAReplicationUITests: XCTestCase {
     @MainActor
@@ -25,7 +26,12 @@ final class DNAReplicationUITests: XCTestCase {
         }
         for _ in 0..<12 where !ready() {
             let below = element.exists ? element.frame.midY > app.frame.midY : up
-            if below { app.swipeUp() } else { app.swipeDown() }
+            if element.exists {
+                let distance = min(max(abs(element.frame.midY - app.frame.midY), 60), app.frame.height * 0.35)
+                let start = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: below ? 0.75 : 0.25))
+                let end = start.withOffset(CGVector(dx: 0, dy: below ? -distance : distance))
+                start.press(forDuration: 0.01, thenDragTo: end, withVelocity: .slow, thenHoldForDuration: 0.15)
+            } else if below { app.swipeUp() } else { app.swipeDown() }
         }
         XCTAssertTrue(ready())
     }
@@ -154,6 +160,7 @@ final class DNAReplicationUITests: XCTestCase {
         }
         XCTAssertTrue(button.isHittable)
         button.tap()
+        waitFor(button, "value == %@", "Selected", timeout: 3)
     }
 
     @MainActor
@@ -163,6 +170,140 @@ final class DNAReplicationUITests: XCTestCase {
         reveal(button, in: app)
         XCTAssertTrue(button.isEnabled)
         button.tap()
+    }
+
+    @MainActor
+    private func assertWholeBoardAndToolsVisible(_ app: XCUIApplication, file: StaticString = #filePath, line: UInt = #line) {
+        let board = app.otherElements["dna-game-drawing"]
+        let tools = app.scrollViews["dna-game-tools"]
+        let action = app.buttons["dna-game-apply-selection"]
+        XCTAssertTrue(board.exists, file: file, line: line)
+        XCTAssertTrue(tools.isHittable, file: file, line: line)
+        XCTAssertGreaterThanOrEqual(board.frame.minX, 0, file: file, line: line)
+        XCTAssertLessThanOrEqual(board.frame.maxX, app.frame.maxX, file: file, line: line)
+        XCTAssertGreaterThanOrEqual(board.frame.minY, 0, file: file, line: line)
+        XCTAssertLessThanOrEqual(board.frame.maxY, app.frame.maxY, file: file, line: line)
+        XCTAssertGreaterThanOrEqual(board.frame.width, 200, file: file, line: line)
+        XCTAssertFalse(board.frame.intersects(tools.frame), file: file, line: line)
+        XCTAssertFalse(board.frame.intersects(action.frame), file: file, line: line)
+        XCTAssertLessThanOrEqual(tools.frame.maxY, app.frame.maxY, file: file, line: line)
+        XCTAssertLessThanOrEqual(tools.frame.maxX, app.frame.maxX, file: file, line: line)
+        XCTAssertLessThanOrEqual(action.frame.maxY, app.frame.maxY, file: file, line: line)
+    }
+
+    @MainActor
+    private func rotateGame(_ app: XCUIApplication, to orientation: UIDeviceOrientation) {
+        XCUIDevice.shared.orientation = orientation
+        var previousBoard = CGRect.zero
+        let settled = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            let board = app.otherElements["dna-game-drawing"]
+            let tools = app.scrollViews["dna-game-tools"]
+            guard board.exists, tools.isHittable,
+                  (app.frame.width > app.frame.height) == orientation.isLandscape,
+                  app.frame.contains(board.frame), app.frame.contains(tools.frame) else { return false }
+            let stable = previousBoard == board.frame
+            previousBoard = board.frame
+            return stable
+        }, object: app)
+        XCTAssertEqual(XCTWaiter.wait(for: [settled], timeout: 8), .completed)
+    }
+
+    @MainActor
+    private func addMatchingBase(_ app: XCUIApplication, drag: Bool = false, checkPosition: Bool = false) {
+        let target = app.buttons["dna-game-target"].firstMatch
+        let letter = String(target.label.suffix(1))
+        XCTAssertTrue(["A", "T", "C", "G"].contains(letter))
+        let nucleotide = app.buttons.matching(NSPredicate(format: "label == %@", "\(letter) DNA nucleotide"))
+            .allElementsBoundByIndex.first { $0.isHittable }
+        XCTAssertNotNil(nucleotide)
+        guard let nucleotide else { return }
+        XCTAssertEqual(nucleotide.frame.width, 56, accuracy: 1)
+        let frame = app.otherElements["dna-game-drawing"].frame
+        if drag {
+            nucleotide.press(forDuration: 0.15, thenDragTo: target)
+        } else {
+            nucleotide.tap()
+            if checkPosition {
+                let selected = app.otherElements["dna-game-drawing"].frame
+                XCTAssertEqual(frame.minY, selected.minY, accuracy: 1)
+                XCTAssertEqual(frame.height, selected.height, accuracy: 1)
+                assertWholeBoardAndToolsVisible(app)
+            }
+            apply(app)
+        }
+    }
+
+    @MainActor
+    func testWholeBoardAndToolsFitWithoutScrollingInPortraitAndLandscape() {
+        defer { XCUIDevice.shared.orientation = .portrait }
+        let app = openLesson()
+        startGame(app)
+        assertWholeBoardAndToolsVisible(app)
+        let original = app.otherElements["dna-game-drawing"].frame
+        chooseTool("helicase", in: app)
+        let selected = app.otherElements["dna-game-drawing"].frame
+        XCTAssertEqual(original.minY, selected.minY, accuracy: 1)
+        XCTAssertEqual(original.height, selected.height, accuracy: 1)
+        app.swipeUp()
+        XCTAssertEqual(original.minY, app.otherElements["dna-game-drawing"].frame.minY, accuracy: 1)
+        capture(app, "The full DNA board and toolkit fit together in portrait")
+        rotateGame(app, to: .landscapeLeft)
+        assertWholeBoardAndToolsVisible(app)
+        chooseTool("binding", in: app)
+        chooseTool("helicase", in: app)
+        capture(app, "Landscape keeps the DNA beside the instruction and toolkit")
+        rotateGame(app, to: .portrait)
+        assertWholeBoardAndToolsVisible(app)
+        apply(app)
+        advance(app)
+        chooseTool("binding", in: app)
+        for _ in 0..<3 { apply(app) }
+        advance(app)
+        chooseTool("primase", in: app)
+        apply(app)
+        advance(app)
+        chooseTool("polymerase", in: app)
+        apply(app)
+        addMatchingBase(app, checkPosition: true)
+        assertWholeBoardAndToolsVisible(app)
+        capture(app, "Selecting a nucleotide keeps the growing end and tools in view")
+    }
+
+    @MainActor
+    func testCompleteDNAReplicationWithVisibleToolsAndNucleotideDragging() {
+        let app = openLesson()
+        startGame(app)
+        chooseTool("helicase", in: app); apply(app); advance(app)
+        chooseTool("binding", in: app)
+        for _ in 0..<3 { apply(app) }
+        advance(app)
+        chooseTool("primase", in: app); apply(app); advance(app)
+        chooseTool("polymerase", in: app); apply(app)
+        addMatchingBase(app, drag: true)
+        waitFor(app.progressIndicators["DNA nucleotides placed"], "value == %@", "1 of 16")
+        addMatchingBase(app); advance(app)
+        chooseTool("polymerase", in: app); apply(app)
+        addMatchingBase(app); advance(app)
+        for _ in 0..<3 { addMatchingBase(app) }
+        advance(app)
+        assertWholeBoardAndToolsVisible(app)
+        for _ in 0..<2 {
+            chooseTool("primase", in: app); apply(app)
+            chooseTool("polymerase", in: app); apply(app)
+            addMatchingBase(app); addMatchingBase(app); advance(app)
+        }
+        chooseTool("repair", in: app)
+        for _ in 0..<3 { apply(app) }
+        advance(app)
+        chooseTool("polymerase", in: app)
+        for _ in 0..<6 { addMatchingBase(app) }
+        advance(app)
+        assertWholeBoardAndToolsVisible(app)
+        chooseTool("ligase", in: app)
+        for _ in 0..<3 { apply(app) }
+        advance(app)
+        XCTAssertTrue(app.staticTexts["Your copy is complete"].waitForExistence(timeout: 5))
+        capture(app, "All sixteen bases, proofreading, primer replacement, and ligase complete")
     }
 
     @MainActor
@@ -353,7 +494,11 @@ final class DNAReplicationUITests: XCTestCase {
         capture(app, "Large-text game narration leaves targets and Continue reachable")
         advance(app)
         reveal(gameGuide, in: app, up: false)
-        waitFor(gameGuide, "value CONTAINS %@", "Unzip the DNA")
+        waitFor(gameGuide, "value CONTAINS %@ OR label == 'Replay instruction'", "Unzip the DNA")
+        if gameGuide.value as? String == "Quiet" {
+            gameGuide.tap()
+            waitFor(gameGuide, "value CONTAINS %@", "Unzip the DNA")
+        }
         gameGuide.tap()
         let back = app.buttons["Back to S phase"]
         reveal(back, in: app, up: false)

@@ -231,20 +231,33 @@ struct CellLabHomeView: View {
                 VStack(spacing: 18) {
                     HeaderView()
                     SectionTitle(text: "Explore the lab")
-                    
-                    NavigationLink {
-                        CellLifeCycleView()
-                    } label: {
-                        LongModuleCard(
-                            title: "Cell Life Cycle",
-                            subtitle: "Grow. Copy. Divide.",
-                            fill: Theme.cycle,
-                            image: "art_cycle",
-                            action: .open("Living the life \u{2192}")                        )
-                    }
-                    .buttonStyle(.plain)
 
                     LazyVGrid(columns: columns, spacing: 14) {
+                        
+                        NavigationLink {
+                            CellStructuresView()
+                        } label: {
+                            ModuleCard(
+                                title: "Cell Structures",
+                                subtitle: "Meet the tiny team.",
+                                fill: Theme.structures,
+                                image: "art_structures",
+                                action: .open("Let\u{2019}s Explore \u{2192}")
+                            )
+                        }.buttonStyle(.plain)
+                        
+                        NavigationLink {
+                            CellLifeCycleView()
+                        } label: {
+                            ModuleCard(
+                                title: "Cell Life Cycle",
+                                subtitle: "Grow. Copy. Divide.",
+                                fill: Theme.cycle,
+                                image: "art_cycle",
+                                action: .open("Living the life \u{2192}")                        )
+                        }
+                        .buttonStyle(.plain)
+                        
                         NavigationLink {
                             MitosisView(catalog: catalog)
                         } label: {
@@ -292,19 +305,7 @@ struct CellLabHomeView: View {
                                 subtitle: "Transcription. Translation.",
                                 fill: Theme.mitosis,
                                 image: "art_dogma",
-                                action: .open("Making Peptide")
-                            )
-                        }.buttonStyle(.plain)
-                        
-                        NavigationLink {
-                            CellStructuresView()
-                        } label: {
-                            ModuleCard(
-                                title: "Cell Structures",
-                                subtitle: "Meet the tiny team.",
-                                fill: Theme.structures,
-                                image: "art_structures",
-                                action: .open("Let\u{2019}s Explore \u{2192}")
+                                action: .open("Making Peptide \u{2192}")
                             )
                         }.buttonStyle(.plain)
 

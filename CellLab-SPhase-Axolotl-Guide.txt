@@ -24,7 +24,8 @@ Do not read Markdown emphasis marks or bullet symbols. Keep the descriptions
 in Swift as the source of truth, as in the Mitosis and Meiosis guides.
 
 For speech, say DNA smoothly as “dee-en-AY” using its pronunciation override,
-and RNA as individual letters; read 3′ as “three prime”
+and RNA as “ar-en-AY,” keeping all three letters clear. Use the pronunciation
+overrides for “nucleotide,” “nucleotides,” and “ligase.” Read 3′ as “three prime”
 and 5′ → 3′ as “five prime to three prime.” Read A–T as “A with T” and C–G as
 “C with G,” with clear letter names. Keep these pronunciation adjustments
 separate from the displayed biology text. Reuse the approved pronunciation

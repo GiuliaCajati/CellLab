@@ -28,6 +28,16 @@ PAYOFF_PHONEMES = 'ðˈæts dˌiː ɛn ˈeɪ ɹˌɛplɪkˈeɪʃən!'
 # space-separated letter independently. This also matches the opening reveal.
 DNA_PHONEMES = 'dˌiː ɛn ˈeɪ'
 base.opening.PRONUNCIATION_OVERRIDES['DNA'] = DNA_PHONEMES
+# Keep the final A in RNA stressed so it cannot turn into the article “a”.
+# Biology term stress follows the dictionary pronunciations:
+# https://www.merriam-webster.com/dictionary/nucleotide
+# https://www.merriam-webster.com/dictionary/ligase
+base.opening.PRONUNCIATION_OVERRIDES.update({
+    'RNA': 'ˌɑːɹ ˌɛn ˈeɪ',
+    'nucleotide': 'nˈuːkliəˌtaɪd',
+    'nucleotides': 'nˈuːkliəˌtaɪdz',
+    'ligase': 'lˈaɪˌɡeɪs',
+})
 
 
 def live_content():
@@ -84,8 +94,7 @@ def synthesis_text(text):
     text = text.replace('3′', 'three prime').replace('5′', 'five prime')
     # A comma makes eSpeak use the letter name A, rather than the article “a”.
     text = text.replace('A–T', 'A, with T').replace('C–G', 'C, with G')
-    # Keep DNA intact so the pronunciation override can match every occurrence.
-    text = re.sub(r'\bRNA\b', 'R N A', text)
+    # Keep DNA and RNA intact so their pronunciation overrides match every use.
     text = re.sub(r'\bATP\b', 'A, T, P', text)
     text = re.sub(r'\(([ATCG])\)', lambda m: ', letter ' + m[1] + ',', text)
     text = re.sub(r'\b\d[\d,]*\b', lambda m: number_words(int(m[0].replace(',', ''))), text)

@@ -118,56 +118,6 @@ struct ActionPill: View {
     }
 }
 
-/// Every topic uses this card, so all six are the same size.
-///
-///
-///
-struct LongModuleCard: View {
-let title: String
-let subtitle: String
-let fill: Color
-let image: String
-let action: CardAction
-
-var body: some View {
-    HStack(spacing: 3) {
-        Image(image)
-            .resizable()
-            .scaledToFit()
-            .frame(width: 150, height: 112)
-            .accessibilityHidden(true)
-        VStack {
-            Text(title)
-                .font(.system(size: 21, weight: .bold, design: .serif))
-                .foregroundStyle(Theme.ink)
-                .multilineTextAlignment(.center)
-                .lineLimit(2)
-                .minimumScaleFactor(0.8)
-                .frame(height: 54)
-
-            Text(subtitle)
-                .font(.system(size: 14, design: .rounded))
-                .foregroundStyle(Theme.ink)
-                .multilineTextAlignment(.center)
-                .lineLimit(2)
-                .frame(height: 38, alignment: .top)
-
-            Spacer(minLength: 0)
-
-            ActionPill(action: action)
-        }
-    }
-    .padding(8)
-    .frame(maxWidth: .infinity)
-//    .frame(height: 300)
-    .background(RoundedRectangle(cornerRadius: 22).fill(fill))
-    .overlay(
-        RoundedRectangle(cornerRadius: 22)
-            .stroke(Theme.ink.opacity(0.8), lineWidth: 1.5)
-    )
-}
-}
-
 struct ModuleCard: View {
     let title: String
     let subtitle: String
@@ -321,20 +271,20 @@ struct CellLabHomeView: View {
                         )
                         }.buttonStyle(.plain)
                         
+                        NavigationLink {
+                            DNATechnologyView()
+                        } label: {
+                            ModuleCard(
+                                title: "DNA Technology",
+                                subtitle: "Small tools. Big possibilities.",
+                                fill: Theme.dna,
+                                image: "art_dna",
+                                action: .open("Let\u{2019}s Get Crisp \u{2192}")
+                            )
+                        }.buttonStyle(.plain)
+                        
                     }
                     
-                    NavigationLink {
-                        DNATechnologyView()
-                    } label: {
-                        LongModuleCard(
-                            title: "DNA Technology",
-                            subtitle: "Small tools. Big possibilities.",
-                            fill: Theme.dna,
-                            image: "art_dna",
-                            action: .open("Let\u{2019}s Get Crisp \u{2192}")
-                        )
-                    }
-
                 }
                 .padding(.horizontal, 16)
                 .padding(.bottom, 24)

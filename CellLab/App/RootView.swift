@@ -26,7 +26,7 @@ struct RootView: View {
                         Text(loadingError)
                     }
                 } else {
-                    ProgressView("Opening CellLab…")
+                    CellLabLoadingView()
                 }
             }
             .navigationTitle("CellLab")

@@ -19,6 +19,8 @@ import generate_central_dogma_audio as voice
 ROOT = voice.ROOT
 OUTPUT = ROOT / 'CellLab/Resources/Audio/CellStructures'
 CACHE = ROOT / 'Tools/audio/cell-structures-generation-cache.json'
+# In “Recipes live here”, live is a verb, pronounced to rhyme with “give”.
+voice.base.opening.PRONUNCIATION_OVERRIDES['live'] = 'lˈɪv'
 
 
 def records():
@@ -43,7 +45,9 @@ def synthesis_text(text):
     text = re.sub(r'\bpH\b', 'P, H,', text)
     text = re.sub(r'\b(\d+)\.(\d+)\b', lambda m: m[1] + ' point ' + m[2], text)
     text = re.sub(r'\bnm\b', 'nanometers', text)
-    return voice.synthesis_text(text.replace('+', ' plus '))
+    # Cell descriptions use “A” as an article, not as a nucleotide label.
+    # Keep the shared number/DNA/RNA handling without the codon spelling pass.
+    return voice.sphase.synthesis_text(text.replace('+', ' plus '))
 
 
 def main():

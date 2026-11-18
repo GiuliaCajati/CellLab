@@ -17,8 +17,9 @@ reads the structure title, nickname, summary, and animation caption.
 No duplicate organelle descriptions are maintained in this document.
 
 Say DNA, RNA, mRNA, rRNA, ATP, and ER clearly. Keep the existing copied,
-copies, nuclei, nucleotide, and RNA pronunciation fixes. Expand chemical
-notation for speech: O₂ as oxygen, CO₂ as carbon dioxide, H₂O as water,
+copies, nuclei, nucleotide, and RNA pronunciation fixes.
+In “Recipes live here,” pronounce live with the short i, rhyming with give.
+Expand chemical notation for speech: O₂ as oxygen, CO₂ as carbon dioxide, H₂O as water,
 H₂O₂ as hydrogen peroxide, and Ca²⁺ as calcium. Read pH 4.8 as
 “P H four point eight,” nm as nanometers, and + as plus. The displayed
 transcripts retain the original scientific notation.

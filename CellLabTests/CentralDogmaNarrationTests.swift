@@ -25,6 +25,7 @@ import XCTest
             XCTAssertEqual(audio.numberOfChannels, 1, cue.id)
         }
         XCTAssertEqual(library["lesson.overview"]?.text, CentralDogmaNarrationText.overview)
+        XCTAssertEqual(library["game.introduction"]?.text, CentralDogmaNarrationText.gameIntroduction)
         for step in CentralDogmaStep.allCases {
             XCTAssertEqual(library[step.narrationID]?.text, step.narrationText)
             XCTAssertEqual(step.narrationText.components(separatedBy: "\n\n").last, step.narrationDescription)

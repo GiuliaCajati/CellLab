@@ -6,7 +6,10 @@ Generate with the existing free local Kokoro setup:
 Tools/.kokoro-venv/bin/python Tools/generate_central_dogma_audio.py
 
 Use af_heart, matching the warm, relaxed, playful delivery of the other lessons.
-Pause after the opening question. Give “That’s gene expression!” a smile.
+Start with the short jellyfish-gene fun fact, then connect the glowing
+protein to gene expression and the DNA → RNA → protein flow.
+Mention blue light because GFP fluoresces when illuminated.
+Pause after “How?” Give “That’s gene expression!” a smile.
 
 Tools/export_central_dogma_narration.swift exports the actual Swift lesson,
 key-player definitions, and all three game missions. Each process clip starts
@@ -19,14 +22,26 @@ Stop cancels speech and pending clips. Leaving the page, starting the game,
 opening a reference sheet, or backgrounding the app stops lesson audio.
 Vocabulary speakers read the displayed definitions. Game guidance is opt-in;
 once enabled, it follows the current instruction and checkpoints.
+The game uses short spoken actions matching the displayed instruction.
+Each stage has one focused, interactive molecular scene. The small stage
+path keeps track of Copy → Edit → Build → Finish. The polymerase, nuclear
+pore, codons, and peptide-bond link are the actual targets in the drawings.
+RNA bases match with one tap; wrong choices leave the RNA unchanged.
+The tool tray stays at the bottom; longer explanations remain in Details.
 
 Say DNA as dee-en-AY and RNA as ar-en-AY, with every letter audible.
 Spell mRNA, tRNA, and rRNA clearly. Spell codons and anticodons one letter at a
 time. Read 3′ as three prime and 5′ → 3′ as five prime to three prime.
 Use the existing nucleotide/nucleotides, copied/copies, and nuclei overrides.
+Say ribosome as RYE-buh-sohm, ribosomes as RYE-buh-sohmz, and ribosomal
+as rye-buh-SOH-muhl. Keep the s unvoiced, rather than sounding like z.
 Pronunciation changes belong only in synthesis; the transcripts keep the
 same biology wording and spelling as the app.
 
 All recordings and the transcript manifest are bundled in:
 CellLab/Resources/Audio/CentralDogma
 No API key, paid service, cloud speech, or runtime network connection is used.
+
+Fun-fact references (unspoken):
+https://www.nobelprize.org/uploads/2018/06/popular-chemistryprize2008.pdf
+https://pmc.ncbi.nlm.nih.gov/articles/PMC4006694/

@@ -1,0 +1,35 @@
+CellLab · Home axolotl guide
+
+Free local Kokoro · af_heart · bundled for offline playback.
+Tap the peeking axolotl to hear the welcome on the main CellLab page. Tap a card speaker for its preview and inline details.
+Only Mitosis, Meiosis, S Phase, and Central Dogma have game badges.
+Each clip waits for your next tap. Stop, hiding details, opening a lesson, or backgrounding cancels speech.
+
+RECORD home.overview | Welcome to CellLab
+Welcome to CellLab! I’m your little lab buddy. Pick a lesson to explore the tiny world inside your cells, and tap me whenever you want a friendly explanation. See a game controller on a card? That lesson has a game, too! Tap the game badge to jump into the game, or open the lesson to explore first. Tap a speaker on a lesson card to hear what you’ll discover. Ready to explore?
+
+RECORD home.structures | Cell Structures
+Meet the tiny team inside a cell! Explore the membrane, nucleus, and organelles, and discover how they work together to keep the cell going. Tap a part to learn its job.
+
+RECORD home.cycle | Cell Life Cycle
+What does a cell do between divisions? Follow it as it grows, copies its DNA, checks its work, and divides. You can explore the cycle and meet the checkpoint crew. Some cells even take a long rest!
+
+RECORD home.mitosis | Mitosis
+One cell, two matching teams! Follow the chromosomes as their copies line up and separate, making two nuclei with matching sets of chromosomes. In the game, help organize and separate the chromosomes, then divide the cell. Open the lesson and tap Play game to try it!
+
+RECORD home.meiosis | Meiosis
+Time to mix things up! Pair chromosomes from mom and dad, see how they swap matching sections, and follow two divisions that make cells with half the usual chromosome number. In the game, help pair and separate chromosomes through both divisions to make the final cells. Open the lesson and tap Play game to try it!
+
+RECORD home.sphase | S Phase
+How does a cell copy its DNA? Watch helicase unzip the double helix, then meet the enzymes that build and join the new strands. Each finished DNA molecule keeps one original strand. In the DNA copying game, unzip the DNA, add matching building blocks, and seal the strands. Open the lesson and tap Play game to try it!
+
+RECORD home.dogma | Central Dogma
+Turn a gene into a protein! Follow the message from DNA to RNA in the nucleus, then out to a ribosome, where amino acids join into a chain. In RNA Relay, carry the message from the gene to the ribosome and build an amino acid chain. Open the lesson and tap Play game to try it!
+
+RECORD home.respiration | Cellular Respiration
+Where does a cell get usable energy? Follow glucose through glycolysis and into the mitochondrion, and see how oxygen helps the cell make ATP. Explore each step and the big picture below.
+
+RECORD home.technology | DNA Technology
+Meet the tools scientists use to study and change DNA! Explore how PCR makes more copies, how CRISPR targets a DNA sequence, and how other tools help us read, compare, and use genetic information.
+
+Regenerate: Tools/.kokoro-venv/bin/python Tools/generate_home_audio.py

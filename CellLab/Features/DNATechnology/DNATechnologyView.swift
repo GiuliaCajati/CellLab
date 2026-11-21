@@ -15,19 +15,23 @@ struct DNATechnologyView: View {
     @State private var clock = DTMotionClock()
     @State private var startedAt = 0.0
     @State private var showDetails = false
+    @StateObject private var narration = LessonNarrator.dnaTechnology()
+    @State private var hasStartedOverview = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.scenePhase) private var scenePhase
 
     private var article: DTArticle { topic.article }
     private var stage: DTStage { article.stages[min(stageIndex,article.stages.count-1)] }
     private var sceneID: String { topic.rawValue + "-" + stage.id }
-    private var shouldAnimate: Bool { playing && !reduceMotion && scenePhase == .active }
+    private var shouldAnimate: Bool { playing && !reduceMotion && scenePhase == .active && route?.id == nil }
     private var topicIndex: Int { DTTopic.allCases.firstIndex(of:topic) ?? 0 }
+    private var selectedCueID: String { topic.narrationID(for: stage) }
 
     var body: some View {
         ScrollView {
             VStack(alignment:.leading,spacing:18) {
                 header
+                overviewGuide
                 topicRail
                 lesson
                 Button { route = .tools } label: {
@@ -54,8 +58,17 @@ struct DNATechnologyView: View {
         .foregroundStyle(DTPalette.ink).tint(DTPalette.teal)
         .navigationTitle("").navigationBarTitleDisplayMode(.inline)
         .onAppear { clock.setRunning(shouldAnimate) }
-        .onDisappear { clock.setRunning(false) }
+        .onDisappear { clock.setRunning(false); narration.stop() }
         .onChange(of:shouldAnimate) { _,value in clock.setRunning(value) }
+        .onChange(of:selectedCueID) { _,id in
+            if narration.mode == .quiet,narration.isPlaying { narration.stop() }
+            narration.selectPhase(id)
+        }
+        .onChange(of:route?.id) { _,_ in narration.stop() }
+        .onChange(of:scenePhase) { _,value in if value != .active { narration.stop() } }
+        .onChange(of:narration.currentCueID) { _,_ in syncNarrationMotion() }
+        .onChange(of:narration.isPlaying) { _,_ in syncNarrationMotion() }
+        .environmentObject(narration)
         .sheet(item:$route) { item in
             switch item {
             case .tools:
@@ -64,6 +77,27 @@ struct DNATechnologyView: View {
                 DNATechnologyKeyPlayersView(initialTermID:id) { value in select(value); route=nil }
             }
         }
+        .alert("Audio unavailable",isPresented:Binding(
+            get:{ narration.errorMessage != nil },set:{ if !$0 { narration.errorMessage=nil } }
+        )) { Button("OK",role:.cancel) { narration.errorMessage=nil } }
+        message: { Text(narration.errorMessage ?? "Please try again.") }
+    }
+
+    private var overviewGuide: some View {
+        let title = narration.isPlaying ? "Stop" : !hasStartedOverview ? "Hear overview"
+            : "\(narration.completedCues.contains(selectedCueID) ? "Replay" : "Hear") \(stage.title)"
+        return LessonGuide(narrator:narration,title:title,
+                           cueID:narration.isPlaying ? (narration.currentCueID ?? narration.overviewCueID)
+                               : (hasStartedOverview ? selectedCueID : narration.overviewCueID),
+                           action:{
+                               if narration.isPlaying || narration.isScheduled { narration.stop() }
+                               else if !hasStartedOverview { playOverview() }
+                               else { narration.toggleLesson() }
+                           },
+                           showsStopBetweenClips:narration.mode == .lesson,
+                           replayOverview:playOverview,
+                           controlID:"dna-listen",layoutTitle:"Hear overview")
+            .foregroundStyle(DTPalette.ink)
     }
 
     private var header: some View {
@@ -144,11 +178,15 @@ struct DNATechnologyView: View {
                 .accessibilityIdentifier("dna-motion")
             }
             DTAssetArt(name:topic.rawValue).frame(height:164).frame(maxWidth:.infinity)
-            Text(article.title)
-                .font(.system(.title,design:.serif,weight:.bold))
-                .fixedSize(horizontal:false,vertical:true)
-                .accessibilityAddTraits(.isHeader)
-                .accessibilityIdentifier("dna-topic-title")
+            HStack(alignment:.top,spacing:10) {
+                Text(article.title)
+                    .font(.system(.title,design:.serif,weight:.bold))
+                    .fixedSize(horizontal:false,vertical:true)
+                    .accessibilityAddTraits(.isHeader)
+                    .accessibilityIdentifier("dna-topic-title")
+                    .frame(maxWidth:.infinity,alignment:.leading)
+                NarrationSpeakerButton(cueID:selectedCueID,title:stage.title)
+            }
             Text(article.summary)
                 .font(.system(.subheadline,design:.rounded))
                 .lineSpacing(3).fixedSize(horizontal:false,vertical:true)
@@ -206,9 +244,11 @@ struct DNATechnologyView: View {
             HStack {
                 Button { move(-1) } label: { Label("Back",systemImage:"arrow.left").frame(minHeight:44) }
                     .disabled(topicIndex == 0)
+                    .accessibilityIdentifier("dna-previous-topic")
                 Spacer()
                 Button { move(1) } label: { Label("Next area",systemImage:"arrow.right").frame(minHeight:44) }
                     .disabled(topicIndex == DTTopic.allCases.count-1)
+                    .accessibilityIdentifier("dna-next-topic")
             }
             .font(.system(.subheadline,design:.rounded,weight:.semibold)).buttonStyle(.plain)
         }
@@ -244,7 +284,11 @@ struct DNATechnologyView: View {
 
     private var pcrCounter: some View {
         VStack(alignment:.leading,spacing:9) {
-            Text("IDEAL AMPLIFICATION").font(.system(.caption2,design:.rounded,weight:.bold)).tracking(1)
+            HStack(spacing:12) {
+                Text("IDEAL AMPLIFICATION").font(.system(.caption2,design:.rounded,weight:.bold)).tracking(1)
+                Spacer(minLength:0)
+                NarrationSpeakerButton(cueID:"reference.pcr-counter",title:"how the PCR counter works")
+            }
             Text((1 << cycles).formatted())
                 .font(.system(.title,design:.rounded,weight:.bold)).monospacedDigit()
                 .lineLimit(1).minimumScaleFactor(0.7)
@@ -284,6 +328,14 @@ struct DNATechnologyView: View {
         .foregroundStyle(DTPalette.muted).tint(DTPalette.teal)
     }
     private func restartMotion() { startedAt=clock.time(at:Date()) }
+    private func playOverview() {
+        hasStartedOverview=true
+        narration.playOverview()
+    }
+    private func syncNarrationMotion() {
+        guard narration.isPlaying,narration.mode == .lesson,narration.currentCueID == selectedCueID else { return }
+        restartMotion()
+    }
     private func select(_ value: DTTopic) { topic=value; stageIndex=0; showDetails=false; restartMotion() }
     private func move(_ delta:Int) {
         let next=topicIndex+delta

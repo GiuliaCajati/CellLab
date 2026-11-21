@@ -1,0 +1,328 @@
+DNA Technology · Axolotl guide
+
+Free local Kokoro · af_heart · matching the other CellLab lessons.
+The guide reads the actual topic summaries, step descriptions, biology notes, and definitions.
+Tap the axolotl for the opening and selected step; selecting another step changes the narration.
+The glossary has its own overview and a guide on each definition.
+Stop, opening a sheet, leaving the page, or backgrounding the app stops speech.
+All recordings are bundled for offline use.
+
+RECORD lesson.overview | Opening · Listen
+Tiny tools. Big discoveries! We can read DNA, copy a chosen section, or change a sequence. But those are different jobs, so let’s choose the right tool! Tap a lab area, then choose a step. I’ll explain its description and the extra biology notes. PCR’s counter shows an ideal copying model. Meet the tools and key terms opens the definitions, and the axolotl on each definition can read it aloud. Let’s explore DNA technology!
+
+RECORD lesson.recombinant.cdna | Recombinant DNA · Make cDNA
+Let’s explore Recombinant DNA. Join DNA from different sources, carry it into a host, and use the shared genetic code. RNA becomes a DNA copy. Reverse transcriptase copies mature, spliced mRNA into complementary DNA. Bacteria do not splice eukaryotic introns. Using processed mRNA avoids transferring those introns. cDNA copies the processed RNA sequence, including any untranslated regions; exons are not all protein-coding. Processed mRNA supplies an intron-free starting sequence.
+
+RECORD lesson.recombinant.join | Recombinant DNA · Cut & join
+Matching ends. A sealed backbone. Restriction enzymes cut DNA; complementary sticky ends pair, and DNA ligase seals the join. Using compatible cuts on the insert and vector allows their sticky ends to base-pair. The joined DNA is recombinant DNA. Not every restriction enzyme produces sticky ends. Pairing aligns the ends; ligase seals the DNA backbone.
+
+RECORD lesson.recombinant.deliver | Recombinant DNA · Deliver
+A vector carries the insert. A recombinant plasmid enters a host cell, where it can be copied and its gene expressed. Plasmids are small circular double-stranded DNA molecules separate from the main bacterial chromosome. Modified viruses can also be vectors. A transgenic organism carries introduced DNA in its genome. Inheritance depends on the cells receiving it; heritable animal changes must reach the germ line. Transformation brings a vector into a host; expression needs host-compatible signals.
+
+RECORD lesson.recombinant.gmos | Recombinant DNA · GMOs
+Different routes to new traits. Genetic engineering directly changes DNA; selective breeding selects inherited variation across generations. Engineered crops, including canola, corn, and soybeans, may resist herbicides or insects. Agrobacterium and a modified Ti plasmid can deliver genes to plants; Bt crops make insecticidal proteins from Bacillus thuringiensis. Animal examples include disease-model mice, fluorescent fish, fast-growing salmon, and livestock producing human therapeutic proteins, including proteins involved in blood clotting, in milk. DNA can be introduced using microinjection or viral vectors. Engineering alters DNA directly; breeding selects inherited variation.
+
+RECORD lesson.sequencing.sanger | DNA sequencing · Sanger
+Let’s explore DNA sequencing. Determine a DNA sequence, then connect individual reads to genes and whole genomes. Stop a chain. Read its last base. DNA polymerase builds strands with ordinary nucleotides and occasional fluorescent chain terminators. A ddNTP stops extension because it lacks the 3′ hydroxyl needed to add the next nucleotide. Fragments are separated by size. Reading terminal colors from shortest to longest gives the newly synthesized strand, complementary to the template. Read the terminal bases from the shortest fragment upward.
+
+RECORD lesson.sequencing.parallel | DNA sequencing · Parallel reads
+Many short reads, one larger picture. High-throughput methods read many DNA fragments in parallel, then software aligns or assembles the reads. The short-read approach in your notes uses overlapping fragments, often hundreds of bases long, on a surface or flow cell. Signals identify incorporated bases across many reactions. Fragment length and chemistry vary between sequencing platforms. Overlapping reads help reconstruct a longer sequence; letters are illustrative.
+
+RECORD lesson.sequencing.genome | DNA sequencing · The genome
+Noncoding does not mean useless. About 1.5% of the roughly 3.2-billion-base-pair human haploid genome encodes proteins. The remaining DNA includes RNA genes, regulatory sequences, introns, pseudogenes, and repeats. About 45% is recognizably derived from transposable elements in the conventional estimate. This is part of the noncoding fraction, not an extra 45% to add to it. The 45% estimate is a subset of the genome, not a third segment added to the bar.
+
+RECORD lesson.pcr.heat | Polymerase chain reaction · Heat
+Let’s explore Polymerase chain reaction. PCR repeatedly heats and cools a sample to make many copies of a selected DNA region. Separate the strands. At about 95°C, the two DNA strands separate during denaturation. The target is the DNA region to be copied. Primers define the region amplified. Repeated cycles can yield millions of copies. The 2ⁿ counter is an idealized model; real reactions become less efficient. Heat separates the two templates; the illustration shows only a short DNA segment.
+
+RECORD lesson.pcr.prime | Polymerase chain reaction · Prime
+Give polymerase a starting point. Cooling allows short synthetic DNA primers to base-pair with complementary sequences. Two primers bind opposite template strands, flanking the target region. Primers supply free 3′ ends. The polymerase adds nucleotides to those ends rather than starting a strand from scratch. Two primers bind opposite template strands, with their 3′ ends directed into the target.
+
+RECORD lesson.pcr.extend | Polymerase chain reaction · Extend
+Build the complementary DNA. Heat-tolerant Taq polymerase extends the primers to synthesize new strands. Taq comes from Thermus aquaticus, a bacterium associated with hot springs. Extension synthesizes DNA in the 5′ → 3′ direction. PCR supports forensics and ancestry research. Reverse-transcription PCR first converts RNA to cDNA, as in many COVID-19 tests. Stray DNA can contaminate a reaction. Taq adds nucleotides to primer 3′ ends. Repeating the cycle amplifies the target.
+
+RECORD lesson.editing.guide | CRISPR-Cas9 · Guide
+Let’s explore CRISPR-Cas9. A guide RNA helps Cas9 find DNA. The cell’s repair response determines the resulting change. Match the target. Guide RNA contains a sequence complementary to the DNA target. The guide associates with Cas9 and helps position it at a matching sequence. Cas9 also requires an appropriate nearby PAM sequence. A guide alone does not guarantee perfectly specific editing. Guide RNA pairs with a matching DNA target; a suitable PAM is also required.
+
+RECORD lesson.editing.cut | CRISPR-Cas9 · Cut
+Make a targeted break. Cas9 cuts both DNA strands at the targeted location. The break itself is not a finished gene insertion or a guaranteed correction. Unintended changes can occur, including off-target cuts. Precision must be evaluated for each application. Both DNA strands are cut; the break is the start of an editing outcome, not the finished edit.
+
+RECORD lesson.editing.repair | CRISPR-Cas9 · Repair
+The repair step makes the edit. Repair can disrupt a gene or, under suitable conditions, install a planned change. Different repair routes can produce small insertions or deletions, or use a supplied template to change a sequence. Newer approaches such as prime editing expand editing options. They do not eliminate all unintended effects. Repair can yield different outcomes; a precise insertion is not automatic.
+
+RECORD lesson.profiling.snp | DNA profiling · SNPs
+Let’s explore DNA profiling. Compare variable DNA sites to investigate identity, relationships, and ancestry. One position. Different letters. A single-nucleotide polymorphism is a DNA position with a one-base difference among people. Millions of SNPs are known. Consumer tests often examine hundreds of thousands of selected sites rather than sequencing an entire genome. SNP patterns can inform ancestry estimates and probabilities for traits or disease risk, including lactose tolerance and variants linked to Parkinson’s or breast cancer. An association is not a certain prediction. A SNP changes one position; these short fictional sequences are teaching examples.
+
+RECORD lesson.profiling.str | DNA profiling · STRs
+Count the repeated units. Short tandem repeat alleles differ in how many times a short DNA unit repeats. Real profiles compare many loci. U.S. CODIS uses 20 core STR loci; older panels used 13. Match rarity depends on the loci, profile, population, and assumptions. The chapter’s 1-in-250-trillion example is not a universal rate. DNA evidence has also helped exonerate wrongly convicted people. One locus is shown; real profiling compares multiple loci and evaluates match statistics.
+
+RECORD lesson.profiling.mtdna | DNA profiling · mtDNA
+Follow a maternal line. Human mitochondrial DNA is a small, roughly 16,500-base-pair circular genome. Its many copies can help recover information from degraded bones, teeth, or some hair samples. It is usually inherited from the mother. Maternal relatives, including full siblings, can share a sequence, so mtDNA alone may not distinguish them. Children can inherit the same maternal mtDNA; maternal relatives may share a sequence.
+
+RECORD lesson.stemCells.embryonic | Stem cells · Embryonic
+Let’s explore Stem cells. Unspecialized cells can self-renew and differentiate. Their developmental potential differs. Pluripotent: many body-cell types. Embryonic stem cells come from the inner cell mass of an early blastocyst, around five days after fertilization. Pluripotent cells can form the cell types of the body; they are not equivalent to a whole embryo. Embryo use raises ethical questions. Donor-derived cells can also face immune rejection. Cell fates are simplified examples; developmental potential depends on the stem-cell type.
+
+RECORD lesson.stemCells.adult | Stem cells · Adult
+Multipotent: a narrower family. Adult tissue stem cells generate a more limited set of cell types for maintenance and repair. Examples include blood-forming stem cells in bone marrow and stem cells involved in skin renewal. Patient-derived cells can reduce immune mismatch, but compatibility and safety still depend on the cell product and its use. Cell fates are simplified examples; developmental potential depends on the stem-cell type.
+
+RECORD lesson.stemCells.ipsc | Stem cells · iPSCs
+Reprogram a specialized cell. Laboratory reprogramming can return a somatic cell to a pluripotent state. Induced pluripotent stem cells can then be directed toward different specialized cell types. They avoid obtaining stem cells from an embryo. Patient matching can reduce immune mismatch, but does not guarantee rejection-free or safe treatment. Reprogramming changes cell state; directed differentiation produces a specialized cell type.
+
+RECORD lesson.cloning.scnt | Cloning · SCNT
+Let’s explore Cloning. Somatic cell nuclear transfer places a donor nucleus into an egg whose nucleus has been removed. Transfer a diploid nucleus. Remove the egg nucleus, introduce a donor somatic nucleus, and stimulate development. The donor somatic nucleus is diploid (2n). The receiving unfertilized egg has its own nucleus removed. The developing embryo’s nuclear DNA follows the donor nucleus. Mitochondria and much of the cytoplasm come from the egg. The donor supplies nuclear DNA; the receiving egg supplies cytoplasm and mitochondria.
+
+RECORD lesson.cloning.reproductive | Cloning · Reproductive
+Aim: an offspring. The SCNT embryo is transferred to a surrogate for gestation. Dolly the sheep, born in 1996, is a well-known example of cloning from an adult somatic cell. A clone is not an exact copy of appearance or life history: mitochondrial DNA, development, and environment can differ. Embryo transfer and gestation aim to produce an offspring; Dolly was born in 1996.
+
+RECORD lesson.cloning.therapeutic | Cloning · Therapeutic
+Aim: stem cells for research. The SCNT embryo is cultured to obtain pluripotent stem cells rather than implanted for an offspring. The goal is to study disease and potentially produce donor-matched cells or tissues. This is distinct from established routine production of replacement organs. Nuclear matching does not make every biological feature identical. This branch aims to derive stem cells for research and possible regenerative uses, not an offspring.
+
+RECORD lesson.medicine.probe | Tests, care & ethics · DNA probe
+Let’s explore Tests, care & ethics. DNA tools can detect variants, screen embryos, or change cell function—and raise ethical questions. Find a complementary sequence. A tagged single-stranded DNA probe binds to a complementary target. The tag may be fluorescent or radioactive; binding produces a detectable signal. A probe can help distinguish a disease-associated allele, such as a cystic-fibrosis-associated variant. A probe binds an accessible complementary single-stranded target, not any DNA indiscriminately.
+
+RECORD lesson.medicine.pgt | Tests, care & ethics · Embryo testing
+Screen before embryo transfer. Preimplantation genetic testing combines IVF with testing of a small embryo biopsy. The chapter describes removing a cell from an eight-cell embryo, amplifying DNA, and screening before transfer. Current practice commonly samples a few outer cells at the blastocyst stage, often day 5–7. The relevant test depends on what is being screened. PGT tests an IVF embryo biopsy before transfer; modern biopsies often use outer blastocyst cells.
+
+RECORD lesson.medicine.testing | Tests, care & ethics · Genetic tests
+Detect an allele. Interpret its meaning. Testing blood or tissue can detect variants associated with inherited conditions or disease risk. BRCA1 variants can alter cancer risk; they do not mean that cancer is inevitable. Testing may involve fetal, childhood, or adult samples. PKU newborn screening commonly starts with biochemical testing; genetic testing can help confirm a cause. A detected variant may indicate a condition or a probability; it is not automatically a diagnosis.
+
+RECORD lesson.medicine.therapy | Tests, care & ethics · Gene therapy
+Change cells to treat disease. Gene addition can supply functional DNA to somatic cells, often using a modified viral vector. A research example is delivering functional CFTR DNA to airway cells. A vector carries the sequence into the target cells. Changing a treated person’s somatic cells does not automatically transmit the change to future children. A delivery vector carries functional DNA to a somatic target cell; the icon is not a treatment protocol.
+
+RECORD lesson.medicine.ethics | Tests, care & ethics · Ethics
+Powerful tools. Real choices. Questions include consent, privacy, access, embryo use, ecological effects, and genetic enhancement. Gene doping seeks athletic enhancement through genetic interventions, for example affecting muscle pathways or erythropoietin (EPO). Potential performance enhancement raises safety and fairness concerns. Therapeutic goals and enhancement goals should be distinguished. Ethical questions depend on goals, consent, distribution of benefits, and possible harms.
+
+RECORD lesson.ecology.resistance | Crops & gene flow · Resistance
+Let’s explore Crops & gene flow. Introduced genes can move into relatives. A useful crop trait can also change weed fitness. Keep a key pathway working. Glyphosate inhibits EPSPS, an enzyme in a pathway needed to make certain plant amino acids. Overproducing EPSPS is one way to increase resistance. Other resistant crops use EPSPS variants less sensitive to glyphosate. The chapter’s “booster gene” example concerns increased EPSPS expression under a strong promoter, not a universal mechanism for every resistant crop. EPSPS overexpression is the study’s mechanism; resistant crops do not all use the same strategy.
+
+RECORD lesson.ecology.escape | Crops & gene flow · Gene flow
+Pollen can move a transgene. Cross-pollination between compatible crops and weedy relatives can pass an introduced gene into hybrid offspring. Agrobacterium-mediated delivery and breeding are distinct steps from later pollen-mediated gene flow. A transgene that persists in relatives may affect how populations respond to their environment. Gene flow through pollen requires compatible plants; the introduced DNA can then segregate in hybrids.
+
+RECORD lesson.ecology.fitness | Crops & gene flow · Fitness
+Benefits can persist without spraying. In the rice study, transgenic crop–weed hybrids had greater germination and seed production even without glyphosate. The comparison controlled genetic background and contrasted hybrids with and without the EPSPS transgene. The result shows a potential ecological risk: escaped genes can increase the reproductive success of some weeds. This does not mean every transgene has the same effect. In the rice comparison, benefits occurred without glyphosate; directions are qualitative, not invented effect sizes.
+
+RECORD tools.overview | Meet the tools
+Welcome to the DNA toolbox! Search for a tool or concept, or browse the topic groups. Tap a term to open its full definition, then tap the axolotl to hear it. Explore takes you back to that tool’s lesson. Let’s find out what each helper does!
+
+RECORD reference.pcr-counter | How the PCR counter works
+This counter starts with one DNA template. In an ideal PCR cycle, the number of copies doubles. One cycle gives two copies, two cycles give four, and three cycles give eight. Tap One more cycle to see the total grow, or Reset to start again. The expression two to the power of n means doubling n times. This is an idealized model; real reactions become less efficient and do not keep doubling perfectly.
+
+RECORD term.geneticCode | Shared genetic code
+Shared genetic code. The nearly universal mapping between RNA codons and amino acids helps explain why transferred genes can be expressed across species. Host-compatible expression signals are also needed.
+
+RECORD term.gmo | GMO
+GMO. An organism whose genetic material has been changed using DNA technology. Herbicide-resistant and insect-resistant crops are common applications.
+
+RECORD term.selectiveBreeding | Selective breeding
+Selective breeding. Choosing parents with desired inherited variation across generations, rather than directly editing their DNA.
+
+RECORD term.recombinantDNA | Recombinant DNA
+Recombinant DNA. DNA joined from two or more sources. A source need not be a different species.
+
+RECORD term.transgenic | Transgenic organism
+Transgenic organism. An organism with introduced DNA incorporated into its genome. Stable inheritance depends on which cells carry the introduced DNA.
+
+RECORD term.reverseTranscriptase | Reverse transcriptase
+Reverse transcriptase. An enzyme that synthesizes DNA from an RNA template. It is used to make complementary DNA from processed mRNA.
+
+RECORD term.cdna | cDNA
+cDNA. Complementary DNA copied from RNA. cDNA made from mature eukaryotic mRNA lacks the removed introns but can retain untranslated exonic sequences.
+
+RECORD term.vector | Cloning vector
+Cloning vector. A DNA carrier that can maintain an insert in a host, often a self-replicating plasmid. Modified viruses are another delivery-vector example.
+
+RECORD term.plasmid | Plasmid
+Plasmid. A usually small circular double-stranded DNA molecule separate from a bacterial chromosome, widely used as a DNA vector.
+
+RECORD term.restrictionEnzyme | Restriction enzyme
+Restriction enzyme. A protein that recognizes particular DNA sequences and cuts DNA. Many create sticky ends; others create blunt ends.
+
+RECORD term.stickyEnds | Sticky ends
+Sticky ends. Short single-stranded DNA overhangs that can base-pair with complementary overhangs. DNA ligase is needed to seal the backbone.
+
+RECORD term.ligase | DNA ligase
+DNA ligase. An enzyme that seals DNA backbone nicks by forming covalent phosphodiester bonds. Base pairing alone does not seal the backbone.
+
+RECORD term.transformation | Transformation
+Transformation. Uptake of external DNA by a cell, such as a bacterium receiving a recombinant plasmid.
+
+RECORD term.agrobacterium | Agrobacterium & Ti plasmid
+Agrobacterium & Ti plasmid. Agrobacterium tumefaciens naturally transfers T-DNA into plant cells. Engineered Ti-plasmid systems replace harmful cargo with useful DNA.
+
+RECORD term.bt | Bt crops
+Bt crops. Plants engineered to produce insecticidal proteins from Bacillus thuringiensis. Their intended trait differs from herbicide resistance.
+
+RECORD term.sanger | Sanger sequencing
+Sanger sequencing. Chain-termination sequencing: polymerase incorporates ordinary nucleotides and occasional labeled ddNTPs, producing fragments whose terminal bases reveal the sequence.
+
+RECORD term.ddntp | ddNTP
+ddNTP. A chain-terminating nucleotide lacking the 3′ hydroxyl needed for continued DNA synthesis. Fluorescent labels identify the terminal base.
+
+RECORD term.electrophoresis | Electrophoresis
+Electrophoresis. An electric field separates charged molecules. In Sanger sequencing, DNA fragments are resolved by size before their terminal colors are read.
+
+RECORD term.highThroughput | High-throughput sequencing
+High-throughput sequencing. Methods that sequence many DNA molecules in parallel. The chapter’s overlapping short-fragment approach is one family of methods, not every platform.
+
+RECORD term.genome | Genome
+Genome. The full collection of an organism’s genetic material. One human haploid nuclear genome contains roughly 3.2 billion base pairs.
+
+RECORD term.noncoding | Noncoding DNA
+Noncoding DNA. DNA outside protein-coding sequences. It includes RNA genes, regulatory elements, introns, pseudogenes, and repetitive DNA; it is not all functionless.
+
+RECORD term.rnaGenes | RNA genes
+RNA genes. Genes whose useful products are RNAs rather than proteins, including rRNA, tRNA, and microRNA.
+
+RECORD term.regulatory | Regulatory DNA
+Regulatory DNA. Sequences such as promoters and enhancers that help control when and how strongly genes are expressed.
+
+RECORD term.pseudogene | Pseudogene
+Pseudogene. A sequence resembling a functional gene that has lost its original protein-coding ability; some pseudogenes can still have regulatory roles.
+
+RECORD term.transposon | Transposable elements
+Transposable elements. Mobile DNA and its descendants. A conventional estimate attributes about 45% of human DNA to recognizable transposable-element-derived sequences; most copies are no longer active.
+
+RECORD term.tandemRepeats | Tandem repeats
+Tandem repeats. DNA units repeated directly beside one another. STRs are short tandem repeats whose repeat counts can vary among individuals.
+
+RECORD term.pcr | PCR
+PCR. Polymerase chain reaction amplifies a selected DNA region through repeated denaturation, primer annealing, and extension.
+
+RECORD term.denaturation | Denaturation
+Denaturation. The heating step that separates the two DNA template strands, typically around 95°C in PCR.
+
+RECORD term.primer | Primer
+Primer. A short synthetic DNA strand complementary to a template. It provides a free 3′ end for DNA polymerase to extend.
+
+RECORD term.annealing | Annealing
+Annealing. Cooling allows complementary primers to base-pair with their template sequences.
+
+RECORD term.extension | Extension
+Extension. Polymerase adds complementary nucleotides to a primer’s 3′ end, synthesizing DNA in the 5′ → 3′ direction.
+
+RECORD term.taq | Taq polymerase
+Taq polymerase. A heat-tolerant DNA polymerase originally obtained from Thermus aquaticus; it functions across repeated PCR heat cycles.
+
+RECORD term.rtpcr | Reverse-transcription PCR
+Reverse-transcription PCR. RNA is first copied into cDNA by reverse transcriptase, then the cDNA is amplified. “RT” here means reverse transcription, not simply real-time detection.
+
+RECORD term.contamination | Contamination
+Contamination. Stray DNA from other sources can be amplified along with the intended sample, misleading a highly sensitive PCR assay.
+
+RECORD term.crispr | CRISPR-Cas9
+CRISPR-Cas9. An editing system using a guide RNA and the Cas9 protein to target and cut DNA. Cellular repair makes the resulting sequence change.
+
+RECORD term.guideRNA | Guide RNA
+Guide RNA. RNA that associates with Cas9 and contains a sequence complementary to the intended DNA target.
+
+RECORD term.cas9 | Cas9
+Cas9. A guide-RNA-directed DNA-cutting protein. Conventional Cas9 editing creates a double-strand break.
+
+RECORD term.pam | PAM
+PAM. A short DNA motif adjacent to a potential target that a particular Cas9 protein must recognize before cutting.
+
+RECORD term.offTarget | Off-target change
+Off-target change. An unintended edit at a location other than the intended target. On-target changes can also differ from the desired result.
+
+RECORD term.repair | DNA repair after editing
+DNA repair after editing. The cell’s response to a targeted break. Repair can disrupt a sequence or, in suitable contexts, use a supplied template to change it.
+
+RECORD term.primeEditing | Prime editing
+Prime editing. A newer editing approach combining a Cas9-derived nicking protein, reverse transcriptase, and a specialized guide RNA to install some targeted changes.
+
+RECORD term.snp | SNP
+SNP. A single-nucleotide polymorphism: a position where a one-base genetic variant occurs among individuals. Pronounced “snip.”.
+
+RECORD term.ancestry | Ancestry estimates
+Ancestry estimates. Statistical comparisons of genetic variants with reference populations. Results express likelihoods rather than a complete family history.
+
+RECORD term.str | STR
+STR. A short tandem repeat: a short sequence, such as AGAT, repeated a variable number of times at a locus.
+
+RECORD term.locus | Locus
+Locus. A position in a genome. Profiling compares alleles at many loci rather than relying on one site.
+
+RECORD term.profileStatistics | Profile statistics
+Profile statistics. A match probability depends on the genetic profile, comparison population, and assumptions. The chapter’s example rate is not a fixed property of all DNA matches.
+
+RECORD term.mtdna | Mitochondrial DNA
+Mitochondrial DNA. A small circular genome in mitochondria. Multiple copies aid some degraded-sample analyses; usual maternal inheritance makes it useful for maternal-line comparisons.
+
+RECORD term.stemCell | Stem cell
+Stem cell. An unspecialized cell capable of self-renewal and differentiation into more specialized cells.
+
+RECORD term.pluripotent | Pluripotent
+Pluripotent. Able to generate the cell types of the body. Embryonic stem cells and iPSCs are pluripotent; pluripotency is not the same as forming a whole embryo.
+
+RECORD term.blastocyst | Blastocyst
+Blastocyst. An early embryo with an outer cell layer and an inner cell mass. Embryonic stem cells can be derived from the inner cell mass.
+
+RECORD term.multipotent | Multipotent
+Multipotent. Able to generate a more restricted range of related cell types, as with blood-forming adult stem cells.
+
+RECORD term.adultStemCell | Adult stem cells
+Adult stem cells. Tissue stem cells that support maintenance and repair, such as blood-forming cells in bone marrow and stem cells in skin.
+
+RECORD term.ipsc | Induced pluripotent stem cells
+Induced pluripotent stem cells. iPSCs are somatic cells reprogrammed to pluripotency. They avoid embryo-derived starting material; patient matching does not guarantee safe or rejection-free treatment.
+
+RECORD term.somatic | Somatic cell
+Somatic cell. A body cell other than a germ-line cell. A donor somatic nucleus is used in SCNT; somatic gene therapy targets body cells rather than creating an inherited germ-line change.
+
+RECORD term.differentiation | Differentiation
+Differentiation. Changes in gene expression and cell properties that produce a specialized cell type. Most specialized cells retain a broad genome despite using different genes.
+
+RECORD term.scnt | SCNT
+SCNT. Somatic cell nuclear transfer places a donor body-cell nucleus into an egg whose nucleus has been removed, followed by stimulation of development.
+
+RECORD term.reproductiveClone | Reproductive cloning
+Reproductive cloning. SCNT followed by embryo transfer to a surrogate with the aim of producing an offspring. Dolly the sheep was born in 1996.
+
+RECORD term.therapeuticClone | Therapeutic cloning
+Therapeutic cloning. SCNT with the aim of obtaining stem cells for research and potential regenerative applications, rather than producing an offspring.
+
+RECORD term.dnaProbe | DNA probe
+DNA probe. A labeled single-stranded DNA fragment that binds a complementary sequence. Fluorescent or radioactive tags make that binding detectable.
+
+RECORD term.pgt | Preimplantation genetic testing
+Preimplantation genetic testing. PGT, formerly often called PGD, examines an IVF embryo biopsy before transfer. Modern practice commonly uses a few outer blastocyst cells rather than one cleavage-stage cell.
+
+RECORD term.ivf | IVF
+IVF. In vitro fertilization: fertilization outside the body, with embryos subsequently available for transfer or, when indicated, preimplantation testing.
+
+RECORD term.geneticTest | Genetic testing
+Genetic testing. Analysis of DNA or other genetic information to investigate a variant, condition, or risk. Interpreting a result requires context; a risk allele is not a certain outcome.
+
+RECORD term.brca1 | BRCA1
+BRCA1. A gene involved in DNA repair. Certain inherited variants raise the risk of some cancers, including breast cancer; risk is not the same as a diagnosis.
+
+RECORD term.pku | PKU
+PKU. Phenylketonuria is an inherited disorder affecting phenylalanine metabolism. Newborn screening often measures biochemical markers; DNA testing can identify an underlying cause.
+
+RECORD term.geneTherapy | Gene therapy
+Gene therapy. A treatment strategy that changes genetic material or its use in cells. Gene addition may provide functional DNA using a modified vector.
+
+RECORD term.cftr | CFTR
+CFTR. A gene encoding an ion channel. Delivering functional CFTR to airway cells is a gene-addition research example for cystic fibrosis.
+
+RECORD term.geneDoping | Gene doping
+Gene doping. Use of genetic or cellular interventions for athletic enhancement rather than treatment, raising safety and fairness concerns.
+
+RECORD term.epo | Erythropoietin (EPO)
+Erythropoietin (EPO). A hormone involved in red blood cell production. Altering EPO pathways is an example discussed in relation to gene doping.
+
+RECORD term.glyphosate | Glyphosate
+Glyphosate. A herbicide that inhibits EPSPS in a pathway used to synthesize certain amino acids in plants.
+
+RECORD term.epsps | EPSPS
+EPSPS. 5-enolpyruvylshikimate-3-phosphate synthase, an enzyme targeted by glyphosate. Increased expression was the mechanism tested in the rice example.
+
+RECORD term.promoter | Promoter
+Promoter. A DNA regulatory region involved in starting transcription. A strong promoter can increase expression of an introduced or modified gene.
+
+RECORD term.geneFlow | Gene flow
+Gene flow. Movement of genetic variants between populations through reproduction, including crop–weed hybridization when the plants are compatible.
+
+RECORD term.fitness | Evolutionary fitness
+Evolutionary fitness. Reproductive success in a particular environment. Higher germination and seed production can increase the contribution of a genotype to later generations.
+
+Regenerate: Tools/.kokoro-venv/bin/python Tools/generate_dna_technology_audio.py

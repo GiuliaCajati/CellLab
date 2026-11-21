@@ -3,7 +3,7 @@
   "recordings": [
     {
       "id": "lesson.overview",
-      "text": "How does a cell turn the instructions in DNA into something it can use? First, it copies a gene into RNA. Then a ribosome reads that message to build a protein. That’s gene expression! The Central Dogma follows this flow of information: DNA to RNA to protein. Tap me whenever you’d like a hand. We’ll start by finding the gene, and you can swipe when you’re ready for the next step.",
+      "text": "Fun fact! With a jellyfish gene, cats, mice, and even bacteria can glow green under blue light. How? The genetic code is nearly universal, so their cells can build the same glowing protein! That’s gene expression! DNA is copied into RNA, then ribosomes read the message to build a protein. Swipe to explore, and tap me for a hand. Let’s find the gene!",
       "title": "Opening · Listen",
       "resource": "central-dogma.lesson.overview.wav",
       "event": "lesson.overview"
@@ -17,7 +17,7 @@
     },
     {
       "id": "game.introduction",
-      "text": "Welcome to RNA Relay! Copy a protein-coding gene’s RNA, edit the message, and build an amino acid chain. Then explore folding and two finishing examples. Choose a tool, then tap its target, or drag the tool into place. Correct matches earn points. Mistakes leave the molecule unchanged, and hints are free. Tap me during the game to hear the current instruction and follow along.",
+      "text": "Let’s turn DNA into a protein! Copy the gene, send the mRNA out, and build a chain at the ribosome. Tap each matching RNA base. For other steps, pick a molecule and tap its glowing target, or drag it there. Tap me for help!",
       "title": "How to play RNA Relay",
       "resource": "central-dogma.game.introduction.wav",
       "event": "game.introduction"
@@ -191,228 +191,228 @@
       "event": "player.finishing"
     },
     {
-      "id": "game.instruction.34fb582efba911d3",
-      "text": "Bring transcription factors to the promoter.",
+      "id": "game.instruction.cc7079f312a91e3b",
+      "text": "Place the factors on the promoter.",
       "title": "Recruit the crew",
-      "resource": "central-dogma.game.instruction.34fb582efba911d3.wav",
-      "event": "game.instruction.34fb582efba911d3"
+      "resource": "central-dogma.game.instruction.cc7079f312a91e3b.wav",
+      "event": "game.instruction.cc7079f312a91e3b"
     },
     {
-      "id": "game.instruction.b5be5c7b35f026b1",
-      "text": "Bring RNA polymerase to the promoter.",
+      "id": "game.instruction.a538237ebc81f8c2",
+      "text": "Add RNA polymerase to the promoter.",
       "title": "Park the RNA writer",
-      "resource": "central-dogma.game.instruction.b5be5c7b35f026b1.wav",
-      "event": "game.instruction.b5be5c7b35f026b1"
+      "resource": "central-dogma.game.instruction.a538237ebc81f8c2.wav",
+      "event": "game.instruction.a538237ebc81f8c2"
     },
     {
-      "id": "game.instruction.78eb77e5a311d276",
-      "text": "Tap RNA polymerase to expose the template strand.",
+      "id": "game.instruction.5c8283c8339c7af7",
+      "text": "Tap polymerase to unzip DNA.",
       "title": "Open the DNA",
-      "resource": "central-dogma.game.instruction.78eb77e5a311d276.wav",
-      "event": "game.instruction.78eb77e5a311d276"
+      "resource": "central-dogma.game.instruction.5c8283c8339c7af7.wav",
+      "event": "game.instruction.5c8283c8339c7af7"
     },
     {
-      "id": "game.instruction.4a2f8e3d7418c7aa",
-      "text": "DNA T is next. Add its RNA partner at the growing 3′ end.",
+      "id": "game.instruction.799f5e5d90ebf168",
+      "text": "Match DNA T with its RNA partner.",
       "title": "Build the RNA",
-      "resource": "central-dogma.game.instruction.4a2f8e3d7418c7aa.wav",
-      "event": "game.instruction.4a2f8e3d7418c7aa"
+      "resource": "central-dogma.game.instruction.799f5e5d90ebf168.wav",
+      "event": "game.instruction.799f5e5d90ebf168"
     },
     {
-      "id": "game.instruction.2f952cb69375cbad",
-      "text": "DNA A is next. Add its RNA partner at the growing 3′ end.",
+      "id": "game.instruction.5fc5f85ce2d332fb",
+      "text": "Match DNA A with its RNA partner.",
       "title": "Build the RNA",
-      "resource": "central-dogma.game.instruction.2f952cb69375cbad.wav",
-      "event": "game.instruction.2f952cb69375cbad"
+      "resource": "central-dogma.game.instruction.5fc5f85ce2d332fb.wav",
+      "event": "game.instruction.5fc5f85ce2d332fb"
     },
     {
-      "id": "game.instruction.33ce496868bbf3f7",
-      "text": "DNA C is next. Add its RNA partner at the growing 3′ end.",
+      "id": "game.instruction.2fb3937d31014051",
+      "text": "Match DNA C with its RNA partner.",
       "title": "Build the RNA",
-      "resource": "central-dogma.game.instruction.33ce496868bbf3f7.wav",
-      "event": "game.instruction.33ce496868bbf3f7"
+      "resource": "central-dogma.game.instruction.2fb3937d31014051.wav",
+      "event": "game.instruction.2fb3937d31014051"
     },
     {
-      "id": "game.instruction.cf226e78053e12d3",
-      "text": "DNA G is next. Add its RNA partner at the growing 3′ end.",
+      "id": "game.instruction.a212876a735428b5",
+      "text": "Match DNA G with its RNA partner.",
       "title": "Build the RNA",
-      "resource": "central-dogma.game.instruction.cf226e78053e12d3.wav",
-      "event": "game.instruction.cf226e78053e12d3"
+      "resource": "central-dogma.game.instruction.a212876a735428b5.wav",
+      "event": "game.instruction.a212876a735428b5"
     },
     {
-      "id": "game.result.5391aedb287a7a48",
-      "text": "RNA written!\n\nYou copied both exon and intron windows, adding only at the RNA’s 3′ end.",
+      "id": "game.result.e9fe51168fc85736",
+      "text": "RNA written!\n\nRNA copied! Next, release the message.",
       "title": "RNA written!",
-      "resource": "central-dogma.game.result.5391aedb287a7a48.wav",
-      "event": "game.result.5391aedb287a7a48"
+      "resource": "central-dogma.game.result.e9fe51168fc85736.wav",
+      "event": "game.result.e9fe51168fc85736"
     },
     {
-      "id": "game.instruction.e1cd93d6f3bccb15",
-      "text": "Tap the DNA terminator to finish transcription.",
+      "id": "game.instruction.6335d81ad7b50c78",
+      "text": "Tap the terminator to release the RNA.",
       "title": "Release the message",
-      "resource": "central-dogma.game.instruction.e1cd93d6f3bccb15.wav",
-      "event": "game.instruction.e1cd93d6f3bccb15"
+      "resource": "central-dogma.game.instruction.6335d81ad7b50c78.wav",
+      "event": "game.instruction.6335d81ad7b50c78"
     },
     {
-      "id": "game.instruction.4ee697db303258cd",
-      "text": "Attach the modified-nucleotide cap at the 5′ end.",
+      "id": "game.instruction.c1b5758b66a5c205",
+      "text": "Add the cap to the 5′ end.",
       "title": "Protect the front",
-      "resource": "central-dogma.game.instruction.4ee697db303258cd.wav",
-      "event": "game.instruction.4ee697db303258cd"
+      "resource": "central-dogma.game.instruction.c1b5758b66a5c205.wav",
+      "event": "game.instruction.c1b5758b66a5c205"
     },
     {
-      "id": "game.instruction.8c026a586f2ecfdc",
-      "text": "Attach a poly A tail at the 3′ end.",
+      "id": "game.instruction.25e754fd3e90f147",
+      "text": "Add the tail to the 3′ end.",
       "title": "Tail the message",
-      "resource": "central-dogma.game.instruction.8c026a586f2ecfdc.wav",
-      "event": "game.instruction.8c026a586f2ecfdc"
+      "resource": "central-dogma.game.instruction.25e754fd3e90f147.wav",
+      "event": "game.instruction.25e754fd3e90f147"
     },
     {
-      "id": "game.instruction.be0e428a40ce652c",
-      "text": "Use the splicing crew on the lavender intron region.",
+      "id": "game.instruction.93be28d212684336",
+      "text": "Cut out the intron.",
       "title": "Remove the intron",
-      "resource": "central-dogma.game.instruction.be0e428a40ce652c.wav",
-      "event": "game.instruction.be0e428a40ce652c"
+      "resource": "central-dogma.game.instruction.93be28d212684336.wav",
+      "event": "game.instruction.93be28d212684336"
     },
     {
-      "id": "game.instruction.754d23f67f301da2",
-      "text": "Tap the exon connectors to complete splicing.",
+      "id": "game.instruction.329eadce06994d4f",
+      "text": "Join the exons.",
       "title": "Join the exons",
-      "resource": "central-dogma.game.instruction.754d23f67f301da2.wav",
-      "event": "game.instruction.754d23f67f301da2"
+      "resource": "central-dogma.game.instruction.329eadce06994d4f.wav",
+      "event": "game.instruction.329eadce06994d4f"
     },
     {
-      "id": "game.result.adf85576a6d79f1e",
-      "text": "Message upgraded!\n\nThe cap, tail, and splicing are complete. Mature mRNA can now leave the nucleus.",
+      "id": "game.result.9d1a985206329197",
+      "text": "Message upgraded!\n\nCap, tail, and splicing done. Send the mRNA out!",
       "title": "Message upgraded!",
-      "resource": "central-dogma.game.result.adf85576a6d79f1e.wav",
-      "event": "game.result.adf85576a6d79f1e"
+      "resource": "central-dogma.game.result.9d1a985206329197.wav",
+      "event": "game.result.9d1a985206329197"
     },
     {
-      "id": "game.instruction.ece42bb50b9ffae3",
-      "text": "Move mature mRNA through the nucleus exit.",
+      "id": "game.instruction.135b402b932181ad",
+      "text": "Send mRNA through the nuclear pore.",
       "title": "Send the message",
-      "resource": "central-dogma.game.instruction.ece42bb50b9ffae3.wav",
-      "event": "game.instruction.ece42bb50b9ffae3"
+      "resource": "central-dogma.game.instruction.135b402b932181ad.wav",
+      "event": "game.instruction.135b402b932181ad"
     },
     {
-      "id": "game.instruction.8a1171bfd7f51e08",
-      "text": "Bring the small ribosomal subunit to the 5′ cap.",
+      "id": "game.instruction.b5179473d1aa657c",
+      "text": "Attach the small ribosome subunit.",
       "title": "Build the reading station",
-      "resource": "central-dogma.game.instruction.8a1171bfd7f51e08.wav",
-      "event": "game.instruction.8a1171bfd7f51e08"
+      "resource": "central-dogma.game.instruction.b5179473d1aa657c.wav",
+      "event": "game.instruction.b5179473d1aa657c"
     },
     {
-      "id": "game.instruction.e645e0862012315b",
-      "text": "Match an initiator tRNA to the AUG start codon.",
+      "id": "game.instruction.ed3ba0c26af4d93c",
+      "text": "Match a tRNA to AUG.",
       "title": "AUG says start",
-      "resource": "central-dogma.game.instruction.e645e0862012315b.wav",
-      "event": "game.instruction.e645e0862012315b"
+      "resource": "central-dogma.game.instruction.ed3ba0c26af4d93c.wav",
+      "event": "game.instruction.ed3ba0c26af4d93c"
     },
     {
-      "id": "game.instruction.f9ec5c8c64987330",
-      "text": "Add the large ribosomal subunit.",
+      "id": "game.instruction.3803c5e98c419644",
+      "text": "Add the large ribosome subunit.",
       "title": "Complete the ribosome",
-      "resource": "central-dogma.game.instruction.f9ec5c8c64987330.wav",
-      "event": "game.instruction.f9ec5c8c64987330"
+      "resource": "central-dogma.game.instruction.3803c5e98c419644.wav",
+      "event": "game.instruction.3803c5e98c419644"
     },
     {
-      "id": "game.result.12e1ef909a6193c8",
-      "text": "Reading station ready!\n\nThe small subunit, initiator tRNA carrying Met, and large subunit are in position.",
+      "id": "game.result.bbf9fb0f75feffed",
+      "text": "Reading station ready!\n\nThe ribosome is ready to build a chain!",
       "title": "Reading station ready!",
-      "resource": "central-dogma.game.result.12e1ef909a6193c8.wav",
-      "event": "game.result.12e1ef909a6193c8"
+      "resource": "central-dogma.game.result.bbf9fb0f75feffed.wav",
+      "event": "game.result.bbf9fb0f75feffed"
     },
     {
-      "id": "game.instruction.9f4cc594a14676da",
-      "text": "Match a tRNA anticodon to the next AUG codon.",
+      "id": "game.instruction.b8e9ce828dbd00c9",
+      "text": "Match the next codon.",
       "title": "Deliver the next amino acid",
-      "resource": "central-dogma.game.instruction.9f4cc594a14676da.wav",
-      "event": "game.instruction.9f4cc594a14676da"
+      "resource": "central-dogma.game.instruction.b8e9ce828dbd00c9.wav",
+      "event": "game.instruction.b8e9ce828dbd00c9"
     },
     {
-      "id": "game.instruction.648e150d9c9e0803",
-      "text": "Tap between the amino acids to form a peptide bond.",
+      "id": "game.instruction.d7104969d1d73990",
+      "text": "Link the amino acids.",
       "title": "Make the connection",
-      "resource": "central-dogma.game.instruction.648e150d9c9e0803.wav",
-      "event": "game.instruction.648e150d9c9e0803"
+      "resource": "central-dogma.game.instruction.d7104969d1d73990.wav",
+      "event": "game.instruction.d7104969d1d73990"
     },
     {
-      "id": "game.instruction.bc7f845a3d8ec1e3",
-      "text": "Move the ribosome one codon in the 5′ → 3′ direction.",
+      "id": "game.instruction.c0d56096d950ab19",
+      "text": "Move one codon toward 3′.",
       "title": "Move one codon",
-      "resource": "central-dogma.game.instruction.bc7f845a3d8ec1e3.wav",
-      "event": "game.instruction.bc7f845a3d8ec1e3"
+      "resource": "central-dogma.game.instruction.c0d56096d950ab19.wav",
+      "event": "game.instruction.c0d56096d950ab19"
     },
     {
-      "id": "game.instruction.6ad7fc9b2de9ac31",
-      "text": "Send the empty tRNA back into the cytosol.",
+      "id": "game.instruction.286309b34a0e626e",
+      "text": "Return the empty tRNA.",
       "title": "Recycle the connector",
-      "resource": "central-dogma.game.instruction.6ad7fc9b2de9ac31.wav",
-      "event": "game.instruction.6ad7fc9b2de9ac31"
+      "resource": "central-dogma.game.instruction.286309b34a0e626e.wav",
+      "event": "game.instruction.286309b34a0e626e"
     },
     {
-      "id": "game.instruction.89ca7a3e22feb37",
-      "text": "UAA is a stop codon. Choose what binds here.",
+      "id": "game.instruction.c4d57bc5b509c8e6",
+      "text": "UAA is stop. Add a release factor.",
       "title": "Stop means release",
-      "resource": "central-dogma.game.instruction.89ca7a3e22feb37.wav",
-      "event": "game.instruction.89ca7a3e22feb37"
+      "resource": "central-dogma.game.instruction.c4d57bc5b509c8e6.wav",
+      "event": "game.instruction.c4d57bc5b509c8e6"
     },
     {
-      "id": "game.result.423d4ac31ee2a4f7",
-      "text": "Message decoded!\n\nYour short practice fragment made three Met residues. Now zoom out to a separate, full-length polypeptide for folding.",
+      "id": "game.result.fb733a238c0fe441",
+      "text": "Message decoded!\n\nThree Met amino acids joined! Next: a separate full-length chain.",
       "title": "Message decoded!",
-      "resource": "central-dogma.game.result.423d4ac31ee2a4f7.wav",
-      "event": "game.result.423d4ac31ee2a4f7"
+      "resource": "central-dogma.game.result.fb733a238c0fe441.wav",
+      "event": "game.result.fb733a238c0fe441"
     },
     {
-      "id": "game.instruction.a395da906391dda3",
-      "text": "Bring a chaperone to this full-length polypeptide.",
+      "id": "game.instruction.25ad218abdcbc4e1",
+      "text": "Help this full chain fold.",
       "title": "Help the full chain fold",
-      "resource": "central-dogma.game.instruction.a395da906391dda3.wav",
-      "event": "game.instruction.a395da906391dda3"
+      "resource": "central-dogma.game.instruction.25ad218abdcbc4e1.wav",
+      "event": "game.instruction.25ad218abdcbc4e1"
     },
     {
-      "id": "game.result.c45c5ee7211746b2",
-      "text": "Shape unlocked!\n\nNext, explore two different finishing examples. Proteins do not all use the same finishing steps.",
+      "id": "game.result.2f65f1a76a6a4da5",
+      "text": "Shape unlocked!\n\nFolded! Next: two different protein-finishing examples.",
       "title": "Shape unlocked!",
-      "resource": "central-dogma.game.result.c45c5ee7211746b2.wav",
-      "event": "game.result.c45c5ee7211746b2"
+      "resource": "central-dogma.game.result.2f65f1a76a6a4da5.wav",
+      "event": "game.result.2f65f1a76a6a4da5"
     },
     {
-      "id": "game.instruction.134f659daa725a80",
-      "text": "Use cleavage enzymes on the proinsulin example.",
+      "id": "game.instruction.665bf9ffded7b9f8",
+      "text": "Cut proinsulin into insulin.",
       "title": "Insulin example: cut to finish",
-      "resource": "central-dogma.game.instruction.134f659daa725a80.wav",
-      "event": "game.instruction.134f659daa725a80"
+      "resource": "central-dogma.game.instruction.665bf9ffded7b9f8.wav",
+      "event": "game.instruction.665bf9ffded7b9f8"
     },
     {
-      "id": "game.instruction.eefbba186c241bee",
-      "text": "Bring four separate subunits into the assembly.",
+      "id": "game.instruction.dea2a35868e91bc2",
+      "text": "Fit four chains together.",
       "title": "Hemoglobin example: team up",
-      "resource": "central-dogma.game.instruction.eefbba186c241bee.wav",
-      "event": "game.instruction.eefbba186c241bee"
+      "resource": "central-dogma.game.instruction.dea2a35868e91bc2.wav",
+      "event": "game.instruction.dea2a35868e91bc2"
     },
     {
-      "id": "game.result.104d8fe5aa567887",
-      "text": "Central Dogma champion!\n\nYou practiced transcription, mRNA processing, translation, folding, and two different finishing examples.",
+      "id": "game.result.10be7b33b8cf2703",
+      "text": "Central Dogma champion!\n\nDNA → mRNA → amino acid chain. You did it!",
       "title": "Central Dogma champion!",
-      "resource": "central-dogma.game.result.104d8fe5aa567887.wav",
-      "event": "game.result.104d8fe5aa567887"
+      "resource": "central-dogma.game.result.10be7b33b8cf2703.wav",
+      "event": "game.result.10be7b33b8cf2703"
     },
     {
-      "id": "game.instruction.8e827e2a3ecb83a1",
-      "text": "UGA is a stop codon. Choose what binds here.",
+      "id": "game.instruction.d5b7a96afaf373ac",
+      "text": "UGA is stop. Add a release factor.",
       "title": "Stop means release",
-      "resource": "central-dogma.game.instruction.8e827e2a3ecb83a1.wav",
-      "event": "game.instruction.8e827e2a3ecb83a1"
+      "resource": "central-dogma.game.instruction.d5b7a96afaf373ac.wav",
+      "event": "game.instruction.d5b7a96afaf373ac"
     },
     {
-      "id": "game.instruction.26c240efed975251",
-      "text": "UAG is a stop codon. Choose what binds here.",
+      "id": "game.instruction.228b10283e40187c",
+      "text": "UAG is stop. Add a release factor.",
       "title": "Stop means release",
-      "resource": "central-dogma.game.instruction.26c240efed975251.wav",
-      "event": "game.instruction.26c240efed975251"
+      "resource": "central-dogma.game.instruction.228b10283e40187c.wav",
+      "event": "game.instruction.228b10283e40187c"
     }
   ]
 }

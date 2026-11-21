@@ -10,7 +10,7 @@ enum CentralDogmaGameTheme {
               green: Double((value >> 8) & 255) / 255, blue: Double(value & 255) / 255, opacity: 1)
     }
     static func nucleotide(_ value: String) -> Color {
-        switch value { case "A": return blue; case "U": return peach; case "C": return sage; default: return lavender }
+        switch value { case "A": return blue; case "T", "U": return peach; case "C": return sage; default: return lavender }
     }
 }
 

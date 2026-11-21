@@ -38,7 +38,13 @@ struct CentralDogmaGameFeedback: Sendable {
     var usedSlots: Set<String> { Set(records.filter { $0.kind == "assemble" }.map(\.target)) }
     func has(_ id: String) -> Bool { records.contains { $0.id == id } }
 
-    func choose(_ payload: String) { selectedPayload = payload }
+    func choose(_ payload: String, stepID: String? = nil) {
+        guard let step, pending == nil, stepID == nil || step.id == stepID,
+              step.options.contains(where: { $0.payload == payload }), !usedPieces.contains(payload) else { return }
+        if step.kind == "rna" {
+            _ = submit(payload, target: step.target, stepID: step.id)
+        } else { selectedPayload = payload }
+    }
     func showHint() {
         guard let step else { return }
         hints += 1

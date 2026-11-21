@@ -53,24 +53,43 @@ struct Sparkles: View {
 
 struct HeaderView: View {
     var body: some View {
-        VStack(spacing: 4) {
+        VStack(spacing: 2) {
             HStack(spacing: 8) {
-                Sparkles()
+                Sparkles().modifier(HomeArtworkFloat(distance: 1, tilt: 5))
                 Text("CellLab")
-                    .font(.system(size: 64, weight: .heavy, design: .serif))
+                    .font(.system(size: 62, weight: .heavy, design: .serif))
                     .foregroundStyle(Theme.ink)
-                    .minimumScaleFactor(0.7)
-                    .lineLimit(1)
-                Sparkles(mirrored: true)
+                    .minimumScaleFactor(0.7).lineLimit(1)
+                NavigationLink(value: DailyFactRoute.settings) {
+                    Image(systemName: "gearshape")
+                        .font(.system(size: 17, weight: .medium))
+                        .foregroundStyle(Theme.teal.opacity(0.8))
+                        .frame(width: 44, height: 44)
+                }
+                .buttonStyle(HomePressStyle())
+                .accessibilityLabel("Settings")
+                .accessibilityIdentifier("celllab-settings")
             }
 
-
-            Image("art_shelf")
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: 340)
-                .accessibilityHidden(true)
+            ZStack {
+                Ellipse().fill(Theme.cycle.opacity(0.45))
+                    .frame(width: 260, height: 70).offset(y: 4)
+                Circle().stroke(Theme.teal.opacity(0.35), lineWidth: 1.5)
+                    .frame(width: 13, height: 13).offset(x: -132, y: -32)
+                    .modifier(HomeArtworkFloat(distance: 4, tilt: 0, phase: 1))
+                Circle().fill(Theme.gold.opacity(0.55))
+                    .frame(width: 8, height: 8).offset(x: 116, y: -44)
+                    .modifier(HomeArtworkFloat(distance: 5, tilt: 0, phase: 3))
+                Circle().stroke(Theme.teal.opacity(0.3), lineWidth: 1.5)
+                    .frame(width: 19, height: 19).offset(x: 135, y: 18)
+                    .modifier(HomeArtworkFloat(distance: 3, tilt: 0, phase: 2))
+                Image("art_shelf")
+                    .resizable().scaledToFit().frame(maxWidth: 340)
+                    .modifier(HomeArtworkFloat(distance: 2, tilt: 0.5))
+            }
+            .accessibilityHidden(true)
         }
+        .padding(.top, 2)
     }
 }
 
@@ -81,8 +100,9 @@ struct SectionTitle: View {
         HStack(spacing: 14) {
             Capsule().fill(Theme.gold).frame(width: 24, height: 3)
             Text(text)
-                .font(.system(size: 36, weight: .bold, design: .serif))
+                .font(.system(size: 34, weight: .bold, design: .serif))
                 .foregroundStyle(Theme.ink)
+                .lineLimit(1).minimumScaleFactor(0.8)
             Capsule().fill(Theme.gold).frame(width: 24, height: 3)
         }
     }
@@ -101,18 +121,27 @@ struct ActionPill: View {
     var body: some View {
         switch action {
         case .open(let label):
-            Text(label)
-                .font(.system(size: 16, weight: .semibold, design: .rounded))
-                .foregroundStyle(.white)
-                .lineLimit(1)
-                .minimumScaleFactor(0.8)
-                .frame(maxWidth: .infinity, minHeight: 40)
-                .background(Capsule().fill(Theme.teal))
+            HStack(spacing: 5) {
+                Text(label)
+                    .font(.system(size: 14, weight: .bold, design: .rounded))
+                    .lineLimit(1).minimumScaleFactor(0.8)
+                Image(systemName: "arrow.up.right")
+                    .font(.system(size: 10, weight: .black))
+            }
+            .foregroundStyle(.white)
+            .frame(maxWidth: .infinity, minHeight: 44)
+            .background {
+                Capsule()
+                    .fill(LinearGradient(colors: [Theme.teal, Color(hex: 0x07615E)], startPoint: .topLeading, endPoint: .bottomTrailing))
+                    .shadow(color: Theme.ink.opacity(0.8), radius: 0, y: 3)
+            }
+            .overlay(Capsule().stroke(Theme.ink, lineWidth: 1.2))
+            .overlay(Capsule().inset(by: 3).stroke(.white.opacity(0.18), lineWidth: 1))
         case .comingSoon:
             Text("Coming soon")
                 .font(.system(size: 14, weight: .medium, design: .rounded))
                 .foregroundStyle(Theme.ink.opacity(0.55))
-                .frame(maxWidth: .infinity, minHeight: 40)
+                .frame(maxWidth: .infinity, minHeight: 44)
                 .background(Capsule().fill(Theme.ink.opacity(0.08)))
         }
     }
@@ -126,170 +155,189 @@ struct ModuleCard: View {
     let action: CardAction
 
     var body: some View {
-        VStack(spacing: 6) {
-            Image(image)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 150, height: 112)
-                .accessibilityHidden(true)
+        VStack(spacing: 5) {
+            ZStack {
+                Ellipse().fill(.white.opacity(0.38))
+                    .frame(height: 68).padding(.horizontal, 6).offset(y: 16)
+                Image(image)
+                    .resizable().scaledToFit()
+                    .frame(maxWidth: 150).frame(height: 100)
+                    .modifier(HomeArtworkFloat(distance: 3, tilt: 1.3, phase: Double(image.count)))
+            }
+            .frame(height: 100).padding(.top, 20)
+            .accessibilityHidden(true)
 
             Text(title)
                 .font(.system(size: 21, weight: .bold, design: .serif))
                 .foregroundStyle(Theme.ink)
                 .multilineTextAlignment(.center)
-                .lineLimit(2)
-                .minimumScaleFactor(0.8)
-                .frame(height: 54)
-
+                .lineLimit(2).minimumScaleFactor(0.8)
+                .frame(height: 50)
             Text(subtitle)
-                .font(.system(size: 14, design: .rounded))
-                .foregroundStyle(Theme.ink)
-                .multilineTextAlignment(.center)
-                .lineLimit(2)
-                .frame(height: 38, alignment: .top)
-
+                .font(.system(size: 13, design: .rounded))
+                .foregroundStyle(Theme.ink.opacity(0.85))
+                .multilineTextAlignment(.center).lineLimit(2)
+                .frame(height: 32, alignment: .top)
             Spacer(minLength: 0)
-
             ActionPill(action: action)
         }
-        .padding(12)
-        .frame(maxWidth: .infinity)
-        .frame(height: 300)
-        .background(RoundedRectangle(cornerRadius: 22).fill(fill))
-        .overlay(
+        .padding(10)
+        .frame(maxWidth: .infinity).frame(height: 290)
+        .background {
             RoundedRectangle(cornerRadius: 22)
-                .stroke(Theme.ink.opacity(0.8), lineWidth: 1.5)
-        )
+                .fill(LinearGradient(colors: [fill.opacity(0.7), fill], startPoint: .topLeading, endPoint: .bottomTrailing))
+                .shadow(color: Theme.ink.opacity(0.16), radius: 0, y: 3)
+        }
+        .overlay(RoundedRectangle(cornerRadius: 22).stroke(Theme.ink.opacity(0.7), lineWidth: 1.4))
     }
 }
 
 // MARK: - Home
 
+extension CellLabHomeModule {
+    var fill: Color {
+        switch self {
+        case .structures: Theme.structures
+        case .cycle: Theme.cycle
+        case .mitosis, .dogma: Theme.mitosis
+        case .meiosis: Theme.meiosis
+        case .sphase, .technology: Theme.dna
+        case .respiration: Theme.respiration
+        }
+    }
+}
+
 struct CellLabHomeView: View {
     let catalog: BiologyCatalog
+    @StateObject private var narrator = LessonNarrator.home()
+    @State private var selectedModule: CellLabHomeModule?
+    @State private var guideHeight: CGFloat = 60
 
-    private let columns = [
-        GridItem(.flexible(), spacing: 14),
-        GridItem(.flexible(), spacing: 14)
-    ]
+    private var moduleRows: [[CellLabHomeModule]] {
+        let modules = CellLabHomeModule.allCases
+        return stride(from: 0, to: modules.count, by: 2).map { Array(modules.dropFirst($0).prefix(2)) }
+    }
 
     var body: some View {
         ZStack {
             Theme.background.ignoresSafeArea()
-
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 18) {
+                VStack(spacing: 10) {
                     HeaderView()
                     SectionTitle(text: "Explore the lab")
-
-                    LazyVGrid(columns: columns, spacing: 14) {
-                        
-                        NavigationLink {
-                            CellStructuresView()
-                        } label: {
-                            ModuleCard(
-                                title: "Cell Structures",
-                                subtitle: "Meet the tiny team.",
-                                fill: Theme.structures,
-                                image: "art_structures",
-                                action: .open("Let\u{2019}s Explore \u{2192}")
-                            )
-                        }.buttonStyle(.plain)
-                        
-                        NavigationLink {
-                            CellLifeCycleView()
-                        } label: {
-                            ModuleCard(
-                                title: "Cell Life Cycle",
-                                subtitle: "Grow. Copy. Divide.",
-                                fill: Theme.cycle,
-                                image: "art_cycle",
-                                action: .open("Living the life \u{2192}")                        )
-                        }
-                        .buttonStyle(.plain)
-                        
-                        NavigationLink {
-                            MitosisView(catalog: catalog)
-                        } label: {
-                            ModuleCard(
-                                title: "Mitosis",
-                                subtitle: "One becomes two.",
-                                fill: Theme.mitosis,
-                                image: "art_mitosis",
-                                action: .open("Let\u{2019}s split \u{2192}")
-                            )
-                        }
-                        .buttonStyle(.plain)
-
-                        NavigationLink {
-                            MeiosisView(catalog: catalog)
-                        } label: {
-                            ModuleCard(
-                                title: "Meiosis",
-                                subtitle: "Mix things up.",
-                                fill: Theme.meiosis,
-                                image: "art_meiosis",
-                                action: .open("Let\u{2019}s mix \u{2192}")
-                            )
-                        }
-                        .buttonStyle(.plain)
-                        
-                        NavigationLink {
-                            DNAReplicationView()
-                        } label: {
-                            ModuleCard(
-                                title: "S Phase",
-                                subtitle: "DNA replication",
-                                fill: Theme.dna,
-                                image: "art_s_phase",
-                                action: .open("Let\u{2019}s Synthesize \u{2192}")
-                            )
-                        }.buttonStyle(.plain)
-                        
-
-                        NavigationLink {
-                            CentralDogmaView()
-                        } label: {
-                            ModuleCard(
-                                title: "Central Dogma",
-                                subtitle: "Transcription. Translation.",
-                                fill: Theme.mitosis,
-                                image: "art_dogma",
-                                action: .open("Making Peptide \u{2192}")
-                            )
-                        }.buttonStyle(.plain)
-
-                        NavigationLink {
-                            CellularRespirationView()
-                        } label: {
-                        ModuleCard(
-                            title: "Cellular Respiration",
-                            subtitle: "ATP, made here.",
-                            fill: Theme.respiration,
-                            image: "art_respiration",
-                            action: .open("Let\u{2019}s Explore \u{2192}")
-                        )
-                        }.buttonStyle(.plain)
-                        
-                        NavigationLink {
-                            DNATechnologyView()
-                        } label: {
-                            ModuleCard(
-                                title: "DNA Technology",
-                                subtitle: "Small tools. Big possibilities.",
-                                fill: Theme.dna,
-                                image: "art_dna",
-                                action: .open("Let\u{2019}s Get Crisp \u{2192}")
-                            )
-                        }.buttonStyle(.plain)
-                        
+                    HStack(spacing: 16) {
+                        Label("Listen", systemImage: "speaker.wave.2.fill")
+                        Label("Game", systemImage: "gamecontroller.fill")
                     }
-                    
+                    .font(.system(.caption, design: .rounded, weight: .semibold))
+                    .foregroundStyle(Theme.teal)
+                    .dynamicTypeSize(...DynamicTypeSize.accessibility1)
+
+                    LazyVStack(spacing: 12) {
+                        ForEach(moduleRows.indices, id: \.self) { index in
+                            VStack(spacing: 10) {
+                                HStack(alignment: .top, spacing: 12) {
+                                    ForEach(moduleRows[index]) { module in
+                                        moduleCard(module)
+                                    }
+                                }
+                                if let selectedModule, moduleRows[index].contains(selectedModule) {
+                                    HomeLessonPreview(module: selectedModule) {
+                                        narrator.stop()
+                                        self.selectedModule = nil
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-                .padding(.horizontal, 16)
-                .padding(.bottom, 24)
+                .padding(.horizontal, 14)
+                // Let the final cards scroll clear of the floating guide.
+                .padding(.bottom, guideHeight + 8)
             }
         }
+        .overlay(alignment: .bottomTrailing) {
+            HomeAxolotlTab(narrator: narrator) {
+                if narrator.isPlaying {
+                    narrator.stop()
+                } else {
+                    selectedModule = nil
+                    narrator.playStandalone("home.overview")
+                }
+            }
+            .frame(maxWidth: 320, alignment: .trailing)
+            .fixedSize(horizontal: false, vertical: true)
+            .padding(.bottom, 2)
+            .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { guideHeight = $0 }
+        }
+        .onDisappear { narrator.stop() }
         .toolbar(.hidden, for: .navigationBar)
+    }
+
+    private func moduleCard(_ module: CellLabHomeModule) -> some View {
+        let speaking = narrator.isPlaying && narrator.currentCueID == module.cueID
+        return ZStack(alignment: .topLeading) {
+            NavigationLink {
+                destination(for: module)
+            } label: {
+                ModuleCard(title: module.title, subtitle: module.subtitle, fill: module.fill,
+                           image: module.image, action: .open("Explore"))
+            }
+            .buttonStyle(HomePressStyle())
+            .accessibilityLabel("\(module.title), \(module.subtitle), Explore lesson")
+            .accessibilityValue(module.hasGame ? "Game included" : "Lesson")
+            .accessibilityHint(module.hasGame ? "Open the lesson to explore or play its game" : "Open the lesson to explore")
+            .accessibilityIdentifier("home-lesson-\(module.id)")
+
+            Button {
+                selectedModule = module
+                narrator.toggleStandalone(module.cueID)
+            } label: {
+                Image(systemName: speaking ? "stop.fill" : "speaker.wave.2.fill")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(Theme.ink)
+                    .frame(width: 36, height: 36)
+                    .background {
+                        Circle().fill(Theme.background)
+                            .shadow(color: Theme.ink.opacity(0.18), radius: 0, y: 2)
+                    }
+                    .overlay(Circle().stroke(Theme.ink.opacity(0.3), lineWidth: 1.2))
+                    .frame(width: 44, height: 44)
+                    .contentShape(Rectangle())
+            }
+            .buttonStyle(HomePressStyle())
+            .padding(8)
+            .accessibilityLabel(speaking ? "Stop \(module.title) preview" : "Hear about \(module.title)")
+            .accessibilityValue(speaking ? "Speaking" : "Quiet")
+            .accessibilityIdentifier("home-preview-\(module.id)")
+
+            if module.hasGame {
+                HStack {
+                    Spacer(minLength: 0)
+                    NavigationLink { HomeGameDestination(module: module) } label: {
+                        HomeGameBadge()
+                    }
+                    .buttonStyle(HomePressStyle())
+                    .accessibilityLabel("Play \(module.title) game")
+                    .accessibilityHint("Open the game directly")
+                    .accessibilityIdentifier("home-play-\(module.id)")
+                }
+                .padding(8)
+            }
+        }
+        .frame(maxWidth: .infinity)
+    }
+
+    @ViewBuilder private func destination(for module: CellLabHomeModule) -> some View {
+        switch module {
+        case .structures: CellStructuresView()
+        case .cycle: CellLifeCycleView()
+        case .mitosis: MitosisView(catalog: catalog)
+        case .meiosis: MeiosisView(catalog: catalog)
+        case .sphase: DNAReplicationView()
+        case .dogma: CentralDogmaView()
+        case .respiration: CellularRespirationView()
+        case .technology: DNATechnologyView()
+        }
     }
 }

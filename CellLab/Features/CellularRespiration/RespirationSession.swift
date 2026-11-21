@@ -3,7 +3,7 @@ import Foundation
 import Observation
 
 @MainActor @Observable final class RespirationSession {
-    var step: RespirationStep = .overview
+    var step: RespirationStep = .glycolysis
     var progress: Double = 1
     var isPlaying = false
     var autoAdvance = false

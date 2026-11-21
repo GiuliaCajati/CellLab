@@ -21,48 +21,52 @@ import SwiftUI
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
-                VStack(alignment: .leading, spacing: 14) {
-                    header
-                    if !started { introduction }
-                    else if session.isComplete && session.pending == nil { victory }
+                VStack(alignment: .leading, spacing: 8) {
+                    if !started { header; introduction }
+                    else if session.isComplete && session.pending == nil { header; victory }
                     else if let step = session.step {
                         hud
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text(step.group.uppercased()).font(.system(.caption, design: .rounded, weight: .bold)).foregroundStyle(CentralDogmaGameTheme.teal)
-                            Text(step.title).font(.system(.title2, design: .serif, weight: .bold)).accessibilityAddTraits(.isHeader)
+                        VStack(alignment: .leading, spacing: 4) {
                             gameGuide(cueID: step.narrationID, instruction: Text(step.instruction)
                                 .font(.system(.body, design: .rounded)), controlID: "central-dogma-game-listen")
                         }
-                        CentralDogmaGameBoard(session: session, step: step)
                         feedback
-                        if step.kind != "rna" {
-                            CentralDogmaGameToolbox(session: session, step: step)
-                                .centralDogmaGamePanel()
-                        }
-                        HStack(spacing: 14) {
-                            Button { session.showHint() } label: { Label("Hint", systemImage: "lightbulb") }
-                            Spacer()
-                            Button { guide = true } label: { Label("Field guide", systemImage: "book") }
-                        }
-                        .font(.system(.subheadline, design: .rounded, weight: .semibold))
-                        .buttonStyle(.plain).frame(minHeight: 44)
+                        CentralDogmaGameBoard(session: session, step: step)
                     }
-                    Text("Eukaryotic workflow · sequence windows are shortened · symbols are not to scale")
+                    if !started || session.isComplete { Text("Eukaryotic cell · shortened sequences · not to scale")
                         .font(.system(.caption2, design: .rounded)).foregroundStyle(CentralDogmaGameTheme.muted)
-                        .multilineTextAlignment(.center).frame(maxWidth: .infinity)
+                        .multilineTextAlignment(.center).frame(maxWidth: .infinity) }
                 }
-                .padding(20).frame(width: min(geometry.size.width, 620)).frame(maxWidth: .infinity)
+                .padding(.horizontal, 16).padding(.vertical, 8).frame(width: min(geometry.size.width, 620)).frame(maxWidth: .infinity)
                 .foregroundStyle(CentralDogmaGameTheme.ink)
                 .allowsHitTesting(session.pending == nil)
                 .accessibilityHidden(session.pending != nil)
             }
         }
         .background(CentralDogmaGameTheme.cream.ignoresSafeArea())
-        .navigationTitle("").navigationBarTitleDisplayMode(.inline)
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            if started, !session.isComplete, session.pending == nil, let step = session.step, !step.options.isEmpty {
+                VStack(spacing: 0) {
+                    CentralDogmaGameToolbox(session: session, step: step)
+                }
+                .foregroundStyle(CentralDogmaGameTheme.ink)
+                .padding(.horizontal, 16).padding(.vertical, 8)
+                .frame(maxWidth: 620)
+                .frame(maxWidth: .infinity)
+                .background(CentralDogmaGameTheme.cream.shadow(color: .black.opacity(0.07), radius: 8, y: -3))
+                .accessibilityElement(children: .contain)
+                .accessibilityIdentifier("rna-relay-tool-dock")
+            }
+        }
+        .navigationTitle(started ? "RNA Relay" : "").navigationBarTitleDisplayMode(.inline)
         .tint(CentralDogmaGameTheme.ink)
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                if started { Button { restart = true } label: { Image(systemName: "arrow.counterclockwise") }.accessibilityLabel("Start a new round") }
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                if started {
+                    Button { session.showHint() } label: { Image(systemName: "lightbulb") }.accessibilityLabel("Hint")
+                    Button { guide = true } label: { Image(systemName: "info.circle") }.accessibilityLabel("Details")
+                    Button { restart = true } label: { Image(systemName: "arrow.counterclockwise") }.accessibilityLabel("Start a new round")
+                }
             }
         }
         .confirmationDialog("Start a new round?", isPresented: $restart, titleVisibility: .visible) {
@@ -116,41 +120,36 @@ import SwiftUI
     }
     private var introduction: some View {
         VStack(spacing: 17) {
-            CentralDogmaGameArt(name: "CentralRNAWriter", height: 152)
+            CentralDogmaGameJourney(preview: true)
             gameGuide(cueID: "game.introduction")
-            Text("Small molecules. Big mission.").font(.system(.title2, design: .serif, weight: .bold))
-            Text("Copy a protein-coding gene’s RNA, edit the message, and build an amino acid chain. Then explore folding and two finishing examples.")
+            Text("One gene. A new protein.").font(.system(.title2, design: .serif, weight: .bold))
+            Text("Copy DNA. Send mRNA. Build a chain.")
                 .font(.system(.body, design: .rounded)).multilineTextAlignment(.center)
-            HStack(spacing: 15) {
-                Label("Points + streaks", systemImage: "star.fill")
-                Label("No timer", systemImage: "clock")
-            }.font(.system(.caption, design: .rounded, weight: .semibold))
-            Text("Correct matches earn points. Mistakes leave the molecule unchanged. Hints are free.")
-                .font(.system(.subheadline, design: .rounded)).foregroundStyle(CentralDogmaGameTheme.muted).multilineTextAlignment(.center)
             Button("Let’s make a message") { started = true }.buttonStyle(CentralDogmaGamePrimaryStyle())
         }.centralDogmaGamePanel(CentralDogmaGameTheme.butter)
     }
     private var hud: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 6) {
             HStack {
-                Label("\(session.score)", systemImage: "star.fill").font(.system(.headline, design: .rounded))
+                Text(session.step?.title ?? "RNA Relay").font(.system(.title3, design: .serif, weight: .bold)).accessibilityAddTraits(.isHeader)
                 Spacer()
-                Text(session.attempts == 0 ? "Accuracy —" : "Accuracy \(session.accuracy)%").font(.system(.caption, design: .rounded, weight: .semibold))
-                if session.streak >= 3 { Text("\(session.streak) streak").font(.system(.caption, design: .rounded, weight: .bold)).foregroundStyle(CentralDogmaGameTheme.teal) }
+                Label("\(session.score)", systemImage: "star.fill").font(.system(.subheadline, design: .rounded, weight: .bold))
             }
-            ProgressView(value: session.progress).tint(CentralDogmaGameTheme.teal)
-                .accessibilityLabel("Mission progress").accessibilityValue("\(session.index) of \(session.mission.steps.count) actions complete")
-        }.centralDogmaGamePanel()
+        }
     }
     private var feedback: some View {
+        Group { if session.feedback.correct != nil || session.hints > 0 {
         HStack(alignment: .top, spacing: 9) {
             Image(systemName: session.feedback.correct == true ? "checkmark.circle.fill" : (session.feedback.correct == false ? "arrow.clockwise" : "sparkles"))
-            Text(session.feedback.text).font(.system(.subheadline, design: .rounded)).fixedSize(horizontal: false, vertical: true)
+            Text(session.feedback.text).font(.system(.caption, design: .rounded)).fixedSize(horizontal: false, vertical: true)
             if session.feedback.points > 0 { Spacer(minLength: 2); Text("+\(session.feedback.points)").font(.system(.headline, design: .rounded)) }
         }
         .foregroundStyle(CentralDogmaGameTheme.ink)
-        .centralDogmaGamePanel(session.feedback.correct == false ? CentralDogmaGameTheme.peach.opacity(0.6) : CentralDogmaGameTheme.sage.opacity(0.55))
+        .padding(.horizontal, 8).padding(.vertical, 5)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(session.feedback.correct == false ? CentralDogmaGameTheme.peach.opacity(0.6) : CentralDogmaGameTheme.sage.opacity(0.55), in: RoundedRectangle(cornerRadius: 14))
         .accessibilityElement(children: .combine)
+        } }
     }
     private func checkpointView(_ checkpoint: CentralDogmaGameMilestone) -> some View {
         ZStack {

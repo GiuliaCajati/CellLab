@@ -15,10 +15,14 @@ struct CellCycleKeyPlayersView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var selectedPlayerID: String?
     @State private var carouselHeight: CGFloat = 620
+    @StateObject private var narration: LessonNarrator
+    @Environment(\.scenePhase) private var scenePhase
 
     init(initialPlayerID: String? = nil) {
         let validID = CellCyclePlayer.all.first { $0.id == initialPlayerID }?.id
         _selectedPlayerID = State(initialValue: validID ?? CellCyclePlayer.all.first?.id)
+        _narration = StateObject(wrappedValue: .cellLifeCycle(initialPhaseID:
+            "player.\(validID ?? CellCyclePlayer.all.first?.id ?? "p53")"))
     }
 
     var body: some View {
@@ -37,6 +41,12 @@ struct CellCycleKeyPlayersView: View {
                             Text("Swipe to meet the cycle crew.")
                                 .font(.system(.subheadline, design: .rounded))
                                 .foregroundStyle(CellCyclePalette.muted)
+                            LessonGuide(narrator: narration,
+                                        title: narration.isPlaying ? "Stop" : "Hear \(narration.phaseName)",
+                                        cueID: narration.visiblePhase,
+                                        action: { if narration.isPlaying { narration.stop() } else { narration.playPhase() } },
+                                        showsStopBetweenClips: narration.mode == .lesson,
+                                        controlID: "cycle-players-listen", layoutTitle: "Hear key player")
                         }
                         .padding(.horizontal, 20)
 
@@ -84,6 +94,16 @@ struct CellCycleKeyPlayersView: View {
             .tint(CellCyclePalette.ink)
         }
         .accessibilityIdentifier("cycle-key-players-sheet")
+        .environmentObject(narration)
+        .onChange(of: selectedPlayerID) { _, id in
+            if let id { narration.selectPhase("player.\(id)") }
+        }
+        .onDisappear { narration.stop() }
+        .onChange(of: scenePhase) { _, state in if state != .active { narration.stop() } }
+        .alert("Audio unavailable", isPresented: Binding(
+            get: { narration.errorMessage != nil }, set: { if !$0 { narration.errorMessage = nil } }
+        )) { Button("OK", role: .cancel) { narration.errorMessage = nil } }
+        message: { Text(narration.errorMessage ?? "Please try again.") }
     }
 
     private func playerCard(_ player: CellCyclePlayer, width: CGFloat) -> some View {

@@ -1,0 +1,19 @@
+{
+  "appleArtSafeArea" : [
+    1921,
+    660,
+    1402,
+    962
+  ],
+  "colorModel" : "RGB",
+  "criticalElementsContained" : true,
+  "file" : "CreativeAssets\/CellLab-Universal-Creative-5244x2950.png",
+  "hasAlpha" : false,
+  "height" : 2950,
+  "safeAreaOCR" : [
+    "CellLab",
+    "Biology you can play."
+  ],
+  "sha256" : "d31e5fe2c877e0a91fb41cad7ba365522a8e23ca52d8cab45315d99daf537cc6",
+  "width" : 5244
+}

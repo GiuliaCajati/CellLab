@@ -4,6 +4,7 @@ import SwiftUI
 enum RespirationTheme {
     static let cream = color(0xFBF4EA)
     static let paper = color(0xFFFDF8)
+    static let card = color(0xFAE6CE)
     static let ink = color(0x184C46)
     static let edge = color(0x54796B)
     static let muted = color(0x5E786F)
@@ -32,6 +33,7 @@ enum RespirationTint: Sendable {
 struct RespirationCarouselControls: View {
     let titles: [String]
     let index: Int
+    var identifierPrefix = "respiration"
     let onSelect: (Int) -> Void
 
     private var visibleIndices: [Int] {
@@ -49,6 +51,7 @@ struct RespirationCarouselControls: View {
             .disabled(index == 0)
             .opacity(index == 0 ? 0.3 : 1)
             .accessibilityLabel("Previous card")
+            .accessibilityIdentifier(identifierPrefix + "-previous")
             Spacer(minLength: 0)
             HStack(spacing: 0) {
                 ForEach(visibleIndices, id: \.self) { item in
@@ -57,6 +60,7 @@ struct RespirationCarouselControls: View {
                             .fill(item == index ? RespirationTheme.teal : RespirationTheme.edge.opacity(0.2))
                             .frame(width: item == index ? 20 : 5, height: 5)
                             .frame(width: 22, height: 44)
+                            .contentShape(Rectangle())
                     }
                     .accessibilityLabel(titles[item])
                     .accessibilityValue(item == index ? "Selected" : "")
@@ -71,6 +75,7 @@ struct RespirationCarouselControls: View {
             .disabled(index == titles.count - 1)
             .opacity(index == titles.count - 1 ? 0.3 : 1)
             .accessibilityLabel("Next card")
+            .accessibilityIdentifier(identifierPrefix + "-next")
         }
         .font(.system(.subheadline, design: .rounded, weight: .semibold))
         .foregroundStyle(RespirationTheme.ink)
@@ -106,8 +111,16 @@ struct RespirationBullets: View {
 }
 
 struct RespirationEquationView: View {
+    var showsNarration = false
     var body: some View {
         VStack(spacing: 6) {
+            Text("The overall reaction")
+                .font(.system(.caption, design: .rounded, weight: .semibold))
+                .foregroundStyle(RespirationTheme.teal)
+                .padding(.bottom, 4)
+            if showsNarration {
+                NarrationSpeakerButton(cueID: "reference.equation", title: "the overall reaction")
+            }
             Text("C₆H₁₂O₆ + 6 O₂")
             Text("↓").foregroundStyle(RespirationTheme.teal)
             Text("6 CO₂ + 6 H₂O + ATP")
@@ -115,9 +128,31 @@ struct RespirationEquationView: View {
         .font(.system(.subheadline, design: .rounded, weight: .semibold))
         .foregroundStyle(RespirationTheme.ink)
         .padding(16).frame(maxWidth: .infinity)
-        .background(RespirationTheme.paper, in: RoundedRectangle(cornerRadius: 20))
-        .accessibilityElement(children: .ignore)
+        .background(RespirationTint.sage.color.opacity(0.75), in: RoundedRectangle(cornerRadius: 20))
+        .accessibilityElement(children: .contain)
         .accessibilityLabel("One glucose plus six oxygen yields six carbon dioxide plus six water, with energy captured in ATP.")
+        .accessibilityIdentifier("respiration-equation")
+    }
+}
+
+extension RespirationStep {
+    var tint: Color {
+        switch self {
+        case .overview, .transport: RespirationTint.blue.color
+        case .glycolysis, .efficiency: RespirationTint.sage.color
+        case .transition, .fermentation: RespirationTint.peach.color
+        case .krebs, .accounting: RespirationTint.butter.color
+        case .chemiosmosis, .anaerobic: RespirationTint.lavender.color
+        }
+    }
+    var accent: Color {
+        switch self {
+        case .overview, .transport: RespirationTheme.color(0x285C72)
+        case .glycolysis, .efficiency: RespirationTheme.color(0x2F6550)
+        case .transition, .fermentation: RespirationTheme.color(0x934B37)
+        case .krebs, .accounting: RespirationTheme.color(0x816017)
+        case .chemiosmosis, .anaerobic: RespirationTheme.color(0x6F4A7C)
+        }
     }
 }
 

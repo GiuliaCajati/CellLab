@@ -6,6 +6,7 @@ import UIKit
 @MainActor struct DNAReplicationGameView: View {
     @EnvironmentObject private var narration: LessonNarrator
     var onComplete: (() -> Void)? = nil
+    var backLabel = "Back to S phase"
     @State private var session = DNACopySession()
     @State private var showsGuide = false
     @State private var isDraggingNucleotide = false
@@ -175,7 +176,7 @@ import UIKit
                 Image(systemName: "chevron.left").font(.system(.body, weight: .bold))
                     .frame(width: 44, height: 44).background(DNACopyStyle.paper, in: Circle())
             }
-            .accessibilityLabel("Back to S phase")
+            .accessibilityLabel(backLabel)
             Spacer(minLength: 0)
             VStack(spacing: 3) {
                 Text(dynamicTypeSize.isAccessibilitySize ? "DNA Replication" : session.stage.title)

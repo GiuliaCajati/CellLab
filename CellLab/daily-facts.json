@@ -1,0 +1,931 @@
+[
+  {
+    "id": "fact-001",
+    "emoji": "🧬",
+    "title": "Six feet of DNA fits inside one of your cells.",
+    "detail": "The double helix is about 2 nanometers wide. Enlarge a typical nucleus to the size of a golf ball, and the DNA inside would stretch roughly 9 miles.",
+    "sources": [
+      {
+        "label": "Chromosomal DNA and its packaging",
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK26834/"
+      },
+      {
+        "label": "NASA on the width of DNA",
+        "url": "https://www.nasa.gov/wp-content/uploads/2017/04/sf_radiation_stu_bob.pdf?emrc=4fe89a"
+      }
+    ],
+    "widgetText": "Six feet of DNA fits in one cell."
+  },
+  {
+    "id": "fact-002",
+    "emoji": "👂",
+    "title": "You hear with bones your ancestors used to chew.",
+    "detail": "The hammer and anvil in your ears evolved from bones that once formed a jaw joint. Today they vibrate when someone whispers.",
+    "sources": [
+      {
+        "label": "How jaw bones became ear bones",
+        "url": "https://animaldiversity.org/collections/mammal_anatomy/jaws_and_ears/"
+      }
+    ],
+    "widgetText": "Two ear bones used to help jaws chew."
+  },
+  {
+    "id": "fact-003",
+    "emoji": "👃",
+    "title": "Your nose carries broken copies of ancient smell genes.",
+    "detail": "Humans have about 400 intact odor-receptor genes, dogs about 800, and African elephants nearly 2,000.",
+    "sources": [
+      {
+        "label": "Smell-receptor genes across 13 mammals",
+        "url": "https://genome.cshlp.org/content/early/2014/07/16/gr.169532.113.full.pdf"
+      }
+    ],
+    "widgetText": "Dogs have twice our smell-receptor genes."
+  },
+  {
+    "id": "fact-004",
+    "emoji": "👵",
+    "title": "The egg you grew from started forming inside your grandmother.",
+    "detail": "While your mother was still a fetus, immature eggs were already forming in her ovaries. One of them eventually became the egg you grew from.",
+    "sources": [
+      {
+        "label": "Yale lectures on germ cell development",
+        "url": "https://oyc.yale.edu/sites/default/files/mcdblecture23notes_0.pdf"
+      }
+    ],
+    "widgetText": "Your egg began inside your grandmother."
+  },
+  {
+    "id": "fact-005",
+    "emoji": "👀",
+    "title": "You can see signs of your own white blood cells in a blue sky.",
+    "detail": "Those tiny bright dots that dart across a clear blue sky can come from white blood cells moving through blood vessels in your eyes.",
+    "sources": [
+      {
+        "label": "Why bright dots move across a blue sky",
+        "url": "https://www.aao.org/eye-health/tips-prevention/moving-spots-in-blue-sky"
+      }
+    ],
+    "widgetText": "White blood cells make dots in a blue sky."
+  },
+  {
+    "id": "fact-006",
+    "emoji": "✋",
+    "title": "Your fingers became separate when the cells between them died.",
+    "detail": "Early in development, your hand looked like a paddle. As cells in the webbing died away, individual fingers emerged.",
+    "sources": [
+      {
+        "label": "Programmed cell death and developing fingers",
+        "url": "https://www.genome.gov/genetics-glossary/apoptosis?id=10"
+      }
+    ],
+    "widgetText": "Cells died to separate your fingers."
+  },
+  {
+    "id": "fact-007",
+    "emoji": "🐈",
+    "title": "A Siamese cat’s fur is a heat map.",
+    "detail": "Its skin makes more dark pigment in cooler spots. That’s why its ears, paws, and tail grow darker than its warm belly.",
+    "sources": [
+      {
+        "label": "UC Davis on temperature-sensitive coat color",
+        "url": "https://vgl.vetmed.ucdavis.edu/test/colorpoint-restriction"
+      }
+    ],
+    "widgetText": "Siamese fur is a heat map."
+  },
+  {
+    "id": "fact-008",
+    "emoji": "✨",
+    "title": "You glow in the dark.",
+    "detail": "Chemical reactions in your body release visible light about 1,000 times too faint for human eyes to see.",
+    "sources": [
+      {
+        "label": "Measuring visible light from the human body",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/19606225/"
+      }
+    ],
+    "widgetText": "Your body gives off visible light."
+  },
+  {
+    "id": "fact-009",
+    "emoji": "🐋",
+    "title": "There’s a hand inside a whale’s flipper.",
+    "detail": "An X-ray reveals a wrist and rows of finger bones arranged much like yours.",
+    "sources": [
+      {
+        "label": "NOAA comparison of whale and human forelimbs",
+        "url": "https://repository.library.noaa.gov/view/noaa/38268/noaa_38268_DS1.pdf"
+      }
+    ],
+    "widgetText": "A whale has fingers inside its flipper."
+  },
+  {
+    "id": "fact-010",
+    "emoji": "🌽",
+    "title": "Two kernels on the same corn cob can have different dads.",
+    "detail": "Each silk strand leads to one potential kernel and can catch pollen from a different plant.",
+    "sources": [
+      {
+        "label": "Corn pollination and parentage",
+        "url": "https://ageconsearch.umn.edu/record/373306/files/CornImprovementYB1936.pdf"
+      }
+    ],
+    "widgetText": "Corn kernels can have different dads."
+  },
+  {
+    "id": "fact-011",
+    "emoji": "🍊",
+    "title": "Your DNA carries a broken recipe for vitamin C.",
+    "detail": "Our ancestors could make it. One gene in the recipe stopped working, so humans now get vitamin C from food.",
+    "sources": [
+      {
+        "label": "The genetics of vitamin C loss",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3145266/"
+      }
+    ],
+    "widgetText": "We lost the ability to make vitamin C."
+  },
+  {
+    "id": "fact-012",
+    "emoji": "🐸",
+    "title": "A wood frog’s heart can stop for the winter.",
+    "detail": "As ice forms between its cells, its breathing and heartbeat stop. When the frog thaws, its heart starts beating again.",
+    "sources": [
+      {
+        "label": "Wood frog winter survival",
+        "url": "https://www.nwf.org/educational-resources/wildlife-guide/amphibians/wood-frog"
+      }
+    ],
+    "widgetText": "A frozen wood frog’s heart can restart."
+  },
+  {
+    "id": "fact-013",
+    "emoji": "👶",
+    "title": "You’re reading through proteins your body made before you were born.",
+    "detail": "Some proteins in the centers of your eye lenses stay with you for life.",
+    "sources": [
+      {
+        "label": "How the eye lens keeps its proteins",
+        "url": "https://www.frontiersin.org/journals/ophthalmology/articles/10.3389/fopht.2024.1456474/full"
+      }
+    ],
+    "widgetText": "Some eye proteins are older than you."
+  },
+  {
+    "id": "fact-014",
+    "emoji": "🪼",
+    "title": "A mouse can read jellyfish DNA.",
+    "detail": "Nearly all life shares the same genetic code. Given a jellyfish gene, mouse cells can make its fluorescent protein and glow green under blue light.",
+    "sources": [
+      {
+        "label": "How cells translate the genetic code",
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK26829/"
+      },
+      {
+        "label": "Jellyfish protein in mouse cells",
+        "url": "https://animal.nibn.go.jp/e_gfp.html"
+      }
+    ],
+    "widgetText": "A mouse can read jellyfish DNA."
+  },
+  {
+    "id": "fact-015",
+    "emoji": "🍕",
+    "title": "The mushroom on your pizza is more closely related to you than to the tomato.",
+    "detail": "Animals and fungi share a common ancestor that lived after the plant lineage branched off.",
+    "sources": [
+      {
+        "label": "Kew on the fungal family tree",
+        "url": "https://www.kew.org/sites/default/files/2020-02/What-are-fungi-infographic-KS2.pdf"
+      }
+    ],
+    "widgetText": "You’re kin to the mushroom on your pizza."
+  },
+  {
+    "id": "fact-016",
+    "emoji": "🚶",
+    "title": "Tiny proteins are walking inside your cells.",
+    "detail": "A protein called kinesin carries cargo along microscopic tracks, putting one molecular “foot” in front of the other.",
+    "sources": [
+      {
+        "label": "How kinesin motors move cargo",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6442636/"
+      }
+    ],
+    "widgetText": "Tiny proteins walk inside your cells."
+  },
+  {
+    "id": "fact-017",
+    "emoji": "🦋",
+    "title": "A moth can remember a smell it learned as a caterpillar.",
+    "detail": "In one experiment, caterpillars learned to avoid a particular smell. They still avoided it after growing wings.",
+    "sources": [
+      {
+        "label": "Memory through metamorphosis",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2248710/"
+      }
+    ],
+    "widgetText": "A moth can remember being a caterpillar."
+  },
+  {
+    "id": "fact-018",
+    "emoji": "🌳",
+    "title": "The carbon in a wooden chair used to float through the air.",
+    "detail": "The tree took in carbon dioxide through its leaves and used that carbon to build the wood.",
+    "sources": [
+      {
+        "label": "US Forest Service on carbon in trees",
+        "url": "https://www.fs.usda.gov/sites/default/files/Forest-Carbon-FAQs.pdf"
+      }
+    ],
+    "widgetText": "The carbon in wood came from the air."
+  },
+  {
+    "id": "fact-019",
+    "emoji": "🌱",
+    "title": "A Venus flytrap counts while a bug walks on it.",
+    "detail": "Two quick taps usually snap the trap shut. By the fifth signal, the plant starts making digestive enzymes.",
+    "sources": [
+      {
+        "label": "How the Venus flytrap counts",
+        "url": "https://www.biozentrum.uni-wuerzburg.de/en/news/archive/news-single/news/how-the-venus-flytrap-counts-1/"
+      }
+    ],
+    "widgetText": "A Venus flytrap counts taps."
+  },
+  {
+    "id": "fact-020",
+    "emoji": "🌊",
+    "title": "A sea slug can steal a sting from its lunch.",
+    "detail": "After eating a sea anemone, it moves some of the unfired stinging capsules to the tips of the projections on its own back.",
+    "sources": [
+      {
+        "label": "Monterey Bay Aquarium on the opalescent nudibranch",
+        "url": "https://www.montereybayaquarium.org/animals-the-ocean/animals-a-to-z/opalescent-nudibranch"
+      }
+    ],
+    "widgetText": "A sea slug can steal a sting."
+  },
+  {
+    "id": "fact-021",
+    "emoji": "🫁",
+    "title": "You breathe out most of the fat you burn.",
+    "detail": "When your body breaks down stored fat, about 84% of its mass leaves through your lungs as carbon dioxide. The rest becomes water.",
+    "sources": [
+      {
+        "label": "Where fat goes when it is used for energy",
+        "url": "https://www.bmj.com/content/349/bmj.g7257"
+      }
+    ],
+    "widgetText": "You breathe out most of the fat you burn."
+  },
+  {
+    "id": "fact-022",
+    "emoji": "🦶",
+    "title": "A single nerve cell can reach from your spine to your toes.",
+    "detail": "Wiggle your big toe and part of the message travels down one long extension of a single cell.",
+    "sources": [
+      {
+        "label": "How far a motor neuron reaches",
+        "url": "https://www.brainfacts.org/brain-anatomy-and-function/cells-and-circuits/2020/motor-neurons-041520"
+      }
+    ],
+    "widgetText": "One nerve cell can reach your toes."
+  },
+  {
+    "id": "fact-023",
+    "emoji": "🩸",
+    "title": "One red blood cell can carry about a billion oxygen molecules.",
+    "detail": "As it matures, the cell ejects its nucleus, leaving more room for the protein that carries oxygen.",
+    "sources": [
+      {
+        "label": "Red blood cells and oxygen capacity",
+        "url": "https://openstax.org/books/biology/pages/40-2-components-of-the-blood"
+      },
+      {
+        "label": "How red blood cells mature",
+        "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/18-3-erythrocytes"
+      }
+    ],
+    "widgetText": "One red cell can carry a billion O₂ molecules."
+  },
+  {
+    "id": "fact-024",
+    "emoji": "💪",
+    "title": "One cell in your biceps can have thousands of nuclei.",
+    "detail": "A muscle fiber starts as many small cells that fuse into one long cell and keep their nuclei.",
+    "sources": [
+      {
+        "label": "How a muscle fiber gains nuclei",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9070318/"
+      }
+    ],
+    "widgetText": "One muscle cell can have thousands of nuclei."
+  },
+  {
+    "id": "fact-025",
+    "emoji": "🎨",
+    "title": "A tattoo can outlive the cells holding its ink.",
+    "detail": "In mice, researchers watched fresh immune cells pick up pigment left behind by old ones. The ink stayed put through the handoff.",
+    "sources": [
+      {
+        "label": "Immune cells and tattoo persistence",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/29511065/"
+      }
+    ],
+    "widgetText": "A tattoo can outlive its ink-holding cells."
+  },
+  {
+    "id": "fact-026",
+    "emoji": "⚙️",
+    "title": "You have spinning turbines inside your cells.",
+    "detail": "Inside your mitochondria, part of a protein called ATP synthase physically rotates as it makes ATP, the fuel your cells use.",
+    "sources": [
+      {
+        "label": "How ATP synthase rotates",
+        "url": "https://www.mrc-mbu.cam.ac.uk/research-groups/walker-group/atp-synthase"
+      }
+    ],
+    "widgetText": "Tiny turbines spin inside your cells."
+  },
+  {
+    "id": "fact-027",
+    "emoji": "🦠",
+    "title": "Your mitochondria have a family tree of their own.",
+    "detail": "They descended from bacteria that took up residence inside another cell. They still carry their own DNA.",
+    "sources": [
+      {
+        "label": "The genetic systems of mitochondria and plastids",
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK26924/"
+      }
+    ],
+    "widgetText": "Mitochondria have their own DNA."
+  },
+  {
+    "id": "fact-028",
+    "emoji": "✂️",
+    "title": "Some of your immune cells cut and paste their own DNA.",
+    "detail": "A developing B cell joins pieces of different DNA segments to build its own recipe for an antibody.",
+    "sources": [
+      {
+        "label": "DNA rearrangement in B cells",
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK10131/"
+      }
+    ],
+    "widgetText": "Immune cells rearrange their own DNA."
+  },
+  {
+    "id": "fact-029",
+    "emoji": "🧬",
+    "title": "Your parents could have shuffled their chromosomes more than 70 trillion ways.",
+    "detail": "That’s just from which whole chromosomes the egg and sperm each inherit. Swapping pieces of chromosomes creates even more possibilities.",
+    "sources": [
+      {
+        "label": "Independent assortment of chromosomes",
+        "url": "https://assets.openstax.org/oscms-prodcms/media/documents/Lifespan_Development_-_WEB.pdf"
+      },
+      {
+        "label": "The 23 pairs of human chromosomes",
+        "url": "https://medlineplus.gov/genetics/understanding/basics/howmanychromosomes/"
+      }
+    ],
+    "widgetText": "Your parents had 70 trillion chromosome combos."
+  },
+  {
+    "id": "fact-030",
+    "emoji": "🐈",
+    "title": "You can see genetics at work on a calico cat.",
+    "detail": "Its orange and black patches show which of its two X chromosomes stayed active in the cells that color the fur.",
+    "sources": [
+      {
+        "label": "X inactivation in calico cats",
+        "url": "https://kalantry.lab.medicine.umich.edu/research/calico-cat"
+      }
+    ],
+    "widgetText": "A calico’s patches reveal its active X."
+  },
+  {
+    "id": "fact-031",
+    "emoji": "🐝",
+    "title": "A male honeybee has a grandfather but no father.",
+    "detail": "He hatches from an unfertilized egg. His mother, the queen, had a father of her own.",
+    "sources": [
+      {
+        "label": "Honeybee development",
+        "url": "https://utia.tennessee.edu/publications/wp-content/uploads/sites/269/2023/10/PB1745.pdf"
+      }
+    ],
+    "widgetText": "Male honeybees have no father."
+  },
+  {
+    "id": "fact-032",
+    "emoji": "🦔",
+    "title": "Nine-banded armadillos usually have identical quadruplets.",
+    "detail": "One fertilized egg splits into four embryos. A whole litter can share the same DNA in the way identical twins do.",
+    "sources": [
+      {
+        "label": "American Museum of Natural History on nine-banded armadillos",
+        "url": "https://www.amnh.org/exhibitions/permanent/north-american-mammals/nine-banded-armadillo"
+      }
+    ],
+    "widgetText": "One armadillo egg can become quadruplets."
+  },
+  {
+    "id": "fact-033",
+    "emoji": "🌽",
+    "title": "Scientists discovered that DNA can jump by studying speckled corn.",
+    "detail": "When a piece of DNA moves out of a pigment gene, a patch of cells can start making color again. That leaves a visible spot on the kernel.",
+    "sources": [
+      {
+        "label": "Barbara McClintock’s corn",
+        "url": "https://www.cshl.edu/harborscope/barbara-mcclintocks-corn/"
+      },
+      {
+        "label": "The discovery of jumping genes",
+        "url": "https://www.genome.gov/25520251/online-education-kit-1944-jumping-genes"
+      }
+    ],
+    "widgetText": "Speckled corn helped reveal jumping DNA."
+  },
+  {
+    "id": "fact-034",
+    "emoji": "🥦",
+    "title": "Broccoli, kale, cabbage, and Brussels sprouts are all the same species.",
+    "detail": "Generations of growers selected for different parts. With kale you eat the leaves. With broccoli you eat clusters of flower buds and their stalks.",
+    "sources": [
+      {
+        "label": "How one species became several vegetables",
+        "url": "https://gardeningsolutions.ifas.ufl.edu/plants/edibles/vegetables/cole-crop-confusion/"
+      }
+    ],
+    "widgetText": "Kale and broccoli are the same species."
+  },
+  {
+    "id": "fact-035",
+    "emoji": "🌻",
+    "title": "A sunflower is a bouquet pretending to be one flower.",
+    "detail": "Its center holds hundreds of tiny flowers. Each one can make a sunflower seed.",
+    "sources": [
+      {
+        "label": "The tiny flowers in a sunflower head",
+        "url": "https://fieldreport.caes.uga.edu/publications/C1121/growing-sunflowers-in-the-home-garden/"
+      }
+    ],
+    "widgetText": "One sunflower holds hundreds of flowers."
+  },
+  {
+    "id": "fact-036",
+    "emoji": "🌳",
+    "title": "In Utah, you can walk through a grove of thousands of trunks and still be walking past the same tree.",
+    "detail": "The aspen called Pando keeps sending up new trunks from a shared root system.",
+    "sources": [
+      {
+        "label": "How the Pando aspen grows",
+        "url": "https://www.friendsofpando.org/faqs-firstconnections/"
+      }
+    ],
+    "widgetText": "Thousands of trunks can share one tree."
+  },
+  {
+    "id": "fact-037",
+    "emoji": "🌴",
+    "title": "Scientists grew date palms from seeds about 2,000 years old.",
+    "detail": "A female palm nicknamed Hannah grew from one ancient seed. Pollen from another ancient-seed palm helped her produce fresh dates.",
+    "sources": [
+      {
+        "label": "The first harvest from an ancient-seed date palm",
+        "url": "https://arava.org/harvesting-ancient-dates/"
+      }
+    ],
+    "widgetText": "Ancient seeds grew palms bearing fresh dates."
+  },
+  {
+    "id": "fact-038",
+    "emoji": "🍃",
+    "title": "The oxygen a leaf releases used to be part of water.",
+    "detail": "During photosynthesis, the leaf splits water molecules. Some of those oxygen atoms pair up and float away as the gas you breathe.",
+    "sources": [
+      {
+        "label": "How photosynthesis releases oxygen",
+        "url": "https://openstax.org/books/microbiology/pages/8-6-photosynthesis"
+      }
+    ],
+    "widgetText": "A leaf makes oxygen by splitting water."
+  },
+  {
+    "id": "fact-039",
+    "emoji": "🧭",
+    "title": "Some bacteria grow tiny compasses inside themselves.",
+    "detail": "They make chains of magnetic crystals that line up with Earth’s magnetic field as they swim.",
+    "sources": [
+      {
+        "label": "Magnetic crystals inside bacteria",
+        "url": "https://www.nature.com/articles/nrmicro842"
+      }
+    ],
+    "widgetText": "Some bacteria grow tiny compasses."
+  },
+  {
+    "id": "fact-040",
+    "emoji": "🌊",
+    "title": "Some sea slugs eat algae and keep the parts that run on sunlight.",
+    "detail": "They tuck the algae’s chloroplasts inside their own cells, where the stolen parts can keep photosynthesizing for months.",
+    "sources": [
+      {
+        "label": "Photosynthesis inside sea slugs",
+        "url": "https://doi.org/10.7554/eLife.60176"
+      }
+    ],
+    "widgetText": "Some sea slugs run partly on sunlight."
+  },
+  {
+    "id": "fact-041",
+    "emoji": "🐙",
+    "title": "An octopus can taste what it touches.",
+    "detail": "The suckers on its arms have chemical sensors, so reaching into a crack can give an octopus a taste of what’s hiding inside.",
+    "sources": [
+      {
+        "label": "How octopus suckers sense chemicals",
+        "url": "https://news.harvard.edu/gazette/story/2020/10/octopus-suction-cups-hold-its-taste-and-touch-sensors/"
+      }
+    ],
+    "widgetText": "Octopuses taste with their suckers."
+  },
+  {
+    "id": "fact-042",
+    "emoji": "🐟",
+    "title": "Some Antarctic fish have nearly clear blood.",
+    "detail": "Icefish lost the red protein hemoglobin. Oxygen travels dissolved directly in the liquid part of their blood.",
+    "sources": [
+      {
+        "label": "Oxygen transport in Antarctic icefish",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10651078/"
+      },
+      {
+        "label": "Comparing icefish blood with other fish blood",
+        "url": "https://media.hhmi.org/biointeractive/activities/icefish/Icefish_IceCrystalDemo.pdf"
+      }
+    ],
+    "widgetText": "Some Antarctic fish have clear blood."
+  },
+  {
+    "id": "fact-043",
+    "emoji": "⭐",
+    "title": "Some sea stars send their stomach out for dinner.",
+    "detail": "They pry a clam open just enough to slip their stomach inside and start digesting the meal in its own shell.",
+    "sources": [
+      {
+        "label": "How a sea star feeds on shellfish",
+        "url": "https://repository.library.noaa.gov/view/noaa/42208/noaa_42208_DS3.pdf"
+      }
+    ],
+    "widgetText": "Sea stars slip their stomachs inside clams."
+  },
+  {
+    "id": "fact-044",
+    "emoji": "🐢",
+    "title": "Some turtles can breathe through their butts.",
+    "detail": "Australia’s Mary River turtle draws water into its rear opening, where specialized tissue absorbs oxygen.",
+    "sources": [
+      {
+        "label": "How Mary River turtles absorb oxygen underwater",
+        "url": "https://www.dcceew.gov.au/sites/default/files/documents/consultation-document-elusor-macrurus.pdf"
+      },
+      {
+        "label": "Australian Museum species profile",
+        "url": "https://australian.museum/learn/animals/reptiles/mary-river-turtle/"
+      }
+    ],
+    "widgetText": "Some turtles take in oxygen through their rear."
+  },
+  {
+    "id": "fact-045",
+    "emoji": "🦌",
+    "title": "Reindeer eyes change color with the seasons.",
+    "detail": "The reflective layer at the back of the eye shifts from gold in summer to deep blue in winter.",
+    "sources": [
+      {
+        "label": "Why the backs of reindeer eyes change color",
+        "url": "https://www.nature.com/articles/503008c"
+      }
+    ],
+    "widgetText": "Reindeer have seasonal color shifts in their eyes."
+  },
+  {
+    "id": "fact-046",
+    "emoji": "🦒",
+    "title": "You and a giraffe have the same number of neck bones.",
+    "detail": "You each have seven. A giraffe grows much longer versions of the same bones.",
+    "sources": [
+      {
+        "label": "Giraffe neck anatomy",
+        "url": "https://www.sfzoo.org/animals-exhibits/a-to-z/reticulated-giraffe/"
+      }
+    ],
+    "widgetText": "You and a giraffe have seven neck bones."
+  },
+  {
+    "id": "fact-047",
+    "emoji": "🦖",
+    "title": "We know the color of a dinosaur’s stripes.",
+    "detail": "Microscopic pigment structures preserved in fossils suggest the feathery dinosaur Sinosauropteryx had a tail ringed in reddish brown and white.",
+    "sources": [
+      {
+        "label": "Pigment preserved in dinosaur feathers",
+        "url": "https://www.bristol.ac.uk/news/2010/6806.html"
+      }
+    ],
+    "widgetText": "One dinosaur had a striped ginger tail."
+  },
+  {
+    "id": "fact-048",
+    "emoji": "🟫",
+    "title": "Wombats make cube-shaped poop.",
+    "detail": "Different parts of the intestine stretch by different amounts, shaping the corners before the poop comes out.",
+    "sources": [
+      {
+        "label": "How wombat intestines form cubes",
+        "url": "https://www.utas.edu.au/about/news-and-stories/articles/2021/scientists-get-to-the-bottom-of-wombat-cubed-poo-mystery2"
+      }
+    ],
+    "widgetText": "Wombats make cube-shaped poop."
+  },
+  {
+    "id": "fact-049",
+    "emoji": "🦘",
+    "title": "A wallaby can put a pregnancy on pause for about 11 months.",
+    "detail": "A tammar wallaby can have one joey growing in her pouch while another waits as a tiny dormant embryo.",
+    "sources": [
+      {
+        "label": "Embryonic diapause in the tammar wallaby",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3277949/"
+      }
+    ],
+    "widgetText": "A wallaby can pause a pregnancy."
+  },
+  {
+    "id": "fact-050",
+    "emoji": "🦎",
+    "title": "An axolotl regrowing a limb remembers where to start.",
+    "detail": "Lose a hand at the wrist and it grows a hand. Lose the limb higher up and it rebuilds the missing arm, wrist, and fingers.",
+    "sources": [
+      {
+        "label": "How axolotl cells regrow the missing parts",
+        "url": "https://www.imp.ac.at/news/article/chromatin-signals-steer-local-programs-for-axolotl-limb-regrowth"
+      },
+      {
+        "label": "Positional memory in salamander limbs",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/34607829/"
+      }
+    ],
+    "widgetText": "Axolotls can regrow just the missing parts."
+  },
+  {
+    "id": "fact-051",
+    "emoji": "🔬",
+    "title": "One cell can unfold a neck 30 times its body length.",
+    "detail": "The pond microbe Lacrymaria stores its extra surface in folds that open like origami when it hunts.",
+    "sources": [
+      {
+        "label": "Read the source",
+        "url": "https://stanmed.stanford.edu/beauty-cells-scientific-research/"
+      }
+    ],
+    "widgetText": "One cell unfolds a neck 30 body lengths long."
+  },
+  {
+    "id": "fact-052",
+    "emoji": "🪰",
+    "title": "One fruit fly makes sperm 20 times its own length.",
+    "detail": "A single sperm cell from Drosophila bifurca can stretch about 2.3 inches.",
+    "sources": [
+      {
+        "label": "Read the source",
+        "url": "https://www.sciencedirect.com/science/article/pii/B9780123979445000079"
+      }
+    ],
+    "widgetText": "One fly makes sperm 20 times its length."
+  },
+  {
+    "id": "fact-053",
+    "emoji": "👶",
+    "title": "Cells from a pregnancy can stay for decades.",
+    "detail": "Researchers found fetal cells circulating in one mother’s blood 27 years after she gave birth to her son.",
+    "sources": [
+      {
+        "label": "Read the source",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/8570620/"
+      }
+    ],
+    "widgetText": "Fetal cells can stay in a mother for decades."
+  },
+  {
+    "id": "fact-054",
+    "emoji": "🌿",
+    "title": "A whole stretch of seaweed can be one cell.",
+    "detail": "Caulerpa grows feathery fronds and long runners that share one continuous cell filled with nuclei.",
+    "sources": [
+      {
+        "label": "Read the source",
+        "url": "https://www.ncbi.nlm.nih.gov/bioproject/243973"
+      }
+    ],
+    "widgetText": "A whole stretch of seaweed can be one cell."
+  },
+  {
+    "id": "fact-055",
+    "emoji": "🕸️",
+    "title": "Immune cells can catch bacteria in DNA nets.",
+    "detail": "White blood cells called neutrophils release webs made of their own DNA and proteins.",
+    "sources": [
+      {
+        "label": "Read the source",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/15001782/"
+      }
+    ],
+    "widgetText": "White blood cells can cast DNA nets."
+  },
+  {
+    "id": "fact-056",
+    "emoji": "🦷",
+    "title": "Ancient chewing gum preserved a human genome.",
+    "detail": "Someone chewed birch pitch about 5,700 years ago. Enough DNA stayed behind for scientists to reconstruct her genome.",
+    "sources": [
+      {
+        "label": "Read the source",
+        "url": "https://www.cpr.ku.dk/cpr-news/2019/ancient-chewing-gum-yields-insights-into-people-and-bacteria-of-the-past_kopi"
+      }
+    ],
+    "widgetText": "Ancient gum held a human genome."
+  },
+  {
+    "id": "fact-057",
+    "emoji": "🐙",
+    "title": "Cold water changes how an octopus reads its genes.",
+    "detail": "In the California two-spot octopus, nerve cells edit thousands of spots in RNA messages as temperatures change. Some edits alter the proteins those cells make.",
+    "sources": [
+      {
+        "label": "Read the source",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/37295402/"
+      }
+    ],
+    "widgetText": "Cold changes how octopuses edit RNA."
+  },
+  {
+    "id": "fact-058",
+    "emoji": "🧩",
+    "title": "One cell solves a 225,000-piece DNA puzzle.",
+    "detail": "After mating, the pond organism Oxytricha stitches together more than 225,000 DNA segments to build a new working nucleus.",
+    "sources": [
+      {
+        "label": "Read the source",
+        "url": "https://www.sciencedirect.com/science/article/pii/S0092867414009842"
+      }
+    ],
+    "widgetText": "One cell sorts 225,000 pieces of DNA."
+  },
+  {
+    "id": "fact-059",
+    "emoji": "🧬",
+    "title": "An axolotl’s genome is about ten times the size of yours.",
+    "detail": "One set of its chromosomes holds around 32 billion DNA letter pairs. Much of the extra length comes from repeated sequences.",
+    "sources": [
+      {
+        "label": "Read the source",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8053990/"
+      }
+    ],
+    "widgetText": "Axolotls carry ten times our DNA per set."
+  },
+  {
+    "id": "fact-060",
+    "emoji": "🪡",
+    "title": "Your chromosome 2 still has a seam.",
+    "detail": "Two ancestral chromosomes fused end to end. Scientists can still recognize traces of their old tips inside the joined chromosome.",
+    "sources": [
+      {
+        "label": "Read the source",
+        "url": "https://www.jstor.org/stable/2358082"
+      }
+    ],
+    "widgetText": "Human chromosome 2 has an ancient seam."
+  },
+  {
+    "id": "fact-061",
+    "emoji": "👁️",
+    "title": "A mouse gene can tell a fly to grow a fly eye.",
+    "detail": "In experiments, a mouse gene switched on the fly’s own eye-building instructions. The result was a compound eye like a fly’s.",
+    "sources": [
+      {
+        "label": "Read the source",
+        "url": "https://www.pbs.org/wgbh/evolution/library/04/4/text_pop/l_044_01.html"
+      }
+    ],
+    "widgetText": "A mouse gene can switch on a fly eye."
+  },
+  {
+    "id": "fact-062",
+    "emoji": "🐟",
+    "title": "A lungfish is more closely related to you than to a salmon.",
+    "detail": "You and the lungfish share a common ancestor that lived after the salmon lineage branched off.",
+    "sources": [
+      {
+        "label": "Read the source",
+        "url": "https://www.nature.com/articles/s41586-021-03198-8"
+      }
+    ],
+    "widgetText": "A lungfish is closer kin to you than to salmon."
+  },
+  {
+    "id": "fact-063",
+    "emoji": "🧬",
+    "title": "An ancient virus helped build the placenta you grew in.",
+    "detail": "Humans inherited viral DNA that makes a protein called syncytin. It helps placental cells fuse together.",
+    "sources": [
+      {
+        "label": "Read the source",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/23938756/"
+      }
+    ],
+    "widgetText": "Ancient viral DNA helps build the placenta."
+  },
+  {
+    "id": "fact-064",
+    "emoji": "🐞",
+    "title": "Some insects get their color from ancient fungal genes.",
+    "detail": "Pigment-making genes crossed from a fungus into an aphid ancestor. Its descendants still use them to make pigments, including one found in red pea aphids.",
+    "sources": [
+      {
+        "label": "Read the source",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/20431015/"
+      }
+    ],
+    "widgetText": "Red aphids use pigment genes from fungi."
+  },
+  {
+    "id": "fact-065",
+    "emoji": "🌊",
+    "title": "Some sea slug heads can grow a whole new body.",
+    "detail": "Scientists saw sea slugs shed their bodies, heart included. Some of the surviving heads grew replacements.",
+    "sources": [
+      {
+        "label": "Read the source",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/33689716/"
+      }
+    ],
+    "widgetText": "A sea slug head can regrow a heart."
+  },
+  {
+    "id": "fact-066",
+    "emoji": "🐸",
+    "title": "Sleeping glassfrogs stash their blood.",
+    "detail": "They pack nearly 90% of their circulating red blood cells into their liver, making the rest of the frog easier to see through.",
+    "sources": [
+      {
+        "label": "Read the source",
+        "url": "https://scholars.duke.edu/publication/1560515"
+      }
+    ],
+    "widgetText": "Glassfrogs hide red blood cells as they sleep."
+  },
+  {
+    "id": "fact-067",
+    "emoji": "🐚",
+    "title": "A scallop can look back with up to 200 eyes.",
+    "detail": "Each eye focuses light with a curved mirror made of tiny crystals, much like a reflecting telescope.",
+    "sources": [
+      {
+        "label": "Read the source",
+        "url": "https://weizmann.esploro.exlibrisgroup.com/esploro/outputs/journalArticle/The-image-forming-mirror-in-the-eye/993267360203596"
+      }
+    ],
+    "widgetText": "Scallops can have up to 200 mirrored eyes."
+  },
+  {
+    "id": "fact-068",
+    "emoji": "🧊",
+    "title": "An animal thawed from ancient permafrost had offspring.",
+    "detail": "Researchers recovered a microscopic rotifer from Siberian ground dated to about 24,000 years ago. It became active and reproduced.",
+    "sources": [
+      {
+        "label": "Read the source",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/34102116/"
+      }
+    ],
+    "widgetText": "A rotifer woke from ancient frozen ground."
+  },
+  {
+    "id": "fact-069",
+    "emoji": "🦈",
+    "title": "A shark’s eyes keep a record of its age.",
+    "detail": "Greenland sharks keep lens proteins made before birth. Carbon dating put one female’s age somewhere between 272 and 512 years.",
+    "sources": [
+      {
+        "label": "Read the source",
+        "url": "https://oceanservice.noaa.gov/facts/greenland-shark.html"
+      }
+    ],
+    "widgetText": "A shark’s eyes can reveal centuries of age."
+  }
+]

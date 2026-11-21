@@ -9,15 +9,20 @@ import SwiftUI
 import UIKit
 
 struct CellLifeCycleView: View {
+    @StateObject private var narration: LessonNarrator
     @State private var phase: CellCyclePhase
     @State private var mitosisStep: CellCycleMitosisStep = .prophase
     @State private var cellKind: CellCycleCellKind = .animal
     @State private var playerSheet: CellCyclePlayerRoute?
+    @State private var hasStartedOverview = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.scenePhase) private var scenePhase
     @AccessibilityFocusState private var detailFocused: Bool
 
     init(initialPhase: CellCyclePhase = .g1) {
         _phase = State(initialValue: initialPhase)
+        _narration = StateObject(wrappedValue: .cellLifeCycle(initialPhaseID:
+            CellCycleNarration.cueID(phase: initialPhase, step: .prophase, kind: .animal)))
     }
 
     var body: some View {
@@ -31,6 +36,19 @@ struct CellLifeCycleView: View {
                     Text("Growth, genome replication & division.")
                         .font(.system(.subheadline, design: .rounded))
                         .foregroundStyle(CellCyclePalette.muted)
+                    LessonGuide(narrator: narration,
+                                title: narration.isPlaying ? "Stop" : hasStartedOverview ? narration.lessonButtonTitle : "Hear overview",
+                                cueID: narration.isPlaying ? (narration.currentCueID ?? narration.overviewCueID)
+                                    : (hasStartedOverview ? selectedCueID : narration.overviewCueID),
+                                action: {
+                                    if narration.isPlaying { narration.stop() }
+                                    else if !hasStartedOverview { playOverview() }
+                                    else { narration.toggleLesson() }
+                                },
+                                showsStopBetweenClips: narration.mode == .lesson,
+                                replayOverview: playOverview,
+                                controlID: "cycle-listen", layoutTitle: "Hear overview")
+                        .padding(.top, 3)
                 }
 
                 VStack(spacing: 0) {
@@ -79,6 +97,15 @@ struct CellLifeCycleView: View {
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
         .tint(CellCyclePalette.ink)
+        .environmentObject(narration)
+        .onDisappear { narration.stop() }
+        .onChange(of: selectedCueID) { _, id in narration.selectPhase(id) }
+        .onChange(of: playerSheet?.id) { _, _ in narration.stop() }
+        .onChange(of: scenePhase) { _, state in if state != .active { narration.stop() } }
+        .alert("Audio unavailable", isPresented: Binding(
+            get: { narration.errorMessage != nil }, set: { if !$0 { narration.errorMessage = nil } }
+        )) { Button("OK", role: .cancel) { narration.errorMessage = nil } }
+        message: { Text(narration.errorMessage ?? "Please try again.") }
         .sheet(item: $playerSheet) { route in
             CellCycleKeyPlayersView(initialPlayerID: route.id)
                 .presentationDetents([.large])
@@ -99,16 +126,20 @@ struct CellLifeCycleView: View {
                 .tracking(1.2)
                 .foregroundStyle(CellCyclePalette.ink.opacity(0.75))
 
-            VStack(alignment: .leading, spacing: 5) {
-                Text(phase.content.title)
-                    .font(.system(.title, design: .serif, weight: .bold))
-                    .foregroundStyle(CellCyclePalette.ink)
-                    .accessibilityAddTraits(.isHeader)
-                    .accessibilityFocused($detailFocused)
-                    .accessibilityIdentifier("cycle-phase-title")
-                Text(phase.content.subtitle)
-                    .font(.system(.subheadline, design: .rounded, weight: .medium))
-                    .foregroundStyle(CellCyclePalette.muted)
+            HStack(alignment: .top) {
+                VStack(alignment: .leading, spacing: 5) {
+                    Text(phase.content.title)
+                        .font(.system(.title, design: .serif, weight: .bold))
+                        .foregroundStyle(CellCyclePalette.ink)
+                        .accessibilityAddTraits(.isHeader)
+                        .accessibilityFocused($detailFocused)
+                        .accessibilityIdentifier("cycle-phase-title")
+                    Text(phase.content.subtitle)
+                        .font(.system(.subheadline, design: .rounded, weight: .medium))
+                        .foregroundStyle(CellCyclePalette.muted)
+                }
+                Spacer(minLength: 4)
+                NarrationSpeakerButton(cueID: selectedCueID, title: selectedCueTitle)
             }
 
             if let summary = phase.content.summary {
@@ -203,6 +234,19 @@ struct CellLifeCycleView: View {
 
     private var selectedCheckpoint: String? {
         phase == .mitosis ? mitosisStep.content.checkpoint : phase.content.checkpoint
+    }
+
+    private var selectedCueID: String {
+        CellCycleNarration.cueID(phase: phase, step: mitosisStep, kind: cellKind)
+    }
+
+    private func playOverview() {
+        hasStartedOverview = true
+        narration.playOverview()
+    }
+
+    private var selectedCueTitle: String {
+        narration.library[selectedCueID]?.title ?? phase.content.title
     }
 
     private var checkpointPlayerID: String {

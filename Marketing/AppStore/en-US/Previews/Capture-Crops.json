@@ -1,0 +1,285 @@
+[
+  {
+    "capture" : "iPhone-17-Pro-DNA-four-bases.png",
+    "copiedFrom" : "Concepts\/01-B-Colorful-Poster-iPhone.png",
+    "output" : "iPhone\/01-Build-DNA.png",
+    "sourcePixels" : [
+      0,
+      450,
+      1206,
+      2050
+    ]
+  },
+  {
+    "capture" : "iPhone-animal-cell-mitochondria.png",
+    "destinationPixels" : [
+      0,
+      598,
+      1206,
+      1760
+    ],
+    "output" : "iPhone\/02-Explore-an-Animal-Cell.png",
+    "sourcePixels" : [
+      0,
+      580,
+      1206,
+      1760
+    ]
+  },
+  {
+    "capture" : "iPhone-mitosis-metaphase.png",
+    "destinationPixels" : [
+      54,
+      600,
+      1098,
+      870.48599999999999
+    ],
+    "output" : "iPhone\/03-See-Cells-Divide.png",
+    "sourcePixels" : [
+      48,
+      730,
+      1110,
+      880
+    ]
+  },
+  {
+    "capture" : "iPhone-mitosis-anaphase.png",
+    "destinationPixels" : [
+      54,
+      1460,
+      1098,
+      870.48599999999999
+    ],
+    "output" : "iPhone\/03-See-Cells-Divide.png",
+    "sourcePixels" : [
+      48,
+      730,
+      1110,
+      880
+    ]
+  },
+  {
+    "capture" : "iPhone-mitosis-anaphase.png",
+    "destinationPixels" : [
+      54,
+      2370,
+      1098,
+      113.145
+    ],
+    "output" : "iPhone\/03-See-Cells-Divide.png",
+    "sourcePixels" : [
+      45,
+      1790,
+      1116,
+      115
+    ]
+  },
+  {
+    "capture" : "iPhone-axolotl-central-dogma-speaking.png",
+    "destinationPixels" : [
+      0,
+      544,
+      1206,
+      1710
+    ],
+    "output" : "iPhone\/04-Meet-Your-Axolotl-Guide.png",
+    "sourcePixels" : [
+      0,
+      535,
+      1206,
+      1710
+    ]
+  },
+  {
+    "capture" : "iPad-DNA-replication-four-bases-next-selected.png",
+    "destinationPixels" : [
+      397,
+      738,
+      1270,
+      1590.5830000000001
+    ],
+    "output" : "iPad\/01-Build-DNA.png",
+    "sourcePixels" : [
+      520,
+      690,
+      1030,
+      1290
+    ]
+  },
+  {
+    "capture" : "iPad-DNA-replication-four-bases-next-selected.png",
+    "destinationPixels" : [
+      632,
+      2340,
+      800,
+      60.951999999999998
+    ],
+    "output" : "iPad\/01-Build-DNA.png",
+    "sourcePixels" : [
+      770,
+      2310,
+      525,
+      40
+    ]
+  },
+  {
+    "capture" : "iPad-DNA-replication-four-bases-next-selected.png",
+    "destinationPixels" : [
+      167,
+      2425,
+      1730,
+      288.33300000000003
+    ],
+    "output" : "iPad\/01-Build-DNA.png",
+    "sourcePixels" : [
+      490,
+      2375,
+      1080,
+      180
+    ]
+  },
+  {
+    "capture" : "iPad-animal-cell-mitochondria.png",
+    "destinationPixels" : [
+      97,
+      730,
+      1870,
+      1924.4349999999999
+    ],
+    "output" : "iPad\/02-Explore-an-Animal-Cell.png",
+    "sourcePixels" : [
+      448,
+      466,
+      1168,
+      1202
+    ]
+  },
+  {
+    "capture" : "iPad-mitosis-metaphase.png",
+    "destinationPixels" : [
+      112,
+      760,
+      1840,
+      837.654
+    ],
+    "output" : "iPad\/03-See-Cells-Divide.png",
+    "sourcePixels" : [
+      384,
+      430,
+      1296,
+      590
+    ]
+  },
+  {
+    "capture" : "iPad-mitosis-anaphase.png",
+    "destinationPixels" : [
+      112,
+      1645,
+      1840,
+      837.654
+    ],
+    "output" : "iPad\/03-See-Cells-Divide.png",
+    "sourcePixels" : [
+      384,
+      430,
+      1296,
+      590
+    ]
+  },
+  {
+    "capture" : "iPad-mitosis-anaphase.png",
+    "destinationPixels" : [
+      112,
+      2550,
+      1840,
+      70.552000000000007
+    ],
+    "output" : "iPad\/03-See-Cells-Divide.png",
+    "sourcePixels" : [
+      380,
+      1134,
+      1304,
+      50
+    ]
+  },
+  {
+    "capture" : "iPad-axolotl-central-dogma-speaking.png",
+    "destinationPixels" : [
+      146,
+      745,
+      1772,
+      1538.2819999999999
+    ],
+    "output" : "iPad\/04-Meet-Your-Axolotl-Guide.png",
+    "sourcePixels" : [
+      380,
+      298,
+      1304,
+      1132
+    ]
+  },
+  {
+    "capture" : "iPhone-daily-fact-home-screen.png",
+    "destinationPixels" : [
+      53,
+      760,
+      1100,
+      516.96900000000005
+    ],
+    "output" : "iPhone\/05-Daily-Biology-Widget.png",
+    "sourcePixels" : [
+      79,
+      270,
+      1049,
+      493
+    ]
+  },
+  {
+    "capture" : "iPhone-daily-fact-small-home-screen.png",
+    "destinationPixels" : [
+      64,
+      1480,
+      640,
+      640
+    ],
+    "output" : "iPhone\/05-Daily-Biology-Widget.png",
+    "sourcePixels" : [
+      635,
+      270,
+      493,
+      493
+    ]
+  },
+  {
+    "capture" : "iPad-daily-fact-home-screen.png",
+    "destinationPixels" : [
+      112,
+      800,
+      1840,
+      826.96629213483141
+    ],
+    "output" : "iPad\/05-Daily-Biology-Widget.png",
+    "sourcePixels" : [
+      279,
+      892,
+      712,
+      320
+    ]
+  },
+  {
+    "capture" : "iPad-daily-fact-small-home-screen.png",
+    "destinationPixels" : [
+      145,
+      1750,
+      780,
+      780
+    ],
+    "output" : "iPad\/05-Daily-Biology-Widget.png",
+    "sourcePixels" : [
+      1468,
+      500,
+      320,
+      320
+    ]
+  }
+]

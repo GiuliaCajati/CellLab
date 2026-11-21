@@ -4,224 +4,311 @@ import SwiftUI
     @Bindable var session: CentralDogmaGameSession
     let step: CentralDogmaGameStep
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var showingExport = false
 
+    private var chapter: Int {
+        ["Transcribe", "Process", "Translate", "Finish"].firstIndex(of: step.group) ?? 0
+    }
+    private var location: String { chapter < 2 ? "Nucleus" : "Cytoplasm" }
     var body: some View {
-        VStack(spacing: 16) {
-            switch step.kind {
-            case "factors", "polymerase", "open", "terminate": dnaBoard
-            case "rna": transcriptionBoard
-            case "cap", "tail", "splice", "join": processingBoard
-            case "export": exportBoard
-            case "small", "initiator", "large", "deliver", "bond", "move", "recycle", "release": translationBoard
-            case "fold": foldingBoard
-            case "cleave": cleavageBoard
-            case "assemble": assemblyBoard
-            default: EmptyView()
+        VStack(spacing: 8) {
+            route
+            HStack {
+                Label(location, systemImage: chapter < 2 ? "circle.dotted.circle" : "circle")
+                Spacer()
+                if step.kind == "rna" { Text("\(session.rnaCount) / \(session.mission.preRNA.count)") }
+                if chapter == 2 { Text("\(session.chainCount) amino acids") }
+            }
+            .font(.system(.caption, design: .rounded, weight: .semibold))
+            .foregroundStyle(CentralDogmaGameTheme.muted)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel("Current scene")
+            .accessibilityValue("\(location); \(session.rnaCount) RNA bases; \(session.chainCount) amino acids")
+            .accessibilityIdentifier("rna-relay-stage")
+
+            Group {
+                switch step.kind {
+                case "factors", "polymerase", "open", "terminate": dnaScene
+                case "rna": transcriptionScene
+                case "cap", "tail", "splice", "join": processingScene
+                case "export": exportScene
+                case "small", "initiator", "large", "deliver", "bond", "move", "recycle", "release": translationScene
+                case "fold": foldingScene
+                case "cleave": cleavageScene
+                case "assemble": assemblyScene
+                default: EmptyView()
+                }
+            }
+            .overlay {
+                if showingExport {
+                    CentralDogmaGameExportFlight(sequence: session.mission.matureRNA)
+                        .background(CentralDogmaGameTheme.paper, in: RoundedRectangle(cornerRadius: 20))
+                        .allowsHitTesting(false)
+                        .transition(.opacity)
+                }
             }
         }
-        .centralDogmaGamePanel(boardTint)
+        .padding(12)
+        .background(CentralDogmaGameTheme.paper, in: RoundedRectangle(cornerRadius: 24))
+        .overlay(RoundedRectangle(cornerRadius: 24).strokeBorder(CentralDogmaGameTheme.edge.opacity(0.18)))
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("rna-relay-board")
-    }
-    private var boardTint: Color {
-        switch step.group {
-        case "Transcribe": return CentralDogmaGameTheme.blue.opacity(0.35)
-        case "Process": return CentralDogmaGameTheme.butter
-        case "Translate": return CentralDogmaGameTheme.lavender.opacity(0.35)
-        default: return CentralDogmaGameTheme.sage.opacity(0.45)
+        .onChange(of: session.has("export")) { _, exported in
+            if exported && !reduceMotion { showingExport = true }
+        }
+        .task(id: showingExport) {
+            guard showingExport else { return }
+            do { try await Task.sleep(for: .milliseconds(1000)) } catch { return }
+            withAnimation(.easeOut(duration: 0.2)) { showingExport = false }
         }
     }
-    private func target(_ id: String, _ title: String, _ detail: String = "", automatic: String? = nil, solved: Bool = false, tint: Color = CentralDogmaGameTheme.sage) -> some View {
+    private var route: some View {
+        HStack(spacing: 3) {
+            ForEach(Array(["Copy", "Edit", "Build", "Finish"].enumerated()), id: \.offset) { i, name in
+                if i > 0 { Image(systemName: "chevron.right").font(.system(size: 8, weight: .bold)).foregroundStyle(CentralDogmaGameTheme.edge.opacity(0.4)) }
+                HStack(spacing: 4) {
+                    Image(systemName: i < chapter ? "checkmark.circle.fill" : ["doc.on.doc", "scissors", "link", "sparkles"][i])
+                    Text(name)
+                }
+                .font(.system(.caption2, design: .rounded, weight: .bold))
+                .padding(.horizontal, 6).padding(.vertical, 7)
+                .foregroundStyle(i == chapter ? CentralDogmaGameTheme.paper : CentralDogmaGameTheme.muted)
+                .background(i == chapter ? CentralDogmaGameTheme.teal : .clear, in: Capsule())
+                .frame(maxWidth: .infinity)
+            }
+        }.accessibilityElement(children: .ignore).accessibilityLabel("Stage \(chapter + 1) of 4: \(step.group)")
+    }
+    private func spot<Artwork: View>(_ id: String, _ title: String, automatic: String? = nil,
+                                    solved: Bool = false, @ViewBuilder artwork: @escaping () -> Artwork) -> some View {
         CentralDogmaGameTarget(session: session, step: step, target: id, title: title,
-                              detail: detail, automatic: automatic, solved: solved, tint: tint)
+                              automatic: automatic, solved: solved, artwork: artwork)
     }
-    private func caption(_ value: String) -> some View {
-        Text(value).font(.system(.caption, design: .rounded, weight: .semibold))
-            .foregroundStyle(CentralDogmaGameTheme.muted).multilineTextAlignment(.center)
+    private func tag(_ text: String) -> some View {
+        Text(text).font(.system(.caption2, design: .rounded, weight: .semibold))
+            .foregroundStyle(CentralDogmaGameTheme.muted)
     }
-    private var dnaBoard: some View {
-        VStack(spacing: 14) {
-            caption("NUCLEUS · EUKARYOTIC CELL")
-            CentralDogmaGameHelix(open: session.has("open") && !session.has("terminate"))
-            HStack(spacing: 8) {
-                target("dna:promoter", "Promoter", "Start here")
-                target("dna:gene", "Gene", "DNA recipe")
-                target("dna:terminator", "Terminator", "Finish here")
+    private var dnaScene: some View {
+        GeometryReader { geometry in
+            let w = geometry.size.width
+            ZStack {
+                Ellipse().fill(CentralDogmaGameTheme.blue.opacity(0.35))
+                Ellipse().strokeBorder(CentralDogmaGameTheme.teal.opacity(0.3), lineWidth: 2).padding(6)
+                CentralDogmaGameHelix(height: 66).padding(.horizontal, 10).position(x: w / 2, y: 111)
+                if session.has("factors") {
+                    CentralDogmaGameToolArt(payload: "tool:factors").frame(width: 38, height: 35).position(x: w * 0.19, y: 74)
+                }
+                if step.kind == "open" {
+                    spot("enzyme:polymerase", "Unzip DNA with RNA polymerase", automatic: "action:open") {
+                        Image("CentralRNAWriter").resizable().scaledToFit().frame(height: 77)
+                    }.frame(width: 117).position(x: w * 0.43, y: 93)
+                    tag("Tap the writer").position(x: w / 2, y: 175)
+                } else {
+                    if session.has("polymerase") {
+                        Image("CentralRNAWriter").resizable().scaledToFit().frame(width: 72, height: 48).position(x: w * 0.33, y: 97)
+                    }
+                    HStack(spacing: 5) {
+                        spot("dna:promoter", "Promoter") {
+                            VStack(spacing: 3) { Image(systemName: "flag.fill").font(.title3); tag("Promoter") }
+                        }
+                        spot("dna:gene", "Gene") {
+                            VStack(spacing: 3) { CentralDogmaGameHelix(height: 22).frame(width: 40); tag("Gene") }
+                        }
+                        spot("dna:terminator", "Terminator") {
+                            VStack(spacing: 3) { Image(systemName: "stop.circle.fill").font(.title3); tag("Terminator") }
+                        }
+                    }.position(x: w / 2, y: 157)
+                }
+                tag("DNA").position(x: w / 2, y: 34)
             }
-            if session.has("polymerase") || step.kind == "open" {
-                CentralDogmaGameArt(name: "CentralRNAWriter", height: 86)
-                if step.kind == "open" { target("enzyme:polymerase", "RNA polymerase", "Tap to open DNA", automatic: "action:open") }
-                else { caption(session.has("terminate") ? "RNA released · DNA rewinds" : "RNA polymerase") }
-            }
-        }
+        }.frame(height: 205)
     }
-    private var transcriptionBoard: some View {
+    private var transcriptionScene: some View {
         let i = step.sequenceIndex ?? 0
         let dna = Array(session.mission.template).map(String.init)
         let rna = Array(session.mission.preRNA).map(String.init)
         let start = min(max(0, i - 1), dna.count - 4)
-        return VStack(spacing: 10) {
-            caption("NUCLEUS · RNA SYNTHESIS")
+        return VStack(spacing: 5) {
             HStack {
-                caption("Template DNA")
+                tag("DNA · 3′ → 5′")
                 Spacer()
-                Text("read 3′ → 5′").font(.system(.caption, design: .rounded, weight: .bold))
+                Image("CentralRNAWriter").resizable().scaledToFit().frame(width: 52, height: 35).accessibilityHidden(true)
             }
-            HStack { caption(start == 0 ? "3′" : "…"); Spacer(); caption(start + 4 == dna.count ? "5′" : "…") }
-            HStack(spacing: 6) {
+            HStack(alignment: .bottom, spacing: 8) {
                 ForEach(start..<(start + 4), id: \.self) { position in
-                    Text(dna[position]).font(.system(size: 25, weight: .bold, design: .rounded))
-                        .frame(maxWidth: .infinity, minHeight: 49)
-                        .background(position == i ? CentralDogmaGameTheme.blue : CentralDogmaGameTheme.paper, in: RoundedRectangle(cornerRadius: 13))
-                        .overlay(RoundedRectangle(cornerRadius: 13).strokeBorder(CentralDogmaGameTheme.edge.opacity(position == i ? 0.8 : 0.2), lineWidth: position == i ? 2 : 1))
+                    VStack(spacing: 4) {
+                        CentralDogmaGameNucleotide(base: dna[position]).padding(3)
+                            .background(position == i ? CentralDogmaGameTheme.butter : .clear, in: RoundedRectangle(cornerRadius: 12))
+                        Image(systemName: position == i ? "arrow.down" : "line.3.horizontal")
+                            .font(.caption2.bold()).foregroundStyle(CentralDogmaGameTheme.teal.opacity(position == i ? 1 : 0.25))
+                        if position < session.rnaCount {
+                            CentralDogmaGameNucleotide(base: rna[position]).padding(3).transition(.scale.combined(with: .opacity))
+                        } else if position == i {
+                            spot("rna:\(i)", "Growing RNA end") {
+                                Image(systemName: "plus.circle.fill").font(.title2).frame(maxWidth: .infinity, minHeight: 48)
+                            }
+                        } else {
+                            RoundedRectangle(cornerRadius: 10).strokeBorder(CentralDogmaGameTheme.edge.opacity(0.2), style: StrokeStyle(lineWidth: 1, dash: [3, 3])).frame(height: 57)
+                        }
+                    }.frame(maxWidth: .infinity)
                 }
             }
-            Image(systemName: "arrow.down").foregroundStyle(CentralDogmaGameTheme.teal).accessibilityHidden(true)
-            HStack(spacing: 6) {
-                ForEach(start..<(start + 4), id: \.self) { position in
-                    if position < session.rnaCount {
-                        Text(rna[position]).font(.system(size: 24, weight: .bold, design: .rounded))
-                            .frame(maxWidth: .infinity, minHeight: 62)
-                            .background(CentralDogmaGameTheme.nucleotide(rna[position]), in: RoundedRectangle(cornerRadius: 15))
-                    } else if position == i {
-                        target("rna:\(i)", "+", "add at 3′")
-                    } else {
-                        Text("·").font(.title).foregroundStyle(CentralDogmaGameTheme.edge.opacity(0.4))
-                            .frame(maxWidth: .infinity, minHeight: 62)
-                    }
-                }
-            }
-            HStack { caption(start == 0 ? "5′ · RNA" : "… RNA"); Spacer(); caption("grows 5′ → 3′") }
-            CentralDogmaGameToolbox(session: session, step: step)
-            caption((i >= 3 && i <= 6) ? "Intron window · this region is copied too" : "Exon window")
-            ProgressView(value: Double(session.rnaCount), total: Double(rna.count)).tint(CentralDogmaGameTheme.teal)
-            caption("Selected sequence windows · not a complete gene")
+            HStack { tag("RNA · 5′ → 3′"); Spacer(); tag((i >= 3 && i <= 6) ? "Intron" : "Exon") }
         }
     }
-    private var processingBoard: some View {
-        VStack(spacing: 14) {
-            caption("NUCLEUS · pre-mRNA PROCESSING")
-            HStack(spacing: 10) {
-                target("rna:end5", session.has("cap") ? "5′ cap ✓" : "5′ end", "Modified cap", solved: session.has("cap"), tint: CentralDogmaGameTheme.blue)
-                target("rna:end3", session.has("tail") ? "Tail ✓" : "3′ end", "100–200 A’s", solved: session.has("tail"), tint: CentralDogmaGameTheme.butter)
-            }
-            if !session.has("join") {
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+    private var processingScene: some View {
+        GeometryReader { geometry in
+            let w = geometry.size.width
+            ZStack {
+                CentralDogmaGameMessenger(sequence: session.has("join") ? session.mission.matureRNA : session.mission.preRNA,
+                                         cap: session.has("cap"), tail: session.has("tail"))
+                    .frame(height: 55).padding(.horizontal, 21).position(x: w / 2, y: 62)
+                spot("rna:end5", "5′ cap", solved: session.has("cap")) {
+                    ZStack { Circle().fill(CentralDogmaGameTheme.blue); Text(session.has("cap") ? "✓" : "5′").font(.headline) }.frame(width: 33, height: 33)
+                }.frame(width: 51).position(x: w * 0.08, y: 59)
+                spot("rna:end3", "3′ tail", solved: session.has("tail")) {
+                    VStack(spacing: 2) { Text("AAA").font(.system(.caption, design: .rounded, weight: .bold)); tag(session.has("tail") ? "✓" : "3′") }
+                }.frame(width: 57).position(x: w * 0.91, y: 65)
+                HStack(spacing: 6) {
                     ForEach(session.mission.regions) { region in
                         if region.kind == "intron" && session.has("splice") {
-                            VStack(spacing: 4) { Image(systemName: "checkmark"); Text("Intron removed").font(.caption) }
-                                .foregroundStyle(CentralDogmaGameTheme.muted).frame(maxWidth: .infinity, minHeight: 76)
+                            if step.kind == "join" {
+                                spot("rna:join", "Join exons", automatic: "action:join") { Image(systemName: "link").font(.title).frame(width: 45, height: 44) }
+                            } else { Image(systemName: "checkmark").foregroundStyle(CentralDogmaGameTheme.teal).frame(width: 50) }
                         } else {
-                            target("region:" + region.id, region.kind == "intron" ? "…CGUC…" : region.sequence,
-                                   region.label, tint: region.kind == "intron" ? CentralDogmaGameTheme.lavender : CentralDogmaGameTheme.pink)
+                            spot("region:" + region.id, region.kind == "intron" ? "Intron" : "Exon") {
+                                VStack(spacing: 3) {
+                                    CentralDogmaGameMessenger(sequence: region.sequence).frame(height: 30)
+                                    tag(region.kind == "intron" ? "Cut intron" : "Exon")
+                                }.padding(3).background(region.kind == "intron" ? CentralDogmaGameTheme.lavender : CentralDogmaGameTheme.pink, in: RoundedRectangle(cornerRadius: 10))
+                            }
                         }
                     }
+                }.position(x: w / 2, y: 145)
+            }
+        }.frame(height: 190)
+    }
+    private var exportScene: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .topLeading) {
+                CentralDogmaGameJourney(rnaCount: session.mission.matureRNA.count, rnaSequence: session.mission.matureRNA)
+                spot("nucleus:exit", "Nuclear pore") {
+                    Image(systemName: "arrow.right").font(.system(size: 25, weight: .bold)).frame(width: 39, height: 39)
+                }.frame(width: 58).position(x: geometry.size.width * 0.45, y: 130)
+            }
+        }.frame(height: 200)
+    }
+    private var translationScene: some View {
+        GeometryReader { geometry in
+            let w = geometry.size.width
+            let moved = min(2, session.records.filter { $0.kind == "move" }.count)
+            let x = w * CGFloat(moved + 1) / 4
+            ZStack(alignment: .topLeading) {
+                if session.has("small") {
+                    CentralDogmaGameRibosome(large: session.has("large"))
+                        .frame(width: w * 0.48, height: 113)
+                        .position(x: x, y: 138)
+                        .animation(reduceMotion ? nil : .easeInOut(duration: 0.45), value: moved)
+                } else {
+                    CentralDogmaGameRibosome().opacity(0.15).frame(width: w * 0.48, height: 113).position(x: x, y: 138)
                 }
-                if session.has("splice") { target("rna:join", "Join exons", "Complete splicing", automatic: "action:join", tint: CentralDogmaGameTheme.pink) }
-            } else { codonStrip }
-            caption("Ellipses mark omitted intron sequence. Regions shown as practice windows.")
-        }
-    }
-    private var exportBoard: some View {
-        VStack(spacing: 16) {
-            caption("NUCLEUS → CYTOPLASM")
-            Text("5′ cap  ·  joined exons  ·  poly A tail")
-                .font(.system(.subheadline, design: .rounded, weight: .semibold)).multilineTextAlignment(.center)
-            Image(systemName: "envelope.fill").font(.system(size: 52)).foregroundStyle(CentralDogmaGameTheme.teal)
-            target("nucleus:exit", "Nucleus exit", "Send mature mRNA")
-        }
-    }
-    private var codonStrip: some View {
-        HStack(spacing: 6) {
-            ForEach(Array(session.mission.codons.enumerated()), id: \.offset) { i, codon in
-                target("codon:\(i)", codon, i == 3 ? "stop" : "codon", tint: CentralDogmaGameTheme.butter)
-            }
-        }
-    }
-    private var translationBoard: some View {
-        VStack(spacing: 15) {
-            caption("CYTOPLASM · TRANSLATION")
-            if step.kind == "small" {
-                target("rna:end5", "5′ cap", "Small subunit binds here", tint: CentralDogmaGameTheme.blue)
-            }
-            if session.has("initiator") {
-                HStack(spacing: 10) {
-                    ForEach(0..<max(1, session.chainCount), id: \.self) { _ in
-                        Text("Met").font(.system(.caption, design: .rounded, weight: .bold))
-                            .frame(width: 46, height: 46).background(CentralDogmaGameTheme.pink, in: Circle())
+                if session.has("initiator") {
+                    HStack(spacing: 3) {
+                        CentralDogmaGameBeads(count: max(1, session.chainCount))
+                        if step.kind == "bond" {
+                            spot("protein:bond", "Join these amino acids", automatic: "action:bond") {
+                                Image(systemName: "link").font(.title3).frame(width: 32, height: 34)
+                            }.frame(width: 46)
+                            CentralDogmaGameBeads(count: 1)
+                        }
                     }
+                    .position(x: min(max(x, w * 0.37), w * 0.63), y: 44)
+                    .accessibilityElement(children: .contain)
+                    .accessibilityIdentifier("rna-relay-amino-chain")
                 }
-                caption("Growing practice amino acid chain")
-            }
-            if session.has("small") {
-                VStack(spacing: 5) {
-                    if session.has("large") {
-                        Capsule().fill(CentralDogmaGameTheme.lavender).frame(width: 166, height: 48)
-                            .overlay(Text("Large subunit").font(.system(.caption, design: .rounded, weight: .semibold)))
+                if ["initiator", "deliver"].contains(step.kind) {
+                    CentralDogmaGameToolArt(payload: "trna:UAC").frame(width: 38, height: 55)
+                        .position(x: min(w * 0.86, x + w * 0.19), y: 92).opacity(0.75)
+                }
+                if step.kind == "large" {
+                    spot("ribosome:assembly", "Add large ribosome subunit") {
+                        CentralDogmaGameRibosome(large: true, small: false).frame(width: w * 0.43, height: 72).opacity(0.7)
+                            .overlay(Image(systemName: "plus.circle.fill").font(.title3), alignment: .top)
+                    }.frame(width: w * 0.49).position(x: x, y: 112)
+                }
+                HStack(spacing: 4) {
+                    ForEach(Array(session.mission.codons.enumerated()), id: \.offset) { i, codon in
+                        spot("codon:\(i)", codon) {
+                            VStack(spacing: 2) {
+                                Capsule().fill(CentralDogmaGameTheme.teal).frame(height: 2)
+                                HStack(spacing: 2) {
+                                    ForEach(Array(codon.enumerated()), id: \.offset) { _, base in
+                                        Text(String(base)).font(.system(.caption, design: .rounded, weight: .bold))
+                                            .frame(maxWidth: .infinity, minHeight: 25)
+                                            .background(CentralDogmaGameTheme.nucleotide(String(base)), in: RoundedRectangle(cornerRadius: 5))
+                                    }
+                                }
+                            }
+                        }
                     }
-                    Capsule().fill(CentralDogmaGameTheme.sage).frame(width: 140, height: 31)
-                        .overlay(Text("Small subunit").font(.system(.caption2, design: .rounded, weight: .semibold)))
+                }.position(x: w / 2, y: 171)
+                if step.kind == "small" {
+                    spot("rna:end5", "5′ cap") { Text("5′").font(.headline).padding(5).background(CentralDogmaGameTheme.blue, in: Circle()) }
+                        .frame(width: 50).position(x: w * 0.09, y: 130)
+                }
+                HStack { tag("mRNA · 5′ → 3′"); Spacer(); tag(session.mission.stop + " = stop") }.position(x: w / 2, y: 209)
+                if step.kind == "move" {
+                    HStack {
+                        spot("ribosome:move", "5′ direction", automatic: "move:3to5") { Image(systemName: "arrow.left").font(.title2).frame(width: 66, height: 35) }
+                        Spacer()
+                        spot("ribosome:move", "3′ direction", automatic: "move:5to3") { Image(systemName: "arrow.right").font(.title2).frame(width: 66, height: 35) }
+                    }.position(x: w / 2, y: 247)
+                }
+                if step.kind == "recycle" {
+                    spot("cytosol:recycle", "Recycle empty tRNA") {
+                        Image(systemName: "arrow.triangle.2.circlepath").font(.title2).frame(width: 45, height: 45)
+                    }.frame(width: 60).position(x: w * 0.85, y: 85)
                 }
             }
-            HStack { caption("5′ → 3′ · mRNA"); Spacer(); caption("… poly A · 3′") }
-            codonStrip
-            if session.has("large") {
-                let position = min(2, session.records.filter { $0.kind == "move" }.count)
-                GeometryReader { proxy in
-                    let cell = (proxy.size.width - 18) / 4
-                    Text("ribosome").font(.system(.caption2, design: .rounded, weight: .bold))
-                        .frame(width: cell * 2 + 6, height: 22)
-                        .background(CentralDogmaGameTheme.sage, in: Capsule())
-                        .offset(x: CGFloat(position) * (cell + 6))
-                        .animation(reduceMotion ? nil : .easeInOut(duration: 0.35), value: position)
-                }.frame(height: 22).accessibilityLabel("Ribosome shifts one codon at each translocation")
-            }
-            if ["initiator", "deliver", "bond", "large"].contains(step.kind) {
-                caption("codon   5′-AUG-3′\nanticodon   3′-UAC-5′")
-            }
-            if step.kind == "large" { target("ribosome:assembly", "Add large subunit", "Complete the ribosome") }
-            if step.kind == "bond" {
-                Text("Incoming Met").font(.system(.subheadline, design: .rounded, weight: .semibold))
-                    .padding(10).background(CentralDogmaGameTheme.peach, in: Capsule())
-                target("protein:bond", "Connect amino acids", "Ribosome forms the peptide bond", automatic: "action:bond", tint: CentralDogmaGameTheme.pink)
-            }
-            if step.kind == "move" {
-                HStack(spacing: 10) {
-                    target("ribosome:move", "← 3′ → 5′", "Reverse", automatic: "move:3to5", tint: CentralDogmaGameTheme.paper)
-                    target("ribosome:move", "5′ → 3′ →", "One codon forward", automatic: "move:5to3")
-                }
-            }
-            if step.kind == "recycle" { target("cytosol:recycle", "Back to the cytosol", "Empty tRNA can pick up another amino acid") }
-            if step.kind == "release" { caption("UGA · UAA · UAG\nStop codons have no matching tRNA.") }
-            if ["deliver", "bond", "move", "recycle"].contains(step.kind) { caption("Elongation factors help delivery and movement.") }
+        }.frame(height: step.kind == "move" ? 276 : 226)
+    }
+    private var foldingScene: some View {
+        VStack(spacing: 4) {
+            tag("A separate full-length chain")
+            spot("protein:fold", "Full-length chain: add a chaperone") { CentralDogmaGameChain(height: 150) }
         }
     }
-    private var foldingBoard: some View {
-        VStack(spacing: 13) {
-            caption("FULL-LENGTH POLYPEPTIDE · A SEPARATE EXAMPLE")
-            CentralDogmaGameChain()
-            target("protein:fold", "Help it fold", "Chaperone proteins aid and stabilize folding")
-            caption("The short three-Met practice fragment is not shown as a functional protein.")
-        }
+    private var cleavageScene: some View {
+        spot("protein:cleave", "Proinsulin cleavage site") {
+            ZStack {
+                CentralDogmaGameChain(foldProgress: 0.4, height: 155)
+                Image(systemName: "scissors").font(.system(size: 33)).padding(9).background(CentralDogmaGameTheme.paper, in: Circle())
+            }
+        }.overlay(alignment: .bottom) { tag("Proinsulin → insulin").allowsHitTesting(false) }
     }
-    private var cleavageBoard: some View {
-        VStack(spacing: 13) {
-            caption("SEPARATE FINISHING EXAMPLE · CLEAVAGE")
-            Text("Proinsulin").font(.system(.title3, design: .rounded, weight: .bold))
-            CentralDogmaGameChain()
-            target("protein:cleave", "Cleavage site", "Enzymes produce 51-amino-acid insulin", tint: CentralDogmaGameTheme.peach)
-            caption("Different proteins use different finishing steps.")
-        }
-    }
-    private var assemblyBoard: some View {
-        VStack(spacing: 15) {
-            caption("SEPARATE FINISHING EXAMPLE · ASSEMBLY")
-            Text("Hemoglobin").font(.system(.title2, design: .serif, weight: .bold))
-            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+    private var assemblyScene: some View {
+        VStack(spacing: 8) {
+            tag("Hemoglobin · \(session.usedSlots.count) / 4 chains")
+            HStack(spacing: 12) {
                 ForEach(0..<4, id: \.self) { i in
-                    target("hemoglobin:\(i)", session.usedSlots.contains("hemoglobin:\(i)") ? "Connected" : "+", "One separate subunit", solved: session.usedSlots.contains("hemoglobin:\(i)"), tint: i.isMultiple(of: 2) ? CentralDogmaGameTheme.pink : CentralDogmaGameTheme.blue)
+                    spot("hemoglobin:\(i)", "Hemoglobin subunit \(i + 1)", solved: session.usedSlots.contains("hemoglobin:\(i)")) {
+                        ZStack {
+                            Circle().fill(i.isMultiple(of: 2) ? CentralDogmaGameTheme.pink : CentralDogmaGameTheme.blue)
+                            if session.usedSlots.contains("hemoglobin:\(i)") { CentralDogmaGameToolArt(payload: "subunit:\(i)") }
+                            else { Image(systemName: "plus").font(.title3) }
+                        }.frame(height: 65)
+                    }
                 }
-            }
-            caption("\(session.usedPieces.count) of 4 separate chains connected")
+            }.padding(.vertical, 28)
         }
+    }
+}
+
+private struct CentralDogmaGameExportFlight: View {
+    let sequence: String
+    @State private var outside = false
+    var body: some View {
+        CentralDogmaGameJourney(rnaCount: sequence.count, exported: outside, rnaSequence: sequence)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .onAppear { outside = true }
     }
 }

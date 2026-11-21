@@ -3,6 +3,27 @@ import XCTest
 @testable import CellLab
 
 final class CentralDogmaGameSessionTests: XCTestCase {
+    @MainActor func testOneTapRNAChoiceChecksPairingAndRejectsStaleTaps() throws {
+        let game = CentralDogmaGameSession()
+        for _ in 0..<3 {
+            let step = try XCTUnwrap(game.step)
+            XCTAssertTrue(game.submit(step.payload, target: step.target, stepID: step.id))
+        }
+        let step = try XCTUnwrap(game.step)
+        XCTAssertEqual(step.kind, "rna")
+        let score = game.score
+        game.choose("rna:U", stepID: step.id)
+        XCTAssertEqual(game.rnaCount, 0)
+        XCTAssertEqual(game.score, score)
+        XCTAssertEqual(game.step?.id, step.id)
+        game.choose("rna:A", stepID: step.id)
+        XCTAssertEqual(game.rnaCount, 1)
+        XCTAssertEqual(game.step?.id, "rna-1")
+        let earned = game.score
+        game.choose("rna:A", stepID: step.id)
+        XCTAssertEqual(game.rnaCount, 1)
+        XCTAssertEqual(game.score, earned)
+    }
     @MainActor func testWrongActionDoesNotChangeMoleculeOrPoints() {
         let game = CentralDogmaGameSession(), step = CentralDogmaGameData.shared.missions[0].steps[0]
         XCTAssertFalse(game.submit("tool:polymerase", target: step.target, stepID: step.id))

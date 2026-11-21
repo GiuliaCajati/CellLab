@@ -1,0 +1,110 @@
+Cellular respiration · Axolotl guide
+
+Free local Kokoro · af_heart · matching the other CellLab lessons.
+Descriptions and definitions are exported from the app, with one short introduction per step.
+Tap the axolotl for the opening and current step; swipe to hear the next step.
+Use the speakers for the big picture and equation. The key-player sheet has its own guide.
+Stop, leaving the page, or backgrounding the app cancels playback. Audio is bundled for offline use.
+
+RECORD lesson.overview | Opening · Listen
+Every time you blink, your cells spend ATP! Where does that energy come from? Cellular respiration! Cells break down fuel, like glucose, and capture some of its energy in ATP. We’ll follow the sugar, visit the mitochondrion, and see a tiny enzyme powered by flowing hydrogen ions. Swipe through the steps, and I’ll read each description. Below the cards, you can hear the big picture and the overall reaction. Meet the key players explains the helpers. Let’s make some ATP!
+
+RECORD lesson.glycolysis | Split the sugar
+First, one sugar is split into two smaller molecules.
+
+Where: cytosol, the fluid part of the cytoplasm. Glycolysis operates without O₂. 10 steps: invest 2 ATP to activate and split one 6-carbon glucose into two 3-carbon intermediates. Oxidizing the intermediates reduces 2 NAD⁺ → 2 NADH and produces 4 ATP by substrate-level phosphorylation. Per glucose: 2 pyruvate (3C each) + 2 net ATP + 2 NADH.
+
+RECORD lesson.transition | Prepare the fuel
+Next, the cell prepares the fuel for the cycle.
+
+Where: mitochondrial matrix in eukaryotes; cytosol in prokaryotes. Each 3C pyruvate enters the matrix in eukaryotes. One carbon is released as CO₂, and electrons reduce NAD⁺ → NADH. The remaining 2C fragment binds coenzyme A, forming acetyl CoA. Per glucose (2 pyruvates): 2 acetyl CoA + 2 CO₂ + 2 NADH; 0 direct ATP.
+
+RECORD lesson.krebs | Turn the cycle
+Now the cycle loads up the electron carriers.
+
+Where: mitochondrial matrix in eukaryotes; cytosol in prokaryotes. 2 turns per glucose. Acetyl CoA (2C) + oxaloacetate (4C) → citrate (6C). Citrate is oxidized step-by-step. Carbon is released as CO₂, and oxaloacetate is regenerated so the cycle can continue. Per glucose: 4 CO₂ + 2 ATP (substrate-level phosphorylation) + 6 NADH + 2 FADH₂.
+
+RECORD lesson.transport | Build the gradient
+The electrons’ energy helps build a hydrogen ion gradient.
+
+Where: inner mitochondrial membrane in eukaryotes; cell membrane in prokaryotes. Electrons from 10 NADH + 2 FADH₂ pass along electron transport proteins. Their released energy pumps H⁺ from the matrix into the intermembrane compartment, building a steep concentration gradient. O₂ is the final electron acceptor. It combines with electrons and H⁺ to form H₂O.
+
+RECORD lesson.chemiosmosis | Let the protons flow
+Now flowing hydrogen ions power ATP synthase.
+
+H⁺ flows down its concentration gradient, back into the matrix through ATP synthase. ATP synthase uses the gradient’s energy to make ATP from ADP + phosphate: chemiosmotic phosphorylation. The electron transport chain + chemiosmosis yield up to 34 ATP in this theoretical model.
+
+RECORD lesson.accounting | Count the ATP
+Let’s count the ATP and compare the model with real cells.
+
+Theoretical conversion rates: 1 NADH ≈ 3 ATP; 1 FADH₂ ≈ 2 ATP. Direct ATP: 2 from glycolysis + 2 from Krebs = 4 ATP. Electron transport + chemiosmosis: (10 NADH × 3) + (2 FADH₂ × 2) = 34 ATP. 38 − 2 = 36 ATP theoretical maximum in this model. The 2 ATP deduction represents the cost of shuttling cytosolic NADH’s electrons into mitochondria. Actual yield: ~30 ATP per glucose.
+
+RECORD lesson.efficiency | Where energy goes
+Some energy is captured in ATP, and some becomes heat.
+
+Actual yield: ~30 ATP per glucose. H⁺ can leak across the inner membrane, and transporting pyruvate and ADP into the matrix uses energy. About 32% of glucose’s potential energy is captured in ATP. The other ~68% is released as heat.
+
+RECORD lesson.anaerobic | A different acceptor
+Some microbes use a different final electron acceptor.
+
+When oxygen is absent or unavailable, anaerobic respiration uses an electron transport chain + chemiosmosis with another inorganic final electron acceptor. Examples: nitrate (NO₃⁻), sulfate (SO₄²⁻), or CO₂. Typical ATP comparison: less ATP than aerobic respiration, but more than fermentation.
+
+RECORD lesson.fermentation | Recycle and repeat
+Fermentation recycles a carrier so glycolysis can keep going.
+
+No O₂. No electron transport chain. All 2 net ATP per glucose come from glycolysis. Transferring electrons from NADH into fermentation products regenerates NAD⁺, allowing glycolysis to continue. Alcoholic: pyruvate → ethanol + CO₂. Example: yeast in bread and beer. Lactic acid: pyruvate → lactate (lactic acid). Examples: Lactobacillus in yogurt and human muscle during oxygen debt. Delayed muscle soreness: linked to microscopic muscle damage, not lactate buildup.
+
+RECORD reference.big-picture | The big picture
+Let’s connect the whole energy journey.
+
+Cellular respiration harvests potential energy from food, such as glucose, to make ATP through controlled oxidation–reduction (redox) reactions. Breaking fuel down step-by-step captures energy in ATP instead of releasing it all at once as destructive heat. Both animals and plants perform cellular respiration. Glucose is oxidized: it loses electrons. Oxygen is reduced: it gains electrons and forms water.
+
+RECORD reference.equation | The overall reaction
+Here’s the overall reaction for aerobic cellular respiration. One glucose molecule plus six oxygen molecules produces six carbon dioxide molecules and six water molecules. Some of the released energy is captured in ATP, and some is released as heat. The formula is a summary of many small reactions, not one giant step!
+
+RECORD players.introduction | Meet the energy-making crew
+Let’s meet the energy-making crew! I’ll read the definitions on each card. Swipe to a new helper to hear its job, or tap Stop whenever you want a quiet moment.
+
+RECORD player.atp | ATP
+ATP. The cell’s energy currency. Adenosine triphosphate (ATP) powers almost all cellular work. Its jobs include active transport, muscle contraction, protein synthesis, and cell division.
+
+RECORD player.cytosol | Cytosol
+Cytosol. Start outside the mitochondrion. The fluid portion of the cytoplasm; the location of glycolysis. In prokaryotes, the transition step and Krebs cycle also occur here.
+
+RECORD player.mitochondrion | Mitochondrion
+Mitochondrion. A double-membraned energy hub. A double-membraned organelle housing the later stages of aerobic respiration in eukaryotes. Both animals and plants perform cellular respiration.
+
+RECORD player.matrix | Mitochondrial matrix
+Mitochondrial matrix. The space inside the inner membrane. The fluid enclosed by the inner mitochondrial membrane. In eukaryotes, the transition step and Krebs cycle happen here.
+
+RECORD player.membrane | Inner membrane & cristae
+Inner membrane & cristae. More folds. More surface area.. The inner membrane folds into cristae, increasing surface area. It contains electron transport proteins and ATP synthase. In prokaryotes, electron transport and chemiosmosis take place at the cell membrane.
+
+RECORD player.compartment | Intermembrane compartment
+Intermembrane compartment. The H⁺ holding space. The space between the inner and outer mitochondrial membranes. H⁺ accumulates here during electron transport, creating a concentration gradient.
+
+RECORD player.nad | NAD⁺ / NADH
+NAD⁺ / NADH. An electron carrier, charged by fuel. Nicotinamide adenine dinucleotide. NAD⁺ accepts high-energy electrons removed from glucose as fuel is oxidized, becoming reduced NADH. Per glucose: 2 NADH from glycolysis + 2 from pyruvate oxidation + 6 from Krebs = 10 NADH.
+
+RECORD player.fad | FAD / FADH₂
+FAD / FADH₂. The Krebs cycle’s other carrier. Flavin adenine dinucleotide. The electron carrier FAD is reduced to FADH₂ during the Krebs cycle. 2 FADH₂ per glucose deliver electrons to the electron transport chain.
+
+RECORD player.acetyl | Pyruvate & acetyl CoA
+Pyruvate & acetyl CoA. Three carbons become a two-carbon delivery. Glycolysis produces 2 pyruvate, each with 3 carbons. Each loses 1 carbon as CO₂; the 2-carbon fragment binds coenzyme A to become acetyl CoA. Per glucose: 2 acetyl CoA + 2 CO₂ + 2 NADH, with no direct ATP.
+
+RECORD player.cycle | Citrate & oxaloacetate
+Citrate & oxaloacetate. The cycle resets itself. 2C acetyl CoA + 4C oxaloacetate → 6C citrate. As citrate is oxidized and CO₂ is released, oxaloacetate is regenerated. The Krebs cycle turns twice per glucose.
+
+RECORD player.synthase | ATP synthase
+ATP synthase. Powered by a proton gradient. An enzyme in the inner mitochondrial membrane. H⁺ flows down its gradient through ATP synthase, returning to the matrix. The flow’s energy drives ADP + phosphate → ATP.
+
+RECORD player.phosphorylation | Two ways to make ATP
+Two ways to make ATP. Direct transfer or a proton-powered enzyme. Substrate-level phosphorylation: an enzyme directly transfers a phosphate from a donor molecule to ADP. Used in glycolysis and Krebs. Chemiosmotic phosphorylation (chemiosmosis): H⁺ flows down its concentration gradient through ATP synthase, powering ATP production.
+
+RECORD player.redox | Redox & final acceptors
+Redox & final acceptors. Follow the electrons. Oxidation = loss of electrons. Reduction = gain of electrons. Glucose is oxidized during respiration. In aerobic respiration, O₂ is the final acceptor; gaining electrons and H⁺ forms water. Anaerobic respiration keeps an electron transport chain and chemiosmosis but uses another inorganic acceptor, such as NO₃⁻, SO₄²⁻, or CO₂.
+
+RECORD player.fermentation | Fermentation
+Fermentation. Keep NAD⁺ available. Uses no oxygen and no electron transport chain. Regenerates NAD⁺ from NADH. 2 net ATP per glucose, all from glycolysis. Alcoholic: ethanol + CO₂; yeast in bread and beer. Lactic acid: lactate; Lactobacillus in yogurt and human muscle during oxygen debt. Delayed soreness is linked to microscopic muscle damage, not lactate buildup.
+
+Regenerate: Tools/.kokoro-venv/bin/python Tools/generate_respiration_audio.py

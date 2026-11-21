@@ -1,0 +1,126 @@
+Daily Biology Facts · CellLab
+
+Project integration
+The existing app targets iOS 26.2. There was no prior widget, Settings screen,
+URL scheme, or notification delegate. CellLabDailyFactsWidget is a WidgetKit
+extension, embedded through an app target dependency and Embed App Extensions.
+It also targets iOS 26.2 and supports small and medium Home Screen widgets.
+No App Group, APNs entitlement, account, server, or network request is needed.
+
+Content
+CellLab/daily-facts.json is the single canonical source file. The app's existing
+synchronized group bundles it; the widget resource phase references that same
+file. Its original bytes, 69 stable IDs, facts, and source links are preserved.
+Original SHA-256:
+c5897c3cd6c45a0c73cb4a9cf9ee26fb226bafb3be0d2ee2b6865a17db3f44e3
+SharedFacts/BiologyFact.swift and FactAppearance.swift compile in both targets.
+This handoff and the implementation instructions are not target resources.
+
+Date selection
+Gregorian civil-date anchor: 2024-01-01, fact-001. Convert the current instant to
+the device's local Gregorian year/month/day, count Gregorian days from the
+anchor, and normalize modulo 69 over fact-001 through fact-069. Calendar-day
+arithmetic, rather than elapsed seconds, handles DST and year boundaries.
+App, widget, and alerts all use this same selector. Widget timelines contain
+today plus seven upcoming local midnights, with an atEnd refresh request.
+WidgetKit controls when a refresh is actually granted.
+
+Navigation
+Widgets use celllab://home to open the main CellLab screen, resetting any lesson,
+game, or Settings navigation. Cached celllab://fact/fact-001 style links also
+return home, so existing widgets and alerts continue working. Alerts retain their
+stable fact ID metadata and displayed text, but tapping them returns to CellLab.
+The separate Biology Fact page has been removed at the user's request. Optional
+reading and tappable sources now expand inline under Settings > Today’s Fact;
+there is no fact banner on the main home page.
+
+Reminders
+Daily fact reminder starts OFF. Only the explicit Settings toggle requests
+notification permission. Denial leaves the switch off and offers Open Settings.
+The default local time is 9 AM; the time picker changes and persists it.
+Daily alerts contain widgetText plus the stable fact ID and deep link.
+Reconciliation occurs at launch, foreground, local day changes, significant time
+changes, time-zone changes, and reminder setting changes. Mutations are serialized
+and newer settings supersede stale scheduling work.
+
+CellLab schedules up to 30 future dated alerts, within a conservative 64-request
+pending limit after accounting for other features. Only identifiers beginning
+celllab.daily-fact. are replaced or removed. No repeating generic daily alert is
+used: each queued date has its own fact. Past times are skipped, and a reminder
+in a spring DST gap moves to the next valid time preserving minutes; a repeated
+fall-back time uses its first occurrence.
+
+IMPORTANT: If the app stays unopened beyond its queued window, daily reminders
+may pause. Open CellLab to replenish them. This is also explained in Settings.
+
+Add the widget on an iPhone
+Install and open CellLab once. Touch and hold an empty area on the Home Screen,
+choose Edit > Add Widget, find CellLab / Daily Biology Fact, choose small or
+medium, tap Add Widget, then Done. Tap the widget to open the main CellLab screen.
+
+Device verification
+Simulator builds/tests cannot establish real-device notification delivery timing,
+Focus/Scheduled Summary behavior, or the system's actual midnight widget reload
+budget. On your signed device, check both widget sizes and source links, allow
+the optional reminder, select a convenient future time, background the app, and
+tap the delivered alert. Check time-zone/DST behavior when practical. Revoke
+notification permission in iOS Settings and return to CellLab to confirm it
+reflects the change. Disable the reminder to stop this feature's queued alerts.
+Do not expect alerts after the finite window without reopening the app.
+
+Apple references
+https://developer.apple.com/documentation/widgetkit/keeping-a-widget-up-to-date/
+https://developer.apple.com/documentation/usernotifications/asking-permission-to-use-notifications
+https://developer.apple.com/documentation/usernotifications/scheduling-a-notification-locally-from-your-app
+https://support.apple.com/en-us/118610
+
+Verification performed
+- App Debug build and its embedded CellLabDailyFactsWidget extension built for
+  the installed iOS 26.2 simulator. A separate widget-scheme simulator build also
+  succeeded; the same widget inputs additionally built in an isolated temporary
+  verification directory. The existing project remains the implementation source.
+- App and widget bundle JSON hashes match the original SHA above, byte for byte.
+- All 12 DailyBiologyFactsTests pass: 69 IDs/data preservation in both bundles;
+  anchor, negative modulo, wrap and restarts; local-zone selection; DST and year
+  boundaries; widget midnights; three-surface agreement; yesterday's stable URL
+  and notification payload routes; future-only/capacity/DST-gap planning; default
+  off/no launch prompt; denial; opt-out and permission revocation preserving other
+  requests; reminder-time persistence and replacement; clock/time-zone refresh;
+  opt-out racing an in-flight add; actual UNCalendarNotificationTrigger dates.
+  Result: /tmp/CellLab-Daily-Facts-Final.xcresult (12 passed unit tests; the overall
+  run is NOT fully green because the UI runner failed to initialize Accessibility).
+- Two native UI flows passed in the earlier run: cold links to fact-001/fact-069
+  with sources, and home entry -> matching full fact -> Settings default off.
+  Result: /tmp/CellLab-Daily-Facts-Tests.xcresult. That run also exposed a DST-gap
+  expectation and a consent-test tap target, both subsequently corrected.
+- The consent UI recheck could not be completed: the small simulator timed out
+  loading Accessibility, and the separate Pro runner also stalled. Unit-level
+  denial behavior passes; verify the actual system prompt/denial UI on your device.
+  No claim is made that the complete UI suite passed.
+- Native small/medium content renders were reviewed using the longest supplied
+  widget text/title. Render outputs: /tmp/celllab-fact-widget-small.png and
+  /tmp/celllab-fact-widget-medium.png. These are content-render checks, not a claim
+  of physical-device Home Screen placement or real notification delivery.
+
+Reproduce builds/tests
+xcodebuild -project CellLab.xcodeproj -scheme CellLab -configuration Debug -destination 'platform=iOS Simulator,id=<installed-26.2-simulator-ID>' build
+xcodebuild -project CellLab.xcodeproj -scheme CellLabDailyFactsWidget -configuration Debug -destination 'platform=iOS Simulator,id=<installed-26.2-simulator-ID>' build
+xcodebuild -project CellLab.xcodeproj -scheme CellLab -destination 'platform=iOS Simulator,id=<installed-26.2-simulator-ID>' -only-testing:CellLabTests/DailyBiologyFactsTests test
+xcodebuild -project CellLab.xcodeproj -scheme CellLab -destination 'platform=iOS Simulator,id=<installed-26.2-simulator-ID>' -only-testing:CellLabUITests/DailyBiologyFactsUITests test
+Use a fresh/working simulator for the consent UI test, with notification permission
+not yet determined or denied. Existing authorized consent requires the device
+permission-revocation check described above instead.
+
+Home-screen layout update
+The Today’s Fact card was removed from the main CellLab page at the user’s
+request. Access is now Settings > Today’s Fact, behind the small header gear.
+Widget links, notification links, reminders, and the 69 original facts remain.
+The navigation UI test now checks this Settings route and absence on the home
+page; earlier home-entry screenshots above describe the prior layout.
+
+Widget tap behavior update
+Widget and notification taps now open the main CellLab screen. The standalone
+Biology Fact destination has been removed; facts/sources expand inline in Settings.
+Old fact-ID URLs remain accepted for cached widgets, and also return home.
+Routing tests were updated for this behavior; earlier route/page UI results above
+refer to the prior design. The fact data and reminder scheduling remain unchanged.

@@ -1,0 +1,32 @@
+[
+  {
+    "field": "Name",
+    "count": 29,
+    "limit": 30,
+    "unit": "characters"
+  },
+  {
+    "field": "Subtitle",
+    "count": 28,
+    "limit": 30,
+    "unit": "characters"
+  },
+  {
+    "field": "Promotional text",
+    "count": 145,
+    "limit": 170,
+    "unit": "characters"
+  },
+  {
+    "field": "Description",
+    "count": 1585,
+    "limit": 4000,
+    "unit": "characters"
+  },
+  {
+    "field": "Keywords",
+    "count": 99,
+    "limit": 100,
+    "unit": "bytes"
+  }
+]

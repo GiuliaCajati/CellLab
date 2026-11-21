@@ -1,0 +1,131 @@
+{
+  "lessonTitle": "Cell Life Cycle",
+  "recordings": [
+    {
+      "id": "lesson.overview",
+      "text": "Fun fact! Most brain cells, called neurons, spend almost their entire lives outside the active cell cycle in a phase called G₀. Once mature, they normally do not divide again. But resting from division does not mean doing nothing. Your neurons are busy sending signals that help you think, move, and remember! Other cells keep cycling to help you grow and replace worn-out cells. During interphase, a cell grows in G₁, copies its DNA in S phase, and prepares to divide in G₂. Then mitosis divides the nucleus, and cytokinesis splits the cell in two. Tap a section of the wheel and I’ll read its description. In mitosis, choose a stage; in cytokinesis, compare animal and plant cells. Meet the key players explains the helpers and checkpoints. Let’s explore the cell life cycle!",
+      "title": "Opening · Listen",
+      "resource": "cell-cycle.lesson.overview.wav",
+      "event": "lesson.overview"
+    },
+    {
+      "id": "phase.g1",
+      "text": "G₁ phase. Active life between divisions. The cell grows, performs metabolic functions, and makes new organelles and proteins. Chromatin stays unwound so genes can be transcribed and DNA can be copied. G₁ checkpoint · Check DNA for damage.",
+      "title": "G₁ phase",
+      "resource": "cell-cycle.phase.g1.wav",
+      "event": "phase.g1"
+    },
+    {
+      "id": "phase.s",
+      "text": "S phase. Make a matching DNA copy. Enzymes duplicate the cell’s DNA. Each chromosome changes from one DNA molecule to two identical sister chromatids, joined at a centromere. In animal cells, the centrosome duplicates, ready to organize the mitotic spindle. S checkpoints · Nucleotides available; no strand breaks.",
+      "title": "S phase",
+      "resource": "cell-cycle.phase.s.wav",
+      "event": "phase.s"
+    },
+    {
+      "id": "phase.g2",
+      "text": "G₂ phase. Get division-ready. The cell keeps growing. It makes spindle proteins and membrane components needed for division. G₂ checkpoint · Complete DNA copies + spindle machinery.",
+      "title": "G₂ phase",
+      "resource": "cell-cycle.phase.g2.wav",
+      "event": "phase.g2"
+    },
+    {
+      "id": "phase.mitosis.prophase",
+      "text": "Mitosis. Divide the nucleus. Separate replicated chromosomes into two identical nuclei. Prophase. Chromatin coils into compact, visible replicated chromosomes. The nucleolus disappears; centrosomes move toward opposite poles. The mitotic spindle begins assembling from microtubules.",
+      "title": "Mitosis · Prophase",
+      "resource": "cell-cycle.phase.mitosis.prophase.wav",
+      "event": "phase.mitosis.prophase"
+    },
+    {
+      "id": "phase.mitosis.prometaphase",
+      "text": "Mitosis. Divide the nucleus. Separate replicated chromosomes into two identical nuclei. Prometaphase. The nuclear envelope and endoplasmic reticulum fragment. Kinetochores assemble on centromeres, attaching sister chromatids to spindle microtubules.",
+      "title": "Mitosis · Prometaphase",
+      "resource": "cell-cycle.phase.mitosis.prometaphase.wav",
+      "event": "phase.mitosis.prometaphase"
+    },
+    {
+      "id": "phase.mitosis.metaphase",
+      "text": "Mitosis. Divide the nucleus. Separate replicated chromosomes into two identical nuclei. Metaphase. Spindle microtubules align replicated chromosomes single-file along the equator (midline). M checkpoint · Secure attachments + aligned chromosomes.",
+      "title": "Mitosis · Metaphase",
+      "resource": "cell-cycle.phase.mitosis.metaphase.wav",
+      "event": "phase.mitosis.metaphase"
+    },
+    {
+      "id": "phase.mitosis.anaphase",
+      "text": "Mitosis. Divide the nucleus. Separate replicated chromosomes into two identical nuclei. Anaphase. Sister chromatids separate at their centromeres; each is now an individual, unreplicated chromosome. Kinetochore fibers shorten, pulling chromosomes toward opposite poles. Non-kinetochore microtubules lengthen, stretching the cell.",
+      "title": "Mitosis · Anaphase",
+      "resource": "cell-cycle.phase.mitosis.anaphase.wav",
+      "event": "phase.mitosis.anaphase"
+    },
+    {
+      "id": "phase.mitosis.telophase",
+      "text": "Mitosis. Divide the nucleus. Separate replicated chromosomes into two identical nuclei. Telophase. Chromosomes decondense at opposite poles. Nuclear envelopes and nucleoli reform around each DNA set. The mitotic spindle disassembles.",
+      "title": "Mitosis · Telophase",
+      "resource": "cell-cycle.phase.mitosis.telophase.wav",
+      "event": "phase.mitosis.telophase"
+    },
+    {
+      "id": "phase.cytokinesis.animal",
+      "text": "Cytokinesis. Split the cell. Divide cytoplasm and organelles into two daughter cells, each with a nucleus. Animal cells. An actin-and-myosin contractile ring tightens beneath the cell membrane. A cleavage furrow pinches the cell in two, like a drawstring.",
+      "title": "Cytokinesis · Animal cells",
+      "resource": "cell-cycle.phase.cytokinesis.animal.wav",
+      "event": "phase.cytokinesis.animal"
+    },
+    {
+      "id": "phase.cytokinesis.plant",
+      "text": "Cytokinesis. Split the cell. Divide cytoplasm and organelles into two daughter cells, each with a nucleus. Plant cells. Golgi vesicles gather at the midline to build a cell plate. The plate develops into a rigid cell wall between the daughter cells.",
+      "title": "Cytokinesis · Plant cells",
+      "resource": "cell-cycle.phase.cytokinesis.plant.wav",
+      "event": "phase.cytokinesis.plant"
+    },
+    {
+      "id": "phase.g0",
+      "text": "G₀ phase. Working. Not dividing. The cell functions normally, without DNA replication or preparation for division. Some cells, such as adult neurons, remain in G₀ permanently.",
+      "title": "G₀ phase",
+      "resource": "cell-cycle.phase.g0.wav",
+      "event": "phase.g0"
+    },
+    {
+      "id": "player.p53",
+      "text": "G₁ checkpoint & p53. DNA damage · Repair · Apoptosis. Internal checkpoints check that each stage is complete before the cell proceeds. The G₁ checkpoint inspects DNA for damage; p53 promotes repair. If damage cannot be repaired, p53 can trigger apoptosis: programmed cell death. p53 (encoded by the TP53 gene on chromosome 17) is a vital regulatory transcription factor and tumor suppressor protein often called the 'guardian of the genome'.",
+      "title": "G₁ checkpoint & p53",
+      "resource": "cell-cycle.player.p53.wav",
+      "event": "player.p53"
+    },
+    {
+      "id": "player.replicationChecks",
+      "text": "S & G₂ checkpoints. DNA copying · Division preparation. S phase checkpoints monitor nucleotide availability and check for DNA strand breaks. The G₂ checkpoint verifies two complete, identical DNA sets. It also checks that spindle-making machinery is present before mitosis.",
+      "title": "S & G₂ checkpoints",
+      "resource": "cell-cycle.player.replicationChecks.wav",
+      "event": "player.replicationChecks"
+    },
+    {
+      "id": "player.kinetochores",
+      "text": "Kinetochores & the M checkpoint. Attach · Align · Separate. Kinetochores are protein complexes on centromeres that anchor sister chromatids to spindle microtubules. The metaphase (M) checkpoint checks that all kinetochores are securely attached and chromosomes are aligned. Only then can sister chromatids separate at their centromeres.",
+      "title": "Kinetochores & the M checkpoint",
+      "resource": "cell-cycle.player.kinetochores.wav",
+      "event": "player.kinetochores"
+    },
+    {
+      "id": "player.cyclins",
+      "text": "Cyclins. Rise · Fall · Progress. Cyclins are signaling proteins whose concentrations rise and fall. They help activate transcription factors that drive progress into subsequent cycle stages. transcription factors is a specialized protein that controls the rate at which genetic information is transcribed from DNA into messenger RNA (mRNA).",
+      "title": "Cyclins",
+      "resource": "cell-cycle.player.cyclins.wav",
+      "event": "player.cyclins"
+    },
+    {
+      "id": "player.contractileRing",
+      "text": "The contractile ring. Actin + myosin · Cleavage furrow. In animal cells, actin and myosin form a contractile ring beneath the cell membrane. The ring tightens like a drawstring, forming a cleavage furrow. The cell pinches into two distinct daughter cells.",
+      "title": "The contractile ring",
+      "resource": "cell-cycle.player.contractileRing.wav",
+      "event": "player.contractileRing"
+    },
+    {
+      "id": "player.cellPlate",
+      "text": "Golgi vesicles & the cell plate. Cell plate → Cell wall. In plant cells, the Golgi apparatus sends vesicles to the cell midline. Vesicles assemble a cell plate between daughter cells. Cellulose and other polysaccharides form a rigid new cell wall.",
+      "title": "Golgi vesicles & the cell plate",
+      "resource": "cell-cycle.player.cellPlate.wav",
+      "event": "player.cellPlate"
+    }
+  ]
+}

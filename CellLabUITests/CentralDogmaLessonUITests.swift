@@ -141,7 +141,7 @@ final class CentralDogmaLessonUITests: XCTestCase {
         reveal(options, in: app)
         options.tap()
         app.buttons["Read transcript"].tap()
-        let intro = app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "How does a cell turn the instructions")).firstMatch
+        let intro = app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "Fun fact! With a jellyfish gene")).firstMatch
         XCTAssertTrue(intro.waitForExistence(timeout: 3))
         XCTAssertGreaterThanOrEqual(intro.frame.minX, 0)
         XCTAssertLessThanOrEqual(intro.frame.maxX, app.frame.maxX)

@@ -1,0 +1,66 @@
+CellLab US English App Store launch kit — completed
+November 20, 2026
+
+User selected visual B. iPhone/01-Build-DNA.png is byte-for-byte the
+approved B option. iPhone/ and iPad/ each contain five upload-order PNGs.
+Previews/ contains the two final contact sheets. Concepts/ preserves the
+original A/B decision and is not an upload folder.
+
+Read Upload-Instructions.md for exact filenames, App Store Connect fields,
+verification, build limitations, and how to add the widget.
+Read AppStore-Listing.md for finished US English copy and field limits.
+Read Owner-Inputs.md for the account/URL/privacy details to supply.
+Validation.json records every export's size, opacity, OCR, and SHA-256.
+Listing-Validation.json records all metadata counts; Listing-Fields.json
+contains the exact strings to paste.
+
+Capture provenance
+- iPhone 17 Pro, iOS 26.2: actual DNA replication gameplay, organelle
+  selection, metaphase/anaphase cards, speaking axolotl, medium and small
+  placed widgets, and widget taps back to CellLab.
+- iPad Pro 13-inch (M5), iPadOS 26.2: separate real captures and the same
+  six passing feature checks. iPad assets are not resized iPhone images.
+- All app interaction was through normal controls; no injected game state
+  or synthesized interface. The large axolotl is rendered from the app's
+  existing SwiftUI vector drawing. Typography/layout uses native macOS
+  AppKit/CoreGraphics. No generated artwork or paid image API was used.
+- Previews/Capture-Crops.json records source and destination rectangles.
+  Intentional close-ups preserve aspect ratio, labels, strand directions,
+  base pairing, phase titles, and the simplified chromosome-count note.
+- Only relevant widget bounds were cropped from actual SpringBoard PNGs,
+  keeping unrelated app icons and the test-runner icon out of final images.
+
+App build
+The installed app came from the existing current Simulator build at:
+/tmp/CellLab-Daily-Facts/Build/Products/Debug-iphonesimulator/CellLab.app
+App debug binary SHA-256:
+54454efafc19b0eafadc3107158bb40c886e8b2dade0c8ccf108424280b928fc
+A fresh UI capture runner was compiled against that binary. No new Release
+archive was made, no listing/build was uploaded, and no app implementation
+or Xcode target membership was changed for this kit. Minimum OS is 26.2;
+the app and widget target iPhone and iPad.
+
+Capture-test summaries in Captures/
+- DNA-Capture-Test-Results.json: iPhone DNA gameplay, 1 passed.
+- iPhone-Scenes-Test-Results.json: cell, mitosis, guide passed; an initial
+  widget automation attempt failed and was superseded by the next two runs.
+- iPhone-Widget-Test-Results.json: placed medium widget and tap, 1 passed.
+- iPhone-Small-Widget-Test-Results.json: small widget and tap, 1 passed.
+- iPad-Capture-Test-Results.json: DNA, cell, mitosis, guide, 4 passed.
+- iPad-Widget-Test-Results.json: medium and small widgets/taps, 2 passed.
+Thus six final feature checks per device passed across focused runs.
+
+Supporting tools
+Tools/AppStoreCaptureUITests.swift preserves the capture flow, outside all
+shipping targets. A temporary isolated Xcode UI-test harness compiled it
+without re-scanning the project's large cloud-backed audio library. The
+SpringBoard-only idle-wait workaround in this helper is capture automation
+and is not linked into the shipped app. Tools/RenderOpening.swift preserves
+the A/B layouts. Tools/RenderLaunchKit.swift and VerifyLaunchKit.swift
+reproduce and validate the final layouts when compiled on macOS and run
+from this en-US directory.
+
+Apple references checked November 20, 2026
+https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications
+https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information/
+https://developer.apple.com/help/app-store-connect/reference/app-information/app-and-compliance-information

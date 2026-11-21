@@ -7,10 +7,10 @@ enum CentralDogmaNarrationText {
     }
 
     static let overview = """
-    How does a cell turn the instructions in DNA into something it can use? First, it copies a gene into RNA. Then a ribosome reads that message to build a protein. That’s gene expression! The Central Dogma follows this flow of information: DNA to RNA to protein. Tap me whenever you’d like a hand. We’ll start by finding the gene, and you can swipe when you’re ready for the next step.
+    Fun fact! With a jellyfish gene, cats, mice, and even bacteria can glow green under blue light. How? The genetic code is nearly universal, so their cells can build the same glowing protein! That’s gene expression! DNA is copied into RNA, then ribosomes read the message to build a protein. Swipe to explore, and tap me for a hand. Let’s find the gene!
     """
     static let playersIntroduction = "Let’s meet the protein-making crew! Swipe through the cards to explore each molecule’s job. Tap a speaker to hear its definition."
-    static let gameIntroduction = "Welcome to RNA Relay! Copy a protein-coding gene’s RNA, edit the message, and build an amino acid chain. Then explore folding and two finishing examples. Choose a tool, then tap its target, or drag the tool into place. Correct matches earn points. Mistakes leave the molecule unchanged, and hints are free. Tap me during the game to hear the current instruction and follow along."
+    static let gameIntroduction = "Let’s turn DNA into a protein! Copy the gene, send the mRNA out, and build a chain at the ribosome. Tap each matching RNA base. For other steps, pick a molecule and tap its glowing target, or drag it there. Tap me for help!"
     static let gameComplete = "Message delivered! You practiced transcription, processing, translation, folding, and protein finishing. You can start a new round with a different stop codon, or tap Done to return to the lesson."
 
     /// Stable IDs let identical repeated game instructions share one local clip.

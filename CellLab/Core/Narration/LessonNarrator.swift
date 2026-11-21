@@ -150,6 +150,12 @@ final class LessonNarrator: ObservableObject {
             .store(in: &lifecycleObservers)
     }
 
+    static func home() -> LessonNarrator {
+        let library = (try? NarrationLibrary.load(resource: "home-narration"))
+            ?? NarrationLibrary(lessonTitle: "CellLab", recordings: [])
+        return LessonNarrator(library: library, overviewCueID: "home.overview", initialPhaseID: "home.overview")
+    }
+
     static func mitosis() -> LessonNarrator {
         let library = (try? NarrationLibrary.load(resource: "mitosis-narration"))
             ?? NarrationLibrary(lessonTitle: "Mitosis", recordings: [])
@@ -189,6 +195,29 @@ final class LessonNarrator: ObservableObject {
                               phaseNames: Dictionary(uniqueKeysWithValues: CSPart.allCases.map {
                                   ($0.narrationID, $0.content.title)
                               }))
+    }
+
+    static func cellLifeCycle(initialPhaseID: String = "phase.g1") -> LessonNarrator {
+        let library = (try? NarrationLibrary.load(resource: "cell-cycle-narration"))
+            ?? NarrationLibrary(lessonTitle: "Cell Life Cycle", recordings: [])
+        return LessonNarrator(library: library, initialPhaseID: initialPhaseID,
+                              phaseNames: Dictionary(uniqueKeysWithValues: library.recordings.map { ($0.id, $0.title) }))
+    }
+
+    static func respiration(initialPhaseID: String = "lesson.glycolysis",
+                            overviewCueID: String = "lesson.overview") -> LessonNarrator {
+        let library = (try? NarrationLibrary.load(resource: "respiration-narration"))
+            ?? NarrationLibrary(lessonTitle: "Cellular respiration", recordings: [])
+        return LessonNarrator(library: library, overviewCueID: overviewCueID,
+                              initialPhaseID: initialPhaseID,
+                              phaseNames: Dictionary(uniqueKeysWithValues: library.recordings.map { ($0.id, $0.title) }))
+    }
+
+    static func dnaTechnology(initialPhaseID: String = "lesson.pcr.heat") -> LessonNarrator {
+        let library = (try? NarrationLibrary.load(resource: "dna-technology-narration"))
+            ?? NarrationLibrary(lessonTitle: "DNA Technology", recordings: [])
+        return LessonNarrator(library: library, initialPhaseID: initialPhaseID,
+                              phaseNames: Dictionary(uniqueKeysWithValues: library.recordings.map { ($0.id, $0.title) }))
     }
 
     var phaseName: String {

@@ -1,0 +1,36 @@
+CellLab — universal creative asset
+
+UPLOAD THIS FILE
+CellLab-Universal-Creative-5244x2950.png
+
+Use it for both the product-page header and search-results creative.
+It is separate from the five numbered iPhone/iPad screenshots.
+
+App Store Connect > CellLab > app version > Product Page Information >
+Header and Search Results > Header: upload the universal PNG.
+Enable "Use header asset in search results" for the matching search placement.
+Choose Preview to inspect iPhone/iPad, portrait/landscape, before saving
+and submitting. Alternatively, upload through Asset Library > + >
+Upload Creative Assets and select it for these placements afterward.
+
+SPECIFICATIONS AND CHECKS
+5244 x 2950 pixels, sRGB PNG, no alpha channel or transparency.
+Apple's universal art safe area is x:1921, y:660, width:1402, height:962.
+The title, tagline, and existing CellLab vector axolotl fit wholly inside
+that rectangle. Background circles extend across the auxiliary area.
+Size, RGB color, opacity, safe-area containment, and text recognition were
+checked locally; Validation.json records the results.
+
+Preview-Safe-Area.png shows the protected central artwork enlarged.
+Preview-Placement-Guide.png marks the safe area on the complete canvas.
+These previews are for checking the design, not for upload. They are local
+layout checks; the actual App Store device/orientation previews still need
+to be checked with Preview in your App Store Connect account.
+
+Creative asset placements are available in the App Store on iOS/iPadOS 27
+and later. This marketing asset does not change the app's minimum OS.
+
+Official sources, checked November 20, 2026:
+https://developer.apple.com/help/app-store-connect/reference/app-information/creative-assets-specifications
+https://developer.apple.com/help/app-store-connect/manage-app-information/manage-your-app-store-assets
+https://developer.apple.com/app-store/asset-best-practices/

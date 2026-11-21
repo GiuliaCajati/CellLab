@@ -22,6 +22,11 @@ ROOT = base.ROOT
 OUTPUT = ROOT / 'CellLab/Resources/Audio/CentralDogma'
 CACHE = ROOT / 'Tools/audio/central-dogma-generation-cache.json'
 base.opening.PRONUNCIATION_OVERRIDES.update({
+    # RYE-buh-sohm; keep the unvoiced s and the long first vowel.
+    # https://dictionary.cambridge.org/pronunciation/english/ribosome
+    'ribosome': 'ɹˈaɪbəsˌoʊm',
+    'ribosomes': 'ɹˈaɪbəsˌoʊmz',
+    'ribosomal': 'ɹˌaɪbəsˈoʊməl',
     'mRNA': 'ˌɛm ˌɑːɹ ˌɛn ˈeɪ',
     'tRNA': 'ˌtiː ˌɑːɹ ˌɛn ˈeɪ',
     'rRNA': 'ˌɑːɹ ˌɑːɹ ˌɛn ˈeɪ',

@@ -6,8 +6,17 @@ enum RespirationStep: String, CaseIterable, Identifiable, Sendable {
     var id: String { rawValue }
     var content: RespirationStepContent { RespirationLesson.steps[index] }
     var index: Int { Self.allCases.firstIndex(of: self)! }
-    var next: Self? { index + 1 < Self.allCases.count ? Self.allCases[index + 1] : nil }
-    var previous: Self? { index > 0 ? Self.allCases[index - 1] : nil }
+    // The overview is a standalone section; the carousel starts with glycolysis.
+    static let slides = allCases.filter { $0 != .overview }
+    var slideIndex: Int { Self.slides.firstIndex(of: self) ?? 0 }
+    var next: Self? {
+        guard let position = Self.slides.firstIndex(of: self) else { return Self.slides.first }
+        return position + 1 < Self.slides.count ? Self.slides[position + 1] : nil
+    }
+    var previous: Self? {
+        guard let position = Self.slides.firstIndex(of: self), position > 0 else { return nil }
+        return Self.slides[position - 1]
+    }
 }
 
 struct RespirationStepContent: Sendable {

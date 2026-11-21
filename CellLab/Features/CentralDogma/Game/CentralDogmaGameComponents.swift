@@ -9,15 +9,15 @@ struct CentralDogmaGameArt: View {
     }
 }
 
-@MainActor struct CentralDogmaGameTarget: View {
+/// A real molecule or docking site is the hit area, rather than a separate answer card.
+@MainActor struct CentralDogmaGameTarget<Artwork: View>: View {
     @Bindable var session: CentralDogmaGameSession
     let step: CentralDogmaGameStep
     let target: String
     let title: String
-    var detail = ""
     var automatic: String? = nil
     var solved = false
-    var tint: Color = CentralDogmaGameTheme.sage
+    @ViewBuilder var artwork: () -> Artwork
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     private var active: Bool {
@@ -27,30 +27,36 @@ struct CentralDogmaGameArt: View {
     var body: some View {
         Button {
             if let payload = automatic ?? session.selectedPayload ?? step.autoPayload {
-                withAnimation(reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.85)) { () -> Void in
+                withAnimation(reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.8)) {
                     _ = session.submit(payload, target: target, stepID: step.id)
                 }
             } else { session.showHint() }
         } label: {
-            VStack(spacing: 5) {
-                Text(solved ? "✓ " + title : title).font(.system(.subheadline, design: .rounded, weight: .bold))
-                if !detail.isEmpty { Text(detail).font(.system(.caption2, design: .rounded)).foregroundStyle(CentralDogmaGameTheme.muted) }
-            }
-            .multilineTextAlignment(.center).fixedSize(horizontal: false, vertical: true)
-            .padding(.horizontal, 7).padding(.vertical, 10)
-            .frame(maxWidth: .infinity, minHeight: 60)
-            .background(active ? tint : CentralDogmaGameTheme.paper.opacity(0.7), in: RoundedRectangle(cornerRadius: 16))
-            .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(active ? CentralDogmaGameTheme.teal : CentralDogmaGameTheme.edge.opacity(0.25), style: StrokeStyle(lineWidth: active ? 2 : 1, dash: active ? [5, 3] : [])))
+            artwork()
+                .padding(5)
+                .frame(maxWidth: .infinity, minHeight: 44)
+                .background(active ? CentralDogmaGameTheme.teal.opacity(0.08) : .clear,
+                            in: RoundedRectangle(cornerRadius: 16))
+                .overlay {
+                    if active {
+                        RoundedRectangle(cornerRadius: 16)
+                            .strokeBorder(CentralDogmaGameTheme.teal, style: StrokeStyle(lineWidth: 2, dash: [4, 4]))
+                    }
+                }
+                .shadow(color: active ? CentralDogmaGameTheme.teal.opacity(0.15) : .clear, radius: 5)
+                .contentShape(RoundedRectangle(cornerRadius: 16))
         }
         .buttonStyle(.plain).disabled(solved || session.pending != nil)
         .dropDestination(for: String.self) { values, _ in
             guard !solved, let payload = values.first else { return false }
-            return withAnimation(reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.85)) { () -> Bool in
+            return withAnimation(reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.8)) {
                 session.submit(payload, target: target, stepID: step.id)
             }
         }
         .accessibilityLabel(title + (active ? ". Current target" : ""))
-        .accessibilityHint("Tap after choosing a tool, or drop a tool here.")
+        .accessibilityHint(automatic == nil ? "Choose a molecule, then tap here, or drag it here." : "Tap to perform this action.")
+        .accessibilityValue(solved ? "Complete" : active ? "Current target" : "")
+        .accessibilityIdentifier("rna-target-\(step.id)-\(target)-\(automatic ?? "drop")")
     }
 }
 
@@ -58,63 +64,51 @@ struct CentralDogmaGameArt: View {
     @Bindable var session: CentralDogmaGameSession
     let step: CentralDogmaGameStep
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @State private var float = false
-
     private var options: [CentralDogmaGameOption] { step.options.filter { !session.usedPieces.contains($0.payload) } }
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 5) {
             if !options.isEmpty {
-                Text(step.kind == "rna" ? "RNA nucleotides" : "Your toolkit")
+                Text(step.kind == "rna" ? "Tap the matching RNA base" : session.selectedPayload == nil ? "Pick a molecule → tap the glow" : "Now tap the glow")
                     .font(.system(.caption, design: .rounded, weight: .semibold)).foregroundStyle(CentralDogmaGameTheme.muted)
-                if step.kind == "rna" {
-                    HStack(spacing: 8) {
-                        ForEach(Array(options.enumerated()), id: \.element.id) { index, option in
-                            tool(option)
-                                .offset(y: reduceMotion ? 0 : (float ? (index.isMultiple(of: 2) ? -4 : 4) : 0))
-                                .animation(reduceMotion ? nil : .easeInOut(duration: 1.5 + Double(index) * 0.15).repeatForever(autoreverses: true), value: float)
-                        }
-                    }
-                    .padding(.vertical, 5).onAppear { float = true }
-                } else {
-                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-                        ForEach(options) { option in tool(option) }
-                    }
+                HStack(alignment: .top, spacing: 7) {
+                    ForEach(options) { option in tool(option) }
                 }
-                Text("Drag, or tap a tool then a highlighted target.")
-                    .font(.system(.caption2, design: .rounded)).foregroundStyle(CentralDogmaGameTheme.muted)
             }
         }
     }
     private func tool(_ option: CentralDogmaGameOption) -> some View {
         let selected = session.selectedPayload == option.payload
         let isBase = option.payload.hasPrefix("rna:") && option.label.count == 1
-        return Button { session.choose(option.payload) } label: {
+        return Button {
+            withAnimation(reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.8)) {
+                session.choose(option.payload, stepID: step.id)
+            }
+        } label: {
             VStack(spacing: 6) {
                 if isBase {
                     Text(option.label).font(.system(size: 28, weight: .bold, design: .rounded)).frame(minHeight: 48)
-                } else if let asset = option.asset {
-                    Image(asset).resizable().scaledToFit().frame(height: 58).padding(3).accessibilityHidden(true)
                 } else {
-                    Image(systemName: option.symbol).font(.system(size: 26)).frame(height: 45).accessibilityHidden(true)
+                    CentralDogmaGameToolArt(payload: option.payload).frame(height: 40).padding(.horizontal, 4)
                 }
                 if !isBase {
-                    Text(option.label).font(.system(.subheadline, design: .rounded, weight: .bold))
-                    Text(option.detail).font(.system(.caption2, design: .rounded)).foregroundStyle(CentralDogmaGameTheme.muted)
+                    Text(option.label).font(.system(.caption, design: .rounded, weight: .bold))
                 }
             }
             .multilineTextAlignment(.center).fixedSize(horizontal: false, vertical: true)
-            .padding(10).frame(maxWidth: .infinity, minHeight: 66)
+            .padding(7).frame(maxWidth: .infinity, minHeight: 60)
             .background(isBase ? CentralDogmaGameTheme.nucleotide(option.label) : CentralDogmaGameTheme.paper, in: RoundedRectangle(cornerRadius: 19))
             .overlay(RoundedRectangle(cornerRadius: 19).strokeBorder(selected ? CentralDogmaGameTheme.teal : CentralDogmaGameTheme.edge.opacity(0.22), lineWidth: selected ? 3 : 1))
         }
         .buttonStyle(.plain).draggable(option.payload)
         .accessibilityLabel(option.label + ". " + option.detail)
         .accessibilityValue(selected ? "Selected" : "")
+        .accessibilityIdentifier("rna-tool-\(option.payload)")
     }
 }
 
 struct CentralDogmaGameHelix: View {
     var open = false
+    var height: CGFloat = 82
     var body: some View {
         Canvas { context, size in
             var a = Path(), b = Path()
@@ -132,12 +126,13 @@ struct CentralDogmaGameHelix: View {
             context.stroke(a, with: .color(CentralDogmaGameTheme.teal), lineWidth: 3)
             context.stroke(b, with: .color(CentralDogmaGameTheme.color(0x6589A4)), lineWidth: 3)
         }
-        .frame(height: 82).accessibilityHidden(true)
+        .frame(height: height).accessibilityHidden(true)
     }
 }
 
 struct CentralDogmaGameChain: View, Animatable {
     var foldProgress: CGFloat = 0
+    var height: CGFloat = 125
 
     var animatableData: CGFloat {
         get { foldProgress }
@@ -159,7 +154,7 @@ struct CentralDogmaGameChain: View, Animatable {
                 context.stroke(bead, with: .color(CentralDogmaGameTheme.edge), lineWidth: 1)
             }
         }
-        .frame(height: 125)
+        .frame(height: height)
         .accessibilityLabel(spokenDescription)
     }
 

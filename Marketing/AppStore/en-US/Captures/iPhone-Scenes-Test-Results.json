@@ -1,0 +1,49 @@
+{
+  "devicesAndConfigurations" : [
+    {
+      "device" : {
+        "architecture" : "arm64",
+        "deviceId" : "38D08601-FF7E-424C-99E8-0B20639B1EE0",
+        "deviceName" : "CellLab Marketing Required iPhone",
+        "modelName" : "iPhone 17 Pro",
+        "osBuildNumber" : "23C54",
+        "osVersion" : "26.2",
+        "platform" : "iOS Simulator"
+      },
+      "expectedFailures" : 0,
+      "failedTests" : 1,
+      "passedTests" : 3,
+      "skippedTests" : 0,
+      "testPlanConfiguration" : {
+        "configurationId" : "1",
+        "configurationName" : "Test Scheme Action"
+      }
+    }
+  ],
+  "environmentDescription" : "Capture · Built with macOS 26.1",
+  "expectedFailures" : 0,
+  "failedTests" : 1,
+  "finishTime" : 1795205929.258,
+  "passedTests" : 3,
+  "result" : "Failed",
+  "skippedTests" : 0,
+  "startTime" : 1795205819.144,
+  "statistics" : [
+
+  ],
+  "testFailures" : [
+    {
+      "failureText" : "XCTAssertTrue failed",
+      "targetName" : "CellLabUITests",
+      "testIdentifier" : 4,
+      "testIdentifierString" : "AppStoreCaptureUITests/testCaptureWidget()",
+      "testIdentifierURL" : "test://com.apple.xcode/CellLab/CellLabUITests/AppStoreCaptureUITests/testCaptureWidget",
+      "testName" : "testCaptureWidget()"
+    }
+  ],
+  "title" : "Test - Capture",
+  "topInsights" : [
+
+  ],
+  "totalTestCount" : 4
+}

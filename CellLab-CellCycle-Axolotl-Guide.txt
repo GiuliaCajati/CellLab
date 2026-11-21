@@ -1,0 +1,28 @@
+Cell Life Cycle · Axolotl guide
+
+Voice: free local Kokoro, af_heart, matching the other CellLab lessons.
+Opening: CellCycleNarration.overview in CellCycleNarration.swift.
+Starts with a neuron fun fact about G₀ and explains that neurons are still
+active even while they are not dividing.
+
+The phase recordings use the displayed title, subtitle, description, bullets,
+and checkpoint from CellCycleContent.swift. Mitosis follows its selected
+stage, and cytokinesis follows the animal/plant comparison. The key-player
+recordings read the displayed title, caption, and definitions.
+
+Tap the axolotl to hear the opening and the selected phase. Select another
+phase to hear it. Stop cancels both the current and queued recording.
+Audio stops on leaving the page, opening the key-player sheet, or backgrounding
+the app. The sheet has its own axolotl that follows the selected key player.
+All recordings are saved in the app bundle and work offline.
+
+Regenerate using only the installed local voice and model:
+Tools/.kokoro-venv/bin/python Tools/generate_cell_cycle_audio.py
+
+Pronunciation: G₀ = G zero, G₁ = G one, G₂ = G two, S = ess, M = em,
+p53 = p fifty three. Preserve the shared DNA, RNA, nuclei, copies,
+nucleotide, and mitosis-stage pronunciation fixes. Ordinary A is an article.
+
+Neuron fact references:
+https://www.ncbi.nlm.nih.gov/books/NBK26877/
+https://openstax.org/books/concepts-biology/pages/6-2-the-cell-cycle

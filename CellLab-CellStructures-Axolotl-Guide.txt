@@ -6,8 +6,10 @@ Generate with free local Kokoro:
 Tools/.kokoro-venv/bin/python Tools/generate_cell_structures_audio.py
 
 Use the same af_heart voice, warm and playful, as the other CellLab lessons.
-Pause after the opening question. The overview introduces the model and how
-to explore it, then hands off to the selected structure (initially Nucleus).
+Start with the 37.2 trillion cells fun fact, reading the number as
+“thirty-seven point two trillion.” Pause after the opening question.
+The overview introduces the model and how to explore it, then hands off
+to the selected structure (initially Nucleus).
 After each explanation, wait for the learner to choose another structure.
 
 CellStructuresNarration.swift contains the opening and builds every clip
